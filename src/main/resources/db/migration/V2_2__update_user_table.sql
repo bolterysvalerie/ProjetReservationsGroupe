@@ -1,0 +1,3 @@
+ALTER TABLE users
+    ADD COLUMN role VARCHAR(20),
+    ADD COLUMN created_at TIMESTAMP;

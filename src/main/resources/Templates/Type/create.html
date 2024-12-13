@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>New type</title>
+    <style>
+        .fieldError { color: red; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <h1>New type</h1>
+
+        <form th:action="@{/type/create}" th:object="${addType}" th:method="post">
+            <div>
+                <label>Type:</label>
+                <input type="text" th:field="*{type}" />
+                <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}" th:errorclass="fieldError"></p>
+            </div>
+            <div>
+                <button type="submit" th:text="Create">Create</button>
+                <a th:href="@{/types}">Cancel</a>
+            </div>
+        </form>
+
+        <nav><a th:href="@{/types}">Back to the index</a></nav>
+    </div>
+</div>
+</body>
+</html>

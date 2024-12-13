@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile of an artist</title>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <h1 th:text="${artist.firstname} + ' '+ ${artist.lastname}"> Bob Sull</h1>
+        <h1 th:text="|${artist.firstname}  ${artist.lastname}|">Bob Sull</h1>
+        <h1 th:text="${artist.birthdate}">01/01/2001</h1>
+
+        <div class="actions">
+            <a th:href="@{/artist/{id}/edit(id=${artist.id})}">Edit</a>
+        </div>
+        <div class="action">
+            <form th:id="|deleteForm-${artist.id}|" th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
+                <a href="#" th:onclick="|if(confirm('Confirm delete artist #${artist.id}')) document.getElementById('deleteForm-${artist.id}').submit(); return false;|">
+                    Delete
+                </a>
+            </form>
+        </div>
+
+        <nav><a th:href="@{/artists}">Retour à l'index</a></nav>
+    </div>
+</div>
+</body>
+</html>
