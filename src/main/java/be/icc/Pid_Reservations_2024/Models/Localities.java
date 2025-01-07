@@ -23,8 +23,8 @@ public class Localities {
     private String locality;
 
     // Relation One To Many
-    //@OneToMany(mappedBy = "localities")
-    //private List<Locations> locations;
+    @OneToMany(mappedBy = "localities")
+    private List<Locations> locations;
 
     // Constructor with params
     public Localities(String postal_code, String locality) {
