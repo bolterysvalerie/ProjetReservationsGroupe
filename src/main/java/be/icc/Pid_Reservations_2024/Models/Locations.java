@@ -30,8 +30,8 @@ public class Locations {
     private String phone;
 
     // Relation One To Many
-    //@OneToMany(mappedBy = "locations")
-    //private List<Representations> representations;
+    @OneToMany(mappedBy = "locations")
+    private List<Representations> representations;
 
     //@OneToMany(mappedBy = "locations")
     //private List<Shows> shows;
