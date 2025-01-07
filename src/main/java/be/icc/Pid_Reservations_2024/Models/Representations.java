@@ -22,8 +22,8 @@ public class Representations {
     private LocalDateTime schedule;
 
     // Relation One To Many
-    //@OneToMany(mappedBy = "representations")
-    //private List<Representation_Reservation> representation_reservations;
+    @OneToMany(mappedBy = "representations")
+    private List<Representation_Reservation> representation_reservations;
 
     // Relation Many to One
     @ManyToOne
