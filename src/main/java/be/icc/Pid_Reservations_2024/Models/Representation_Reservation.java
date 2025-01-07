@@ -20,9 +20,9 @@ public class Representation_Reservation {
     private Short quantity;
 
     // Relation Many to One
-    //@ManyToOne
-    //@JoinColumn(name = "price_id", referencedColumnName = "id", nullable = false)
-    //private Prices prices;
+    @ManyToOne
+    @JoinColumn(name = "price_id", referencedColumnName = "id", nullable = false)
+    private Prices prices;
 
     @ManyToOne
     @JoinColumn(name = "representation_id", referencedColumnName = "id", nullable = false)
