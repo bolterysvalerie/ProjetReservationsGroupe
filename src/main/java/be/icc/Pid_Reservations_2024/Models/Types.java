@@ -22,8 +22,8 @@ public class Types {
     private String type;
 
     // Relation One to Many
-    //@OneToMany(mappedBy = "type")
-    //private List<Artiste_Type> artiste_type;
+    @OneToMany(mappedBy = "type")
+    private List<Artiste_Type> artiste_type;
 
     // Constructor with params
     public Types(Long id, String type) {

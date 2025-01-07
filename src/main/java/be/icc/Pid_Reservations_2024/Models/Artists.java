@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Data @NoArgsConstructor
 @Entity
@@ -29,8 +31,8 @@ public class Artists {
 
     // Relation One To Many
 
-    //@OneToMany(mappedBy = "artist")
-    //private List<Artiste_Type> artisteTypes;
+    @OneToMany(mappedBy = "artist")
+    private List<Artiste_Type> artisteTypes;
 
     // Constructor with params
     public Artists(String firstname, String lastname, Long id) {
