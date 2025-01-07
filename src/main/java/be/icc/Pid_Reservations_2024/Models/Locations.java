@@ -33,8 +33,8 @@ public class Locations {
     @OneToMany(mappedBy = "locations")
     private List<Representations> representations;
 
-    //@OneToMany(mappedBy = "locations")
-    //private List<Shows> shows;
+    @OneToMany(mappedBy = "locations")
+    private List<Shows> shows;
 
     // Relation Many To One
     @ManyToOne
