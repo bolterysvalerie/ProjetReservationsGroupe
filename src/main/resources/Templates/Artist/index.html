@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+  <title>List of artists</title>
+</head>
+<body>
+  <div class="container">
+    <div layout:fragment="content">
+      <h1 th:text="${title}">Liste des artistes</h1>
+
+      <div class="action">
+        <a th:href="@{/artist/create}">Add new artist</a>
+      </div>
+
+      <table th:unless="${#lists.isEmpty(artists)}">
+        <thead>
+        <tr>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="artist : ${artists}">
+          <td th:text="${artist.firstname}">Bob</td>
+          <td th:text="${artist.lastname}">Sull</td>
+          <td><a th:href="@{/artist/{id}(id=${artist.id})}">View</a></td>
+          <td><a th:href="@{/artist/{id}/edit(id=${artist.id})}">Edit</a></td>
+          <td>
+            <form th:id="|deleteForm-${artist.id}|" th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
+              <a href="#" th:onclick="|if(confirm('Confirm delete artist #${artist.id}')) document.getElementById('deleteForm-${artist.id}').submit(); return false;|">
+                Delete
+              </a>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
