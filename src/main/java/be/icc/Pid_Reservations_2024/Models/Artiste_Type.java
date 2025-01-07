@@ -3,6 +3,8 @@ package be.icc.Pid_Reservations_2024.Models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Getter @Setter
@@ -14,8 +16,8 @@ public class Artiste_Type {
     private Long id;
 
     // Relation One To Many
-    //@OneToMany(mappedBy = "artiste_type")
-    //private List<Artiste_Type_Show> artiste_type_show;
+    @OneToMany(mappedBy = "artiste_type")
+    private List<Artiste_Type_Show> artiste_type_show;
 
     // Relation Many To One
     @ManyToOne

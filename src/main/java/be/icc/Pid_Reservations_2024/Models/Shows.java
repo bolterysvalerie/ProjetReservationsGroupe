@@ -33,8 +33,8 @@ public class Shows {
     private Boolean bookable;
 
     // Relation One to Many
-    //@OneToMany(mappedBy = "shows")
-    //private List<Artiste_Type_Show> artiste_type_show;
+    @OneToMany(mappedBy = "shows")
+    private List<Artiste_Type_Show> artiste_type_show;
 
     @OneToMany(mappedBy = "shows")
     private List<Representations> representations;
