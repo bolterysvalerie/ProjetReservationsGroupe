@@ -37,8 +37,8 @@ public class Users {
     private LocalDateTime createdAt;
 
     // Relation One To Many
-    //@OneToMany(mappedBy = "users")
-    //private List<Reservations> reservations;
+    @OneToMany(mappedBy = "users")
+    private List<Reservations> reservations;
 
     //@OneToMany(mappedBy = "users")
     //private List<Reviews> reviews;
