@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Project Reservation</title>
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: header">Header here</div>
+
+<div class="container">
+    <div layout:fragment="content">Main content will be inserted here.</div>
+</div>
+
+<div th:replace="fragments/footer :: footer">&copy; 2024/2025 - ICC </div>
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>
