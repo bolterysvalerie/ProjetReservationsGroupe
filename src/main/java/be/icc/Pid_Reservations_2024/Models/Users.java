@@ -40,8 +40,8 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private List<Reservations> reservations;
 
-    //@OneToMany(mappedBy = "users")
-    //private List<Reviews> reviews;
+    @OneToMany(mappedBy = "users")
+    private List<Reviews> reviews;
 
     // Constructor with params
     public Users(Long id, String login, String password, String firstName, String lastName, String email, String language, UserRoles role, LocalDateTime createdAt) {
