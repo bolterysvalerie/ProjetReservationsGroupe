@@ -10,10 +10,21 @@
 <div th:replace="fragments/header :: header">Header here</div>
 
 <div class="container">
+    <div id="notification" layout:fragment="notification">
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
     <div layout:fragment="content">Main content will be inserted here.</div>
 </div>
 
-<div th:replace="fragments/footer :: footer">&copy; 2024/2025 - ICC </div>
+<div th:replace="fragments/footer :: footer">&copy; 2024/2025 - ICC - Groupe PID Reservation </div>
 <th:block layout:fragment="scripts"></th:block>
 </body>
 </html>

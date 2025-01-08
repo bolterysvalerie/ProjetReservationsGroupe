@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="container">
+    <div id="notification" th:replace="~{main :: notification}"></div>
     <div layout:fragment="content">
         <h1 th:text="|${artist.firstname} ${artist.lastname}|">Bob Sull</h1>
 
