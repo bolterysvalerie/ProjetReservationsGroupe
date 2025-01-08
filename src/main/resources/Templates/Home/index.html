@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
         <title>Welcome</title>
     </head>
     <body>
+    <div class="container">
+        <div id="notification" layout:fragment="notification">
+            <div th:if="${successMessage}" class="alert alert-success">
+                <p th:text="${successMessage}"></p>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <p th:text="${errorMessage}"></p>
+            </div>
+        </div>
+    </div>
+
         <h2>Welcome to the reservation App</h2>
     </body>
 </html>

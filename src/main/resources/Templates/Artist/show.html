@@ -6,10 +6,10 @@
 </head>
 <body>
 <div class="container">
+    <div id="notification" th:replace="~{main :: notification}"></div>
     <div layout:fragment="content">
         <h1 th:text="${artist.firstname} + ' '+ ${artist.lastname}"> Bob Sull</h1>
         <h1 th:text="|${artist.firstname}  ${artist.lastname}|">Bob Sull</h1>
-        <h1 th:text="${artist.birthdate}">01/01/2001</h1>
 
         <div class="actions">
             <a th:href="@{/artist/{id}/edit(id=${artist.id})}">Edit</a>

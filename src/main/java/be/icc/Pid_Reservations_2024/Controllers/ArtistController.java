@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -40,20 +41,24 @@ public class ArtistController {
 
     @GetMapping("/artist/create")
     public String create(Model model) {
-        Artists artist = new Artists("1900-01-01",null,null);
 
-        model.addAttribute("artist",artist);
+        if (!model.containsAttribute("artist")) {
+            model.addAttribute("artist", new Artists());
+        }
 
         return "Artist/create";
     }
 
     @PostMapping("/artist/create")
-    public String create(@Valid @ModelAttribute("artist") Artists artist, BindingResult bindingResult, Model model) {
+    public String store(@Valid @ModelAttribute("artist") Artists artist, BindingResult bindingResult, Model model, RedirectAttributes redirAttrs) {
+
         if(bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Failure of the artist’s creation!");
             return "Artist/create";
         }
 
         artistService.addArtist(artist);
+        redirAttrs.addFlashAttribute("successMessage", "Successfully added artist!");
 
         return "redirect:/artist/"+artist.getId();
     }
@@ -77,7 +82,7 @@ public class ArtistController {
     }
 
     @PutMapping("/artist/{id}/edit")
-    public String update(@Valid @ModelAttribute("artist") Artists artist, BindingResult bindingResult, @PathVariable("id") long id,Model model) {
+    public String update(@Valid @ModelAttribute("artist") Artists artist, BindingResult bindingResult, @PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         if(bindingResult.hasErrors()) {
             return "Artist/edit";
         }
@@ -89,15 +94,20 @@ public class ArtistController {
         }
         artistService.updateArtist(id, artist);
 
+        redirAttrs.addFlashAttribute("successMessage", "Artist successfully modified");
+
         return "redirect:/artist/"+artist.getId();
     }
 
     @DeleteMapping("/artist/{id}")
-    public String delete(@PathVariable("id") long id, Model model) {
+    public String delete(@PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         Artists artistExisting = artistService.getArtist(id);
 
         if(artistExisting != null) {
             artistService.deleteArtist(id);
+            redirAttrs.addFlashAttribute("successMessage", "Artist successfully deleted!");
+        } else {
+            redirAttrs.addFlashAttribute("errorMessage", "Failed to delete artist !");
         }
 
         return "redirect:/artists";

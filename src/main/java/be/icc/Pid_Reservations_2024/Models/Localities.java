@@ -1,11 +1,14 @@
 package be.icc.Pid_Reservations_2024.Models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
+@Data @NoArgsConstructor
 @Entity
 @Getter @Setter
 @Table(name = "Localities")
@@ -23,9 +26,6 @@ public class Localities {
     @OneToMany(mappedBy = "localities")
     private List<Locations> locations;
 
-    // Constructor without param
-    protected Localities() { }
-
     // Constructor with params
     public Localities(String postal_code, String locality) {
         this.postalCode = postal_code;
@@ -40,5 +40,4 @@ public class Localities {
                 ", locality='" + locality + '\'' +
                 '}';
     }
-
 }

@@ -13,34 +13,27 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Custom implementation of {@link UserDetailsService} to load user-specific data
- * for authentication and authorization purposes.
- *
- * This service retrieves a user from the {@link UserRepository} by their login
- * and returns a {@link UserDetails} object containing the user's login, password,
- * and granted authorities based on their role.
- */
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
 
-    /**
-     * Loads the user details by username.
-     *
-     * @param username the username of the user to be loaded
-     * @return the {@link UserDetails} object containing the user's credentials and authorities
-     * @throws UsernameNotFoundException if the user with the given username is not found
-     */
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = userRepository.findByLogin(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + username + " not found");
+        }
+
         return new org.springframework.security.core.userdetails.User(
-                user.getLogin(), user.getPassword(),
-                getGrantedAuthorities(user.getRole())
+                username,
+                user.getPassword(),
+                getGrantedAuthorities(user.getRole().toString())
         );
+
     }
 
     /**

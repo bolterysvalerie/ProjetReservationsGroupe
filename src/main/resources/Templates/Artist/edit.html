@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="container">
+    <div id="notification" th:replace="~{main :: notification}"></div>
     <div layout:fragment="content">
         <h1 th:text="|${artist.firstname} ${artist.lastname}|">Bob Sull</h1>
 
@@ -26,11 +27,6 @@
                 <label>Lastname:</label>
                 <input type="text" th:field="*{lastname}">
                 <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="fieldError"></p>
-            </div>
-            <div>
-                <label>Birthdate:</label>
-                <input type="date" th:field="*{birthdate}">
-                <p th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}" th:errorclass="fieldError"></p>
             </div>
             <div>
                 <button type="submit" th:text="Update">Update</button>

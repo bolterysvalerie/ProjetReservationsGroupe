@@ -2,11 +2,14 @@ package be.icc.Pid_Reservations_2024.Models;
 
 import com.github.slugify.Slugify;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
+@Data @NoArgsConstructor
 @Entity
 @Getter @Setter
 @Table(name = "Locations")
@@ -38,9 +41,6 @@ public class Locations {
     @JoinColumn(name = "locality_id", referencedColumnName = "id", nullable = false)
     private Localities localities;
 
-    // Constructor by default
-    protected Locations(){};
-
     // Constructor with params
     public Locations(String slug, String designation, String address, String website, String phone, Localities localities) {
         Slugify slg = Slugify.builder().build();
@@ -67,3 +67,4 @@ public class Locations {
                 '}';
     }
 }
+
