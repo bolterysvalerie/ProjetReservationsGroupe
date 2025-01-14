@@ -12,8 +12,8 @@ import java.util.Set;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Reservations")
-public class Reservations {
+@Table(name = "reservations")
+public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +24,12 @@ public class Reservations {
     private String status;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "reservations")
-    private Set<Representation_Reservation> representation_reservation;
+    @OneToMany(mappedBy = "reservation")
+    private Set<RepresentationReservation> representation_reservation;
 
     // Relation Many To One
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private Users users;
+    private User user;
 
 }

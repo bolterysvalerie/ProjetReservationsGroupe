@@ -11,8 +11,8 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Localities")
-public class Localities {
+@Table(name = "localities")
+public class Locality {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,11 @@ public class Localities {
     private String locality;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "localities")
-    private List<Locations> locations;
+    @OneToMany(mappedBy = "locality")
+    private List<Location> location;
 
     // Constructor with params
-    public Localities(String postal_code, String locality) {
+    public Locality(String postal_code, String locality) {
         this.postalCode = postal_code;
         this.locality = locality;
     }

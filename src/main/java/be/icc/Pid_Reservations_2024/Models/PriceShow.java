@@ -10,7 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter @Setter
 @Entity
-@Table( name = "price_show")
+@Table( name = "price_shows")
 public class PriceShow {
 
     @Id

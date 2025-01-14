@@ -1,6 +1,6 @@
 package be.icc.Pid_Reservations_2024.Services;
 
-import be.icc.Pid_Reservations_2024.Models.Localities;
+import be.icc.Pid_Reservations_2024.Models.Locality;
 import be.icc.Pid_Reservations_2024.Repositories.LocalitiesRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,29 +14,29 @@ public class LocalitiesService {
     @Autowired
     private LocalitiesRepository localitiesRepository;
 
-    public List<Localities> getAll() {
-        java.util.List<Localities> localities = new ArrayList<>();
+    public List<Locality> getAll() {
+        java.util.List<Locality> localities = new ArrayList<>();
         localitiesRepository.findAll().forEach(localities::add);
         return localities;
     }
 
-    public Localities getById(long id) {
+    public Locality getById(long id) {
         return localitiesRepository.findById(id).orElse(null);
     }
 
-    public Localities getLocalityByPostalCode(String postalCode) {
+    public Locality getLocalityByPostalCode(String postalCode) {
         return localitiesRepository.findByPostalCode(postalCode);
     }
 
-    public Localities getLocality(String locality) {
+    public Locality getLocality(String locality) {
         return localitiesRepository.findByLocality(locality);
     }
 
-    public void addLocality(Localities locality) {
+    public void addLocality(Locality locality) {
         localitiesRepository.save(locality);
     }
 
-    public void updateLocality(long id, Localities locality) {
+    public void updateLocality(long id, Locality locality) {
         localitiesRepository.save(locality);
     }
 

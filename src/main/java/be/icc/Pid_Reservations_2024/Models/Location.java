@@ -12,8 +12,8 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Locations")
-public class Locations {
+@Table(name = "locations")
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,19 +30,19 @@ public class Locations {
     private String phone;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "locations")
-    private List<Representations> representations;
+    @OneToMany(mappedBy = "location")
+    private List<Representation> representation;
 
-    @OneToMany(mappedBy = "locations")
-    private List<Shows> shows;
+    @OneToMany(mappedBy = "location")
+    private List<Show> show;
 
     // Relation Many To One
     @ManyToOne
     @JoinColumn(name = "locality_id", referencedColumnName = "id", nullable = false)
-    private Localities localities;
+    private Locality locality;
 
     // Constructor with params
-    public Locations(String slug, String designation, String address, String website, String phone, Localities localities) {
+    public Location(String slug, String designation, String address, String website, String phone, Locality locality) {
         Slugify slg = Slugify.builder().build();
 
         this.slug = slg.slugify(designation);
@@ -50,7 +50,7 @@ public class Locations {
         this.address = address;
         this.website = website;
         this.phone = phone;
-        this.localities = localities;
+        this.locality = locality;
     }
 
     // ToString
@@ -63,7 +63,7 @@ public class Locations {
                 ", address='" + address + '\'' +
                 ", website='" + website + '\'' +
                 ", phone='" + phone + '\'' +
-                ", locality=" + localities +
+                ", locality=" + locality +
                 '}';
     }
 }

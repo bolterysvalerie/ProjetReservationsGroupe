@@ -13,8 +13,8 @@ import java.util.Set;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Prices")
-public class Prices {
+@Table(name = "prices")
+public class Price {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,20 +29,20 @@ public class Prices {
     private LocalDate end_date;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "prices")
-    private Set<Representation_Reservation> representation_reservation;
+    @OneToMany(mappedBy = "price")
+    private Set<RepresentationReservation> representation_reservation;
 
     // Relation Many to Many
     @ManyToMany
     @JoinTable(
-            name = "price_show",
+            name = "price_shows",
             joinColumns = @JoinColumn(name = "price_id"),
             inverseJoinColumns = @JoinColumn(name = "show_id")
     )
-    List<Shows> shows;
+    List<Show> show;
 
     // Constructor with params
-    public Prices(Long id, String type, Double price, LocalDate start_date, LocalDate end_date) {
+    public Price(Long id, String type, Double price, LocalDate start_date, LocalDate end_date) {
         this.id = id;
         this.type = type;
         this.price = price;
