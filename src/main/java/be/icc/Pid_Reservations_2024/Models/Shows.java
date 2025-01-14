@@ -34,10 +34,10 @@ public class Shows {
 
     // Relation One to Many
     @OneToMany(mappedBy = "shows")
-    private List<Artiste_Type_Show> artiste_type_show;
+    private List<Representations> representations;
 
     @OneToMany(mappedBy = "shows")
-    private List<Representations> representations;
+    private List<Artiste_Type> artiste_type;
 
     @OneToMany(mappedBy = "shows")
     private List<Reviews> reviews;
@@ -46,6 +46,10 @@ public class Shows {
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Locations locations;
+
+    // Relation Many To Many
+    @ManyToMany(mappedBy = "shows")
+    List<Prices> price;
 
     // Constructor with params
     public Shows(String title, String posterUrl, Date created_in, Boolean bookable) {

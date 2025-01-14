@@ -15,10 +15,6 @@ public class Artiste_Type {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relation One To Many
-    @OneToMany(mappedBy = "artiste_type")
-    private List<Artiste_Type_Show> artiste_type_show;
-
     // Relation Many To One
     @ManyToOne
     @JoinColumn(name = "artist_id", referencedColumnName = "id", nullable = false)
@@ -27,6 +23,10 @@ public class Artiste_Type {
     @ManyToOne
     @JoinColumn(name = "type_id", referencedColumnName = "id", nullable = false)
     private Types type;
+
+    @ManyToOne
+    @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
+    private Shows shows;
 
     // ToString
     @Override
