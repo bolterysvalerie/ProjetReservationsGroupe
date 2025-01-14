@@ -22,7 +22,7 @@ public class Representation {
     private LocalDateTime schedule;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "representations")
+    @OneToMany(mappedBy = "representation")
     private List<RepresentationReservation> representation_reservation;
 
     // Relation Many to One

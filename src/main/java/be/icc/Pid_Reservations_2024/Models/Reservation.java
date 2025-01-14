@@ -24,7 +24,7 @@ public class Reservation {
     private String status;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "reservations")
+    @OneToMany(mappedBy = "reservation")
     private Set<RepresentationReservation> representation_reservation;
 
     // Relation Many To One

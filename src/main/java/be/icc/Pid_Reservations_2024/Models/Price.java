@@ -29,7 +29,7 @@ public class Price {
     private LocalDate end_date;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "prices")
+    @OneToMany(mappedBy = "price")
     private Set<RepresentationReservation> representation_reservation;
 
     // Relation Many to Many
@@ -39,7 +39,7 @@ public class Price {
             joinColumns = @JoinColumn(name = "price_id"),
             inverseJoinColumns = @JoinColumn(name = "show_id")
     )
-    List<Show> shows;
+    List<Show> show;
 
     // Constructor with params
     public Price(Long id, String type, Double price, LocalDate start_date, LocalDate end_date) {
