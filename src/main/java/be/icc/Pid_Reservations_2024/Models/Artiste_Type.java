@@ -24,6 +24,10 @@ public class Artiste_Type {
     @JoinColumn(name = "type_id", referencedColumnName = "id", nullable = false)
     private Types type;
 
+    @ManyToOne
+    @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
+    private Shows shows;
+
     // ToString
     @Override
     public String toString() {
