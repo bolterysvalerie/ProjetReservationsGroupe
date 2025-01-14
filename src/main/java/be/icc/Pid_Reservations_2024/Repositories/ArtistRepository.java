@@ -1,11 +1,11 @@
 package be.icc.Pid_Reservations_2024.Repositories;
 
-import be.icc.Pid_Reservations_2024.Models.Artists;
+import be.icc.Pid_Reservations_2024.Models.Artist;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ArtistRepository extends CrudRepository<Artists, Long> {
+public interface ArtistRepository extends CrudRepository<Artist, Long> {
 
-    Artists findById(long id);
+    Artist findById(long id);
 
-    Artists save(Artists artists);
+    Artist save(Artist artists);
 }

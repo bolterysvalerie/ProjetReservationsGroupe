@@ -12,8 +12,8 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Representations")
-public class Representations {
+@Table(name = "representations")
+public class Representation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,23 +22,23 @@ public class Representations {
     private LocalDateTime schedule;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "representations")
-    private List<Representation_Reservation> representation_reservations;
+    @OneToMany(mappedBy = "representation")
+    private List<RepresentationReservation> representation_reservation;
 
     // Relation Many to One
     @ManyToOne
     @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
-    private Shows shows;
+    private Show show;
 
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
-    private Locations locations;
+    private Location location;
 
     // Constructor with params
-    public Representations(Long id, LocalDateTime schedule, Shows shows) {
+    public Representation(Long id, LocalDateTime schedule, Show show) {
         this.id = id;
         this.schedule = schedule;
-        this.shows = shows;
+        this.show = show;
     }
 
     // ToString
@@ -47,7 +47,7 @@ public class Representations {
         return "Representations{" +
                 "id=" + id +
                 ", schedule=" + schedule +
-                ", shows=" + shows +
+                ", show=" + show +
                 '}';
     }
 }

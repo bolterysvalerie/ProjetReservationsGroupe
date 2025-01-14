@@ -1,4 +1,4 @@
-INSERT INTO `representation_reservation` (`id`, `quantity`, `price_id`, `representation_id`, `reservation_id`)
+INSERT INTO `representation_reservations` (`id`, `quantity`, `price_id`, `representation_id`, `reservation_id`)
 VALUES
     (1, 2, 1, 1, 1),
     (2, 3, 2, 2, 2),

@@ -1,12 +1,12 @@
 package be.icc.Pid_Reservations_2024.Repositories;
 
-import be.icc.Pid_Reservations_2024.Models.Localities;
+import be.icc.Pid_Reservations_2024.Models.Locality;
 import org.springframework.data.repository.CrudRepository;
 
-public interface LocalitiesRepository extends CrudRepository<Localities, Long> {
+public interface LocalitiesRepository extends CrudRepository<Locality, Long> {
 
-    Localities findByPostalCode(String postalCode);
+    Locality findByPostalCode(String postalCode);
 
-    Localities findByLocality(String locality);
+    Locality findByLocality(String locality);
 
 }

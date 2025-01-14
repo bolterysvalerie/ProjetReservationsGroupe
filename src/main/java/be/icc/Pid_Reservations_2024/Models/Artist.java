@@ -14,8 +14,8 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Artists")
-public class Artists {
+@Table(name = "artists")
+public class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +30,17 @@ public class Artists {
     private String firstname;
 
     // Relation One To Many
-
     @OneToMany(mappedBy = "artist")
-    private List<Artiste_Type> artisteTypes;
+    private List<ArtisteType> artisteType;
 
     // Constructor with params
-    public Artists(String firstname, String lastname, Long id) {
+    public Artist(String firstname, String lastname, Long id) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.id = id;
     }
 
-    public Artists(String firstname, String lastname) {
+    public Artist(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
     }

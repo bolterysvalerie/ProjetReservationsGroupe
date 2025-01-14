@@ -1,6 +1,6 @@
 package be.icc.Pid_Reservations_2024.Controllers;
 
-import be.icc.Pid_Reservations_2024.Models.Artists;
+import be.icc.Pid_Reservations_2024.Models.Artist;
 import be.icc.Pid_Reservations_2024.Services.ArtistService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -21,7 +21,7 @@ public class ArtistController {
 
     @GetMapping("/artists")
     public String index(Model model) {
-        List<Artists> artists = artistService.getAllArtists();
+        List<Artist> artists = artistService.getAllArtists();
 
         model.addAttribute("artists", artists);
         model.addAttribute("title", "List of artists");
@@ -31,7 +31,7 @@ public class ArtistController {
 
     @GetMapping("/artist/{id}")
     public String show(@PathVariable("id") long id, Model model) {
-        Artists artist = artistService.getArtist(id);
+        Artist artist = artistService.getArtist(id);
 
         model.addAttribute("artist",artist);
         model.addAttribute("title", "Profile of an artist");
@@ -43,14 +43,14 @@ public class ArtistController {
     public String create(Model model) {
 
         if (!model.containsAttribute("artist")) {
-            model.addAttribute("artist", new Artists());
+            model.addAttribute("artist", new Artist());
         }
 
         return "Artist/create";
     }
 
     @PostMapping("/artist/create")
-    public String store(@Valid @ModelAttribute("artist") Artists artist, BindingResult bindingResult, Model model, RedirectAttributes redirAttrs) {
+    public String store(@Valid @ModelAttribute("artist") Artist artist, BindingResult bindingResult, Model model, RedirectAttributes redirAttrs) {
 
         if(bindingResult.hasErrors()) {
             model.addAttribute("errorMessage", "Failure of the artist’s creation!");
@@ -65,7 +65,7 @@ public class ArtistController {
 
     @GetMapping("/artist/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id, HttpServletRequest httpServletRequest) {
-        Artists artist = artistService.getArtist(id);
+        Artist artist = artistService.getArtist(id);
 
         model.addAttribute("artist",artist);
 
@@ -82,12 +82,12 @@ public class ArtistController {
     }
 
     @PutMapping("/artist/{id}/edit")
-    public String update(@Valid @ModelAttribute("artist") Artists artist, BindingResult bindingResult, @PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
+    public String update(@Valid @ModelAttribute("artist") Artist artist, BindingResult bindingResult, @PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         if(bindingResult.hasErrors()) {
             return "Artist/edit";
         }
 
-        Artists artistExisting = artistService.getArtist(id);
+        Artist artistExisting = artistService.getArtist(id);
 
         if(artistExisting == null) {
             return "Artist/index";
@@ -101,7 +101,7 @@ public class ArtistController {
 
     @DeleteMapping("/artist/{id}")
     public String delete(@PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
-        Artists artistExisting = artistService.getArtist(id);
+        Artist artistExisting = artistService.getArtist(id);
 
         if(artistExisting != null) {
             artistService.deleteArtist(id);

@@ -1,16 +1,16 @@
 package be.icc.Pid_Reservations_2024.Repositories;
 
-import be.icc.Pid_Reservations_2024.Models.Types;
+import be.icc.Pid_Reservations_2024.Models.Type;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface TypeRepository extends CrudRepository<Types, Long> {
+public interface TypeRepository extends CrudRepository<Type, Long> {
 
-    Optional<Types> findById(long id);
+    Optional<Type> findById(long id);
 
-    Types findByType(String type);
+    Type findByType(String type);
 
-    Types save(Types type);
+    Type save(Type type);
 
 }

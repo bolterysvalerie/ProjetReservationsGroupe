@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Reviews")
-public class Reviews {
+@Table(name = "reviews")
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +31,11 @@ public class Reviews {
     // Relation Many To One
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private Users users;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
-    private Shows shows;
+    private Show show;
 
 
 }

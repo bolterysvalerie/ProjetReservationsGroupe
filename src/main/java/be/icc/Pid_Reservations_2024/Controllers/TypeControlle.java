@@ -1,6 +1,6 @@
 package be.icc.Pid_Reservations_2024.Controllers;
 
-import be.icc.Pid_Reservations_2024.Models.Types;
+import be.icc.Pid_Reservations_2024.Models.Type;
 import be.icc.Pid_Reservations_2024.Services.TypeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -20,7 +20,7 @@ public class TypeControlle {
 
     @GetMapping("/types")
     public String index(Model model) {
-        List<Types> types = typeService.getAllTypes();
+        List<Type> types = typeService.getAllTypes();
 
         model.addAttribute("types", types);
         model.addAttribute("title", "List of types");
@@ -30,7 +30,7 @@ public class TypeControlle {
 
     @GetMapping("/type/{id}")
     public String show(@PathVariable("id") long id, Model model) {
-        Types type = typeService.getType(id);
+        Type type = typeService.getType(id);
 
         model.addAttribute("type", type);
         model.addAttribute("title", "Type Details");
@@ -40,7 +40,7 @@ public class TypeControlle {
 
     @GetMapping("/type/create")
     public String create(Model model) {
-        Types type = new Types(null);
+        Type type = new Type(null);
 
         model.addAttribute("addType", type);
 
@@ -48,7 +48,7 @@ public class TypeControlle {
     }
 
     @PostMapping("/type/create")
-    public String create(@Valid @ModelAttribute("addType") Types type, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("addType") Type type, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
             return "Type/create";
         }
@@ -60,7 +60,7 @@ public class TypeControlle {
 
     @GetMapping("/type/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id, HttpServletRequest httpServletRequest) {
-        Types type = typeService.getType(id);
+        Type type = typeService.getType(id);
 
         model.addAttribute("onetype", type);
 
@@ -77,12 +77,12 @@ public class TypeControlle {
     }
 
     @PutMapping("/type/{id}/edit")
-    public String update(@Valid @ModelAttribute("onetype") Types type, BindingResult bindingResult, @PathVariable("id") long id, Model model) {
+    public String update(@Valid @ModelAttribute("onetype") Type type, BindingResult bindingResult, @PathVariable("id") long id, Model model) {
         if(bindingResult.hasErrors()) {
             return "Type/edit";
         }
 
-        Types typeExisting = typeService.getType(id);
+        Type typeExisting = typeService.getType(id);
 
         if(typeExisting == null) {
             return "Type/index";
@@ -95,7 +95,7 @@ public class TypeControlle {
 
     @DeleteMapping("/type/{id}")
     public String delete(@PathVariable("id") long id, Model model) {
-        Types type = typeService.getType(id);
+        Type type = typeService.getType(id);
 
         if(type != null) {
             typeService.deleteType(id);
