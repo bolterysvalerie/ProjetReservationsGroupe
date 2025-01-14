@@ -11,7 +11,7 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Localities")
+@Table(name = "localities")
 public class Locality {
 
     @Id
@@ -23,8 +23,8 @@ public class Locality {
     private String locality;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "localities")
-    private List<Location> locations;
+    @OneToMany(mappedBy = "locality")
+    private List<Location> location;
 
     // Constructor with params
     public Locality(String postal_code, String locality) {

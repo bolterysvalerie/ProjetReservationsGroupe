@@ -13,7 +13,7 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Shows")
+@Table(name = "shows")
 public class Show {
 
     @Id
@@ -33,14 +33,14 @@ public class Show {
     private Boolean bookable;
 
     // Relation One to Many
-    @OneToMany(mappedBy = "shows")
-    private List<Representation> representations;
+    @OneToMany(mappedBy = "show")
+    private List<Representation> representation;
 
-    @OneToMany(mappedBy = "shows")
+    @OneToMany(mappedBy = "show")
     private List<ArtisteType> artiste_type;
 
-    @OneToMany(mappedBy = "shows")
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "show")
+    private List<Review> review;
 
     // Relation Many To One
     @ManyToOne
@@ -48,7 +48,7 @@ public class Show {
     private Location location;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "shows")
+    @ManyToMany(mappedBy = "show")
     List<Price> price;
 
     // Constructor with params

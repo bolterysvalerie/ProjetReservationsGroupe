@@ -12,7 +12,7 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Representations")
+@Table(name = "representations")
 public class Representation {
 
     @Id
@@ -22,8 +22,8 @@ public class Representation {
     private LocalDateTime schedule;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "representations")
-    private List<RepresentationReservation> representation_reservations;
+    @OneToMany(mappedBy = "representation")
+    private List<RepresentationReservation> representation_reservation;
 
     // Relation Many to One
     @ManyToOne

@@ -1,4 +1,4 @@
-INSERT INTO `price_show`(`id`, `price_id`, `show_id`)
+INSERT INTO `price_shows`(`id`, `price_id`, `show_id`)
 VALUES (1,1,1),
        (2,3,10),
        (3,5,2),

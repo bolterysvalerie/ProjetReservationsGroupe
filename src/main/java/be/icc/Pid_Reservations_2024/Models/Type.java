@@ -10,7 +10,7 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Types")
+@Table(name = "types")
 public class Type {
 
     @Id

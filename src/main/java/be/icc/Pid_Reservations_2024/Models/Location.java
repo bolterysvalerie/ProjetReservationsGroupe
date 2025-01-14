@@ -12,7 +12,7 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Locations")
+@Table(name = "locations")
 public class Location {
 
     @Id
@@ -30,11 +30,11 @@ public class Location {
     private String phone;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "locations")
-    private List<Representation> representations;
+    @OneToMany(mappedBy = "location")
+    private List<Representation> representation;
 
-    @OneToMany(mappedBy = "locations")
-    private List<Show> shows;
+    @OneToMany(mappedBy = "location")
+    private List<Show> show;
 
     // Relation Many To One
     @ManyToOne

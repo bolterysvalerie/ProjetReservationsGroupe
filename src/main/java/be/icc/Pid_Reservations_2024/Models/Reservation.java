@@ -12,7 +12,7 @@ import java.util.Set;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Reservations")
+@Table(name = "reservations")
 public class Reservation {
 
     @Id
@@ -24,7 +24,7 @@ public class Reservation {
     private String status;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "reservations")
+    @OneToMany(mappedBy = "reservation")
     private Set<RepresentationReservation> representation_reservation;
 
     // Relation Many To One
