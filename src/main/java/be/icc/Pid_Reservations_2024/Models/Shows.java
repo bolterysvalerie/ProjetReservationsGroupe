@@ -37,6 +37,9 @@ public class Shows {
     private List<Representations> representations;
 
     @OneToMany(mappedBy = "shows")
+    private List<Artiste_Type> artiste_type;
+
+    @OneToMany(mappedBy = "shows")
     private List<Reviews> reviews;
 
     // Relation Many To One
