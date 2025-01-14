@@ -47,6 +47,10 @@ public class Shows {
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Locations locations;
 
+    // Relation Many To Many
+    @ManyToMany(mappedBy = "shows")
+    List<Prices> price;
+
     // Constructor with params
     public Shows(String title, String posterUrl, Date created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();
