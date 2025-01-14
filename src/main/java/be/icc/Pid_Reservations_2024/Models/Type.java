@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Table(name = "Types")
-public class Types {
+public class Type {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +23,16 @@ public class Types {
 
     // Relation One to Many
     @OneToMany(mappedBy = "type")
-    private List<Artiste_Type> artiste_type;
+    private List<ArtisteType> artiste_type;
 
     // Constructor with params
-    public Types(Long id, String type) {
+    public Type(Long id, String type) {
         this.id = id;
         this.type = type;
     }
 
     // Constructor without id
-    public Types(String type) {
+    public Type(String type) {
         this.type = type;
     }
 

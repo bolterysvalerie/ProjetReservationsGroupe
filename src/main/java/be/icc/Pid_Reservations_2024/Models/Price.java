@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter
 @Table(name = "Prices")
-public class Prices {
+public class Price {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class Prices {
 
     // Relation One To Many
     @OneToMany(mappedBy = "prices")
-    private Set<Representation_Reservation> representation_reservation;
+    private Set<RepresentationReservation> representation_reservation;
 
     // Relation Many to Many
     @ManyToMany
@@ -39,10 +39,10 @@ public class Prices {
             joinColumns = @JoinColumn(name = "price_id"),
             inverseJoinColumns = @JoinColumn(name = "show_id")
     )
-    List<Shows> shows;
+    List<Show> shows;
 
     // Constructor with params
-    public Prices(Long id, String type, Double price, LocalDate start_date, LocalDate end_date) {
+    public Price(Long id, String type, Double price, LocalDate start_date, LocalDate end_date) {
         this.id = id;
         this.type = type;
         this.price = price;

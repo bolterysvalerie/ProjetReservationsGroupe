@@ -1,6 +1,6 @@
 package be.icc.Pid_Reservations_2024.Config;
 
-import be.icc.Pid_Reservations_2024.Models.Users;
+import be.icc.Pid_Reservations_2024.Models.User;
 import be.icc.Pid_Reservations_2024.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByLogin(username);
+        User user = userRepository.findByLogin(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User " + username + " not found");

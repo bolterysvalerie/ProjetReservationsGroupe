@@ -11,7 +11,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @Table(name = "Representation_Reservation")
-public class Representation_Reservation {
+public class RepresentationReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,14 +22,14 @@ public class Representation_Reservation {
     // Relation Many to One
     @ManyToOne
     @JoinColumn(name = "price_id", referencedColumnName = "id", nullable = false)
-    private Prices prices;
+    private Price price;
 
     @ManyToOne
     @JoinColumn(name = "representation_id", referencedColumnName = "id", nullable = false)
-    private Representations representations;
+    private Representation representation;
 
     @ManyToOne
     @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)
-    private Reservations reservations;
+    private Reservation reservation;
 
 }

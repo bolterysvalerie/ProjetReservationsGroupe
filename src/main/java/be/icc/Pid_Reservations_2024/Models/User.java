@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Table(name ="Users")
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,13 +38,13 @@ public class Users {
 
     // Relation One To Many
     @OneToMany(mappedBy = "users")
-    private List<Reservations> reservations;
+    private List<Reservation> reservations;
 
     @OneToMany(mappedBy = "users")
-    private List<Reviews> reviews;
+    private List<Review> reviews;
 
     // Constructor with params
-    public Users(Long id, String login, String password, String firstName, String lastName, String email, String language, UserRoles role, LocalDateTime createdAt) {
+    public User(Long id, String login, String password, String firstName, String lastName, String email, String language, UserRoles role, LocalDateTime createdAt) {
         this.id = id;
         this.login = login;
         this.password = password;

@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Table(name = "Shows")
-public class Shows {
+public class Show {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,25 +34,25 @@ public class Shows {
 
     // Relation One to Many
     @OneToMany(mappedBy = "shows")
-    private List<Representations> representations;
+    private List<Representation> representations;
 
     @OneToMany(mappedBy = "shows")
-    private List<Artiste_Type> artiste_type;
+    private List<ArtisteType> artiste_type;
 
     @OneToMany(mappedBy = "shows")
-    private List<Reviews> reviews;
+    private List<Review> reviews;
 
     // Relation Many To One
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
-    private Locations locations;
+    private Location location;
 
     // Relation Many To Many
     @ManyToMany(mappedBy = "shows")
-    List<Prices> price;
+    List<Price> price;
 
     // Constructor with params
-    public Shows(String title, String posterUrl, Date created_in, Boolean bookable) {
+    public Show(String title, String posterUrl, Date created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();
 
         this.slug = slg.slugify(title);
@@ -73,7 +73,7 @@ public class Shows {
                 ", id=" + id +
                 ", title='" + title + '\'' +
                 ", duration=" + duration +
-                ", locations=" + locations +
+                ", locations=" + location +
                 '}';
     }
 

@@ -1,16 +1,16 @@
 package be.icc.Pid_Reservations_2024.Repositories;
 
-import be.icc.Pid_Reservations_2024.Models.Users;
+import be.icc.Pid_Reservations_2024.Models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface UserRepository extends CrudRepository<Users, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-    Users findById(long id);
+    User findById(long id);
 
-    Users findByLogin(String login);
+    User findByLogin(String login);
 
-    List<Users> findByLastName(String lastName);
+    List<User> findByLastName(String lastName);
 
 }
