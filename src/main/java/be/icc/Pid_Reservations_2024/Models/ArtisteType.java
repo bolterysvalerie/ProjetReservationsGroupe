@@ -6,7 +6,7 @@ import lombok.*;
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Getter @Setter
-@Table( name = "artiste_type")
+@Table( name = "artiste_types")
 public class ArtisteType {
 
     @Id

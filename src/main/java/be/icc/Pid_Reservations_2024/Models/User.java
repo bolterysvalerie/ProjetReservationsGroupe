@@ -13,7 +13,7 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name ="Users")
+@Table(name ="users")
 public class User {
 
     @Id
@@ -38,10 +38,10 @@ public class User {
 
     // Relation One To Many
     @OneToMany(mappedBy = "users")
-    private List<Reservation> reservations;
+    private List<Reservation> reservation;
 
     @OneToMany(mappedBy = "users")
-    private List<Review> reviews;
+    private List<Review> review;
 
     // Constructor with params
     public User(Long id, String login, String password, String firstName, String lastName, String email, String language, UserRoles role, LocalDateTime createdAt) {

@@ -13,7 +13,7 @@ import java.util.List;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Shows")
+@Table(name = "shows")
 public class Show {
 
     @Id
@@ -34,13 +34,13 @@ public class Show {
 
     // Relation One to Many
     @OneToMany(mappedBy = "shows")
-    private List<Representation> representations;
+    private List<Representation> representation;
 
     @OneToMany(mappedBy = "shows")
     private List<ArtisteType> artiste_type;
 
     @OneToMany(mappedBy = "shows")
-    private List<Review> reviews;
+    private List<Review> review;
 
     // Relation Many To One
     @ManyToOne

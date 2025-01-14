@@ -13,7 +13,7 @@ import java.util.Set;
 @Data @NoArgsConstructor
 @Entity
 @Getter @Setter
-@Table(name = "Prices")
+@Table(name = "prices")
 public class Price {
 
     @Id
@@ -35,7 +35,7 @@ public class Price {
     // Relation Many to Many
     @ManyToMany
     @JoinTable(
-            name = "price_show",
+            name = "price_shows",
             joinColumns = @JoinColumn(name = "price_id"),
             inverseJoinColumns = @JoinColumn(name = "show_id")
     )

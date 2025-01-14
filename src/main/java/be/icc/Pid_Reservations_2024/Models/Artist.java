@@ -30,9 +30,8 @@ public class Artist {
     private String firstname;
 
     // Relation One To Many
-
     @OneToMany(mappedBy = "artists")
-    private List<ArtisteType> artisteTypes;
+    private List<ArtisteType> artisteType;
 
     // Constructor with params
     public Artist(String firstname, String lastname, Long id) {
