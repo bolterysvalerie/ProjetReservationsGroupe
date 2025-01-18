@@ -15,7 +15,8 @@ Dans le cadre du cours de projet d'intégration et développement nous devons r�
 - **GÖNEN Gültekin** 
 - **KHADRI Brahim** 
 - **MUTWAREKAZI Josiane** 
-- **PELESKEI Janos Adrian** 
+- **PELESKEI Janos Adrian**
+- **CURTO Nassim**
 
 
 
