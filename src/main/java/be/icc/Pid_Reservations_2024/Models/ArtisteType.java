@@ -3,6 +3,8 @@ package be.icc.Pid_Reservations_2024.Models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Getter @Setter
@@ -22,9 +24,14 @@ public class ArtisteType {
     @JoinColumn(name = "type_id", referencedColumnName = "id", nullable = false)
     private Type type;
 
-    @ManyToOne
-    @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
-    private Show show;
+    // Relation Many To Many
+    @ManyToMany
+    @JoinTable(
+            name = "artiste_type_shows",
+            joinColumns = @JoinColumn(name = "artiste_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "show_id")
+    )
+    List<Show> shows;
 
     // ToString
     @Override

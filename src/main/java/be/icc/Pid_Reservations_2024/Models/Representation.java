@@ -21,10 +21,6 @@ public class Representation {
     @Column(name = "schedule")
     private LocalDateTime schedule;
 
-    // Relation One To Many
-    @OneToMany(mappedBy = "representation")
-    private List<RepresentationReservation> representation_reservation;
-
     // Relation Many to One
     @ManyToOne
     @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
@@ -33,6 +29,13 @@ public class Representation {
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Location location;
+
+    @ManyToMany
+    @JoinTable(
+            name = "reservations",
+            joinColumns = @JoinColumn(name = "representation_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users;
 
     // Constructor with params
     public Representation(Long id, LocalDateTime schedule, Show show) {

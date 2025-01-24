@@ -38,10 +38,14 @@ public class User {
 
     // Relation One To Many
     @OneToMany(mappedBy = "user")
-    private List<Reservation> reservation;
+    private List<Reservation> reservations;
 
     @OneToMany(mappedBy = "user")
-    private List<Review> review;
+    private List<Review> reviews;
+
+    // Relation Many To Many
+    @ManyToMany(mappedBy = "users")
+    private List<Representation> representations;
 
     // Constructor with params
     public User(Long id, String login, String password, String firstName, String lastName, String email, String language, UserRoles role, LocalDateTime createdAt) {
