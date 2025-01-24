@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Data @NoArgsConstructor
 @Entity
@@ -30,7 +29,7 @@ public class Price {
 
     // Relation One To Many
     @OneToMany(mappedBy = "price")
-    private Set<RepresentationReservation> representation_reservation;
+    private List<RepresentationReservation> representation_reservations;
 
     // Relation Many to Many
     @ManyToMany
@@ -39,7 +38,7 @@ public class Price {
             joinColumns = @JoinColumn(name = "price_id"),
             inverseJoinColumns = @JoinColumn(name = "show_id")
     )
-    List<Show> show;
+    List<Show> shows;
 
     // Constructor with params
     public Price(Long id, String type, Double price, LocalDate start_date, LocalDate end_date) {

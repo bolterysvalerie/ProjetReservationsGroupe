@@ -21,9 +21,14 @@ public class Type {
     @Size(max=60, message = "The type must be 60 characters")
     private String type;
 
-    // Relation One to Many
-    @OneToMany(mappedBy = "type")
-    private List<ArtisteType> artiste_type;
+    // Relation Many to Many
+    @ManyToMany
+    @JoinTable(
+            name = "artiste_types",
+            joinColumns = @JoinColumn(name = "type_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id"))
+    private List<Artist> artists;
+
 
     // Constructor with params
     public Type(Long id, String type) {

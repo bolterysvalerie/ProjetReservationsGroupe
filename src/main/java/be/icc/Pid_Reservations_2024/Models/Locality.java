@@ -24,7 +24,7 @@ public class Locality {
 
     // Relation One To Many
     @OneToMany(mappedBy = "locality")
-    private List<Location> location;
+    private List<Location> locations;
 
     // Constructor with params
     public Locality(String postal_code, String locality) {

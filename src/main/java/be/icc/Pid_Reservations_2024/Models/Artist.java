@@ -29,9 +29,9 @@ public class Artist {
     @Size(min=2, max=60, message = "The firstname must be between 2 and 60 characters")
     private String firstname;
 
-    // Relation One To Many
-    @OneToMany(mappedBy = "artist")
-    private List<ArtisteType> artisteType;
+    // Relation Many To Many
+    @ManyToMany(mappedBy ="artists")
+    private List<Type> types;
 
     // Constructor with params
     public Artist(String firstname, String lastname, Long id) {

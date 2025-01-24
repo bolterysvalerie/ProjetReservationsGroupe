@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Data @NoArgsConstructor
 @Entity
@@ -25,7 +25,7 @@ public class Reservation {
 
     // Relation One To Many
     @OneToMany(mappedBy = "reservation")
-    private Set<RepresentationReservation> representation_reservation;
+    private List<RepresentationReservation> representation_reservations;
 
     // Relation Many To One
     @ManyToOne

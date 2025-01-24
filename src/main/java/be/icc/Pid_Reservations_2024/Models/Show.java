@@ -34,13 +34,10 @@ public class Show {
 
     // Relation One to Many
     @OneToMany(mappedBy = "show")
-    private List<Representation> representation;
+    private List<Representation> representations;
 
     @OneToMany(mappedBy = "show")
-    private List<ArtisteType> artiste_type;
-
-    @OneToMany(mappedBy = "show")
-    private List<Review> review;
+    private List<Review> reviews;
 
     // Relation Many To One
     @ManyToOne
@@ -48,8 +45,11 @@ public class Show {
     private Location location;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "show")
-    List<Price> price;
+    @ManyToMany(mappedBy = "shows")
+    List<Price> prices;
+
+    @ManyToMany(mappedBy = "shows")
+    private List<ArtisteType> artiste_types;
 
     // Constructor with params
     public Show(String title, String posterUrl, Date created_in, Boolean bookable) {

@@ -31,10 +31,10 @@ public class Location {
 
     // Relation One To Many
     @OneToMany(mappedBy = "location")
-    private List<Representation> representation;
+    private List<Representation> representations;
 
     @OneToMany(mappedBy = "location")
-    private List<Show> show;
+    private List<Show> shows;
 
     // Relation Many To One
     @ManyToOne
