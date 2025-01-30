@@ -13,7 +13,7 @@ Dans le cadre du cours de projet d'intégration et développement nous devons r�
 - **AZAOUM Adnane** 
 - **BOLTERYS Valérie** 
 - **GÖNEN Gültekin** 
-- **KHADRI Brahim** 
+- **[KHADRI Brahim](https://github.com/bramsobrahms)** 
 - **MUTWAREKAZI Josiane** 
 - **PELESKEI Janos Adrian**
 - **CURTO Nassim**
