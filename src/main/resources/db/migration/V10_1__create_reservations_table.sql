@@ -15,4 +15,4 @@ ALTER TABLE reservations
 
 ALTER TABLE reservations
     ADD CONSTRAINT fk_reservations_representation FOREIGN KEY (representation_id)
-        REFERENCES representation (id) ON UPDATE CASCADE ON DELETE CASCADE;
+        REFERENCES representations (id) ON UPDATE CASCADE ON DELETE CASCADE;
