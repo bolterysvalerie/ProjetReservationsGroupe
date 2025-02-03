@@ -10,8 +10,8 @@ ALTER TABLE artiste_type_shows
 
 ALTER TABLE artiste_type_shows
     ADD CONSTRAINT fk_artiste_type_artiste_type FOREIGN KEY (artiste_type_id)
-        REFERENCES artiste_type (id) ON UPDATE CASCADE ON DELETE CASCADE;
+        REFERENCES artiste_types (id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE artiste_type_shows
     ADD CONSTRAINT fk_artiste_type_show FOREIGN KEY (show_id)
-        REFERENCES show_id (id) ON UPDATE CASCADE ON DELETE CASCADE;
+        REFERENCES shows (id) ON UPDATE CASCADE ON DELETE CASCADE;
