@@ -1,0 +1,37 @@
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+      - "55002:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uuser", "-ppass"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+  app:
+    build: .
+    container_name: reservationgroupe-app
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - logs:/app/logs
+
+volumes:
+  mysql_data:
+  logs:
