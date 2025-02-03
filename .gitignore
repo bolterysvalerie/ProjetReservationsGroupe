@@ -1,6 +1,6 @@
 HELP.md
 target/
-!target/Pid_Reservations_2024-0.0.1-SNAPSHOT.ja
+!target/Pid_Reservations_2024-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
