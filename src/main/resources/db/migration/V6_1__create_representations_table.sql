@@ -1,19 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 CREATE TABLE IF NOT EXISTS representations (
     id BIGINT NOT NULL AUTO_INCREMENT,
     schedule TIMESTAMP NULL DEFAULT NULL,
