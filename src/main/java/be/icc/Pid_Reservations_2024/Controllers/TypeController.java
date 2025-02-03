@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class TypeControlle {
+public class TypeController {
 
     @Autowired
     TypeService typeService;
