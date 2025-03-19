@@ -1,10 +1,11 @@
-CREATE TABLE IF NOT EXISTS reviews (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    stars SMALLINT,
+CREATE TABLE IF NOT EXISTS reviews
+(
+    id        BIGINT    NOT NULL AUTO_INCREMENT,
+    stars     SMALLINT,
     validated BOOLEAN,
     create_at TIMESTAMP NULL DEFAULT NULL,
     update_ad TIMESTAMP NULL DEFAULT NULL,
-    review TEXT,
+    review    TEXT,
     PRIMARY KEY (id)
 );
 

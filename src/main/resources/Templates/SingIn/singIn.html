@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SingIn</title>
+</head>
+<body>
+<h1>Inscription</h1>
+<form action="/SingIn" method="post" th:object="${user}">
+    <label for="login">Nom d'utilisateur :</label>
+    <input type="text" id="login" name="login" th:field="*{login}" required>
+    <br>
+
+    <label for="password">Mot de passe :</label>
+    <input type="password" id="password" name="password" th:field="*{password}" required>
+    <br>
+
+    <label for="firstName">Prénom :</label>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}">
+    <br>
+
+    <label for="lastName">Nom :</label>
+    <input type="text" id="lastName" name="lastName" th:field="*{lastName}">
+    <br>
+
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required>
+    <br>
+
+    <button type="submit">S'inscrire</button>
+</form>
+
+<!-- Affichage des messages d'erreur -->
+<div th:if="${error}" style="color:red;">
+    <p th:text="${error}"></p>
+</div>
+
+<!-- Affichage des messages de succès -->
+<div th:if="${success}" style="color:green;">
+    <p th:text="${success}"></p>
+</div>
+</body>
+</html>
