@@ -19,34 +19,37 @@ public class ProfileModification {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/ProfileModification")
+    @GetMapping("/Modification")
     public String afficherModifierProfil(Model model) {
         model.addAttribute("user", new User());
-        return "ProfileModification";
+        return "Modification/ProfileModification";
+
     }
 
     // Traitement du formulaire de modification
-    @PostMapping("/ProfileModification")
+    @PostMapping("/Modification")
     public String traiterModification(@ModelAttribute("user") User userForm, Model model) {
         // Récupérer l'utilisateur actuel depuis la base de données
         User userFromDb = userRepository.findById(userForm.getId()).orElse(null);
 
         if (userFromDb == null) {
             model.addAttribute("error", "Utilisateur introuvable.");
-            return "ProfileModification";
+            return "Modification/ProfileModification";
+
         }
 
         // Vérification de l'ancien mot de passe
         if (!passwordEncoder.matches(userForm.getOldPassword(), userFromDb.getPassword())) {
             model.addAttribute("error", "L'ancien mot de passe est incorrect.");
-            return "ProfileModification";
+            return "Modification/ProfileModification";
+
         }
 
         // Vérification des nouveaux mots de passe (si un nouveau mot de passe est fourni)
         if (userForm.getNewPassword() != null && !userForm.getNewPassword().isEmpty()) {
             if (!userForm.getNewPassword().equals(userForm.getConfirmPassword())) {
                 model.addAttribute("error", "Le nouveau mot de passe et la confirmation ne correspondent pas.");
-                return "ProfileModification";
+                return "Modification/ProfileModification";
             }
 
             // Encoder le nouveau mot de passe et mettre à jour

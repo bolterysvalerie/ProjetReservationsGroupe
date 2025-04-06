@@ -32,7 +32,7 @@ public class LogInController {
 
         // Vérification de l'utilisateur et du mot de passe
         if (userFromDb != null && passwordEncoder.matches(loginForm.getPassword(), userFromDb.getPassword())) {
-            // Redirection vers le template "Home/ProfileModification.html"
+            // Redirection vers le template "Home/Modification.html"
             return "Home/index";
         }
 
