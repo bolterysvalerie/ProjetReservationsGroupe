@@ -10,13 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
 
 @Controller
-public class SingInController {
+public class SignInController {
 
     @Autowired
     public BCryptPasswordEncoder passwordEncoder;
