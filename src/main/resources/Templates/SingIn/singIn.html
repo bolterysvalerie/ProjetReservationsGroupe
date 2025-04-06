@@ -6,6 +6,8 @@
 <body>
 <h1>Inscription</h1>
 <form action="/SingIn" method="post" th:object="${user}">
+
+
     <label for="login">Nom d'utilisateur :</label>
     <input type="text" id="login" name="login" th:field="*{login}" required>
     <br>
@@ -26,7 +28,17 @@
     <input type="email" id="email" name="email" th:field="*{email}" required>
     <br>
 
+    <label for="language">Choix de la langue :</label>
+    <select id="language" name="language" th:field="*{language}" required>
+        <option value="fr" th:selected="${user.language == 'fr'}">Français</option>
+        <option value="nl" th:selected="${user.language == 'nl'}">Néerlandais</option>
+    </select>
+    <br>
+
+
     <button type="submit">S'inscrire</button>
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 </form>
 
 <!-- Affichage des messages d'erreur -->

@@ -19,27 +19,26 @@ public class LogInController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Méthode pour afficher le formulaire de connexion
     @GetMapping("/LogIn")
     public String showLoginForm(Model model) {
         model.addAttribute("loginForm", new User());
         return "LogIn/LogIn";
     }
 
-    // Méthode pour traiter la connexion
     @PostMapping("/LogIn")
     public String processLogin(@ModelAttribute("loginForm") User loginForm, Model model) {
 
-        // Recherche de l'utilisateur dans la base de données par son login
         User userFromDb = userRepository.findByLogin(loginForm.getLogin());
 
+        // Vérification de l'utilisateur et du mot de passe
         if (userFromDb != null && passwordEncoder.matches(loginForm.getPassword(), userFromDb.getPassword())) {
-            // Connexion réussie : redirection vers "/"
-            return "redirect:/";
+            // Redirection vers le template "Home/ProfileModification.html"
+            return "Home/index";
         }
 
-        // Connexion échouée : mauvais login ou mot de passe
+        // En cas d'échec de connexion, afficher une erreur
         model.addAttribute("error", "Login ou mot de passe incorrect.");
-        return "LogIn/LogIn"; // Recharge la vue de connexion avec le message d'erreur
+        return "LogIn/LogIn";
     }
+
 }

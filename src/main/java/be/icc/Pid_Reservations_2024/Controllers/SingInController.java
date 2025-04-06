@@ -12,25 +12,29 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
+
 
 @Controller
 public class SingInController {
 
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    public BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/SingIn")
     public String showInscriptionForm(Model model) {
-        User user = new User();
-        user.setRole(UserRoles.MEMBER);
-        model.addAttribute("user", user);
+        model.addAttribute("user", new User());
         return "SingIn/singIn";
     }
 
+
     @PostMapping("/SingIn")
     public String processSignUp(@Valid @ModelAttribute User user, BindingResult result, Model model) {
+        user.setRole(UserRoles.MEMBER);
+        user.setCreatedAt(LocalDateTime.now());
         if (result.hasErrors()) {
             return "SingIn/singIn";
         }

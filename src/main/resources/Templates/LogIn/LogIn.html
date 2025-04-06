@@ -11,11 +11,9 @@
     <p th:text="${error}"></p>
 </div>
 
-
 <div th:if="${success}" style="color: green;">
     <p th:text="${success}"></p>
 </div>
-
 
 <form action="/logIn" method="post" th:object="${loginForm}">
     <label for="login">Nom d'utilisateur :</label>
@@ -25,6 +23,9 @@
     <label for="password">Mot de passe :</label>
     <input type="password" id="password" name="password" th:field="*{password}" required />
     <br>
+
+    <!-- Ajout du CSRF token -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
     <button type="submit">Se connecter</button>
 </form>
