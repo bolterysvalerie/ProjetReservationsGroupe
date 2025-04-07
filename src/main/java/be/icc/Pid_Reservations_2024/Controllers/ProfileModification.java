@@ -26,10 +26,8 @@ public class ProfileModification {
 
     }
 
-    // Traitement du formulaire de modification
     @PostMapping("/Modification")
     public String traiterModification(@ModelAttribute("user") User userForm, Model model) {
-        // Récupérer l'utilisateur actuel depuis la base de données
         User userFromDb = userRepository.findById(userForm.getId()).orElse(null);
 
         if (userFromDb == null) {
@@ -38,34 +36,29 @@ public class ProfileModification {
 
         }
 
-        // Vérification de l'ancien mot de passe
         if (!passwordEncoder.matches(userForm.getOldPassword(), userFromDb.getPassword())) {
             model.addAttribute("error", "L'ancien mot de passe est incorrect.");
             return "Modification/ProfileModification";
 
         }
 
-        // Vérification des nouveaux mots de passe (si un nouveau mot de passe est fourni)
+
         if (userForm.getNewPassword() != null && !userForm.getNewPassword().isEmpty()) {
             if (!userForm.getNewPassword().equals(userForm.getConfirmPassword())) {
                 model.addAttribute("error", "Le nouveau mot de passe et la confirmation ne correspondent pas.");
                 return "Modification/ProfileModification";
             }
 
-            // Encoder le nouveau mot de passe et mettre à jour
             userFromDb.setPassword(passwordEncoder.encode(userForm.getNewPassword()));
         }
 
-        // Mise à jour des autres champs
         userFromDb.setLastName(userForm.getLastName());
         userFromDb.setFirstName(userForm.getFirstName());
         userFromDb.setEmail(userForm.getEmail());
         userFromDb.setLanguage(userForm.getLanguage());
 
-        // Sauvegarder les changements dans la base de données
         userRepository.save(userFromDb);
 
-        // Redirection après succès vers la page du profil modifié ou accueil
         return "redirect:/profil";
     }
 

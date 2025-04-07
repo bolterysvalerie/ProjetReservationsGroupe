@@ -30,13 +30,10 @@ public class LogInController {
 
         User userFromDb = userRepository.findByLogin(loginForm.getLogin());
 
-        // Vérification de l'utilisateur et du mot de passe
         if (userFromDb != null && passwordEncoder.matches(loginForm.getPassword(), userFromDb.getPassword())) {
-            // Redirection vers le template "Home/Modification.html"
             return "Home/index";
         }
 
-        // En cas d'échec de connexion, afficher une erreur
         model.addAttribute("error", "Login ou mot de passe incorrect.");
         return "LogIn/LogIn";
     }
