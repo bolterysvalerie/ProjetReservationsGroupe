@@ -1,3 +1,4 @@
+
 INSERT INTO `shows` (`id`, `bookable`, `duration`, `created_in`, `location_id`, `slug`, `poster_url`, `title`)
 VALUES
     (1, 1, 120, '2025-01-06 10:00:00', 1, 'show-1', 'https://example.com/poster1.jpg', 'Show Title 1'),

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS representations (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    schedule TIMESTAMP NULL DEFAULT NULL,
-    PRIMARY KEY (id)
+                                               id BIGINT NOT NULL AUTO_INCREMENT,
+                                               schedule TIMESTAMP NULL DEFAULT NULL,
+                                               PRIMARY KEY (id)
 );
 
 ALTER TABLE representations

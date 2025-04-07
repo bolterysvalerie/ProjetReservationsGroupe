@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layouts/main}"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+<head>
+    <title>Fiche d'un spectacle</title>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <h1 th:text="${show.title}">Ayiti</h1>
+
+        <p th:if="${show.posterUrl}"><img src="/images/default.jpg" th:alt="${show.title}"
+                                          th:src="@{'/images/'+${show.posterUrl}}" width="200"></p>
+        <canvas height="100" style="border:1px solid #000000;" th:unless="${show.posterUrl}" width="200"></canvas>
+
+        <p th:if="${show.location}"><strong>Lieu de création:</strong> <span th:text="${show.location.designation}">Art Center</span>
+        </p>
+
+        <p><strong>Prix:</strong> <span th:text="${show.price} + ' €'">9.99 €</span></p>
+
+        <p th:if="${show.bookable}"><em>Réservable</em></p>
+        <p th:unless="${show.bookable}"><em>Non réservable</em></p>
+
+        <h2>Liste des représentations</h2>
+        <ul th:if="${#lists.size(show.representations)>=1}">
+            <li th:each="representation : ${show.representations}"
+                th:text="${#temporals.format(representation.when,'dd-MM-yyyy HH:mm')}">12-10-2012 13:30</li>
+        </ul>
+        <p th:if="${#lists.size(show.representations)==0}">Aucune représentation</p>
+
+        <h2>Liste des artistes</h2>
+        <p><strong>Auteur:</strong>
+            <span th:each="auteur,iter : ${collaborateurs['auteur']}"
+                  th:text="${auteur.firstname}+' '+${auteur.lastname}
+		        	+ (${iter.count}==${iter.size}-1 ? ' et ':(${iter.last}?'':', '))">
+	            	Firstname Lastname
+	        	</span>
+        </p>
+        <p><strong>Metteur en scène:</strong>
+            <span th:each="scenographe,iter : ${collaborateurs['scénographe']}"
+                  th:text="${scenographe.firstname}+' '+${scenographe.lastname}
+	        		+ (${iter.count}==${iter.size}-1 ? ' et ':(${iter.last}?'':', '))">
+	            	Firstname Lastname
+	        	</span>
+        </p>
+        <p><strong>Distribution:</strong>
+            <span th:each="comedien,iter : ${collaborateurs['comédien']}"
+                  th:text="${comedien.firstname}+' '+${comedien.lastname}
+	        		+ (${iter.count}==${iter.size}-1 ? ' et ':(${iter.last}?'':', '))">
+	            	Firstname Lastname
+	        	</span>
+        </p>
+
+        <nav><a th:href="@{/shows}">Retour à l'index</a></nav>
+    </div>
+</div>
+</body>
+</html>
+
+

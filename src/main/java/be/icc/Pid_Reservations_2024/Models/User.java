@@ -1,11 +1,10 @@
+
 package be.icc.Pid_Reservations_2024.Models;
 
 import be.icc.Pid_Reservations_2024.Enums.UserRoles;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,6 +45,13 @@ public class User {
     // Relation Many To Many
     @ManyToMany(mappedBy = "users")
     private List<Representation> representations;
+
+    @Transient
+    private String newPassword;
+    @Transient
+    private String confirmPassword;
+    @Transient
+    private String oldPassword;
 
     // Constructor with params
     public User(Long id, String login, String password, String firstName, String lastName, String email, String language, UserRoles role, LocalDateTime createdAt) {

@@ -1,12 +1,13 @@
-CREATE TABLE IF NOT EXISTS reservations (
-    id BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS reservations
+(
+    id           BIGINT    NOT NULL AUTO_INCREMENT,
     booking_date TIMESTAMP NULL DEFAULT NULL,
-    status VARCHAR(60),
+    status       VARCHAR(60),
     PRIMARY KEY (id)
 );
 
 ALTER TABLE reservations
-    ADD COLUMN user_id BIGINT NOT NULL AFTER id,
+    ADD COLUMN user_id           BIGINT NOT NULL AFTER id,
     ADD COLUMN representation_id BIGINT NOT NULL AFTER status;
 
 ALTER TABLE reservations
