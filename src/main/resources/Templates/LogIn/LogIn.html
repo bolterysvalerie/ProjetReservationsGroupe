@@ -15,7 +15,7 @@
     <p th:text="${success}"></p>
 </div>
 
-<form action="/logIn" method="post" th:object="${loginForm}">
+<form action="/LogIn" method="post" th:object="${loginForm}">
     <label for="login">Nom d'utilisateur :</label>
     <input type="text" id="login" name="login" th:field="*{login}" required />
     <br>
