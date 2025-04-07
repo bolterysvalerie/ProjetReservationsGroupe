@@ -1,9 +1,9 @@
-CREATE TABLE price_shows
-(
+CREATE TABLE price_shows (
     id BIGINT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (id)
 );
 
 ALTER TABLE price_shows
     ADD COLUMN price_id BIGINT NOT NULL AFTER id,
-    ADD COLUMN show_id  BIGINT NOT NULL AFTER price_id;
+    ADD COLUMN show_id BIGINT NOT NULL AFTER price_id;
+

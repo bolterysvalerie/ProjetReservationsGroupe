@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS artiste_type_shows
 
 ALTER TABLE artiste_type_shows
     ADD COLUMN artiste_type_id BIGINT NOT NULL AFTER id,
-    ADD COLUMN show_id         BIGINT NOT NULL AFTER artiste_type_id;
+    ADD COLUMN show_id BIGINT NOT NULL AFTER artiste_type_id;
 
 ALTER TABLE artiste_type_shows
     ADD CONSTRAINT fk_artiste_type_artiste_type FOREIGN KEY (artiste_type_id)
