@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Inscription</h1>
-<form action="/SingIn" method="post" th:object="${user}">
+<form action="/SignIn" method="post" th:object="${user}">
 
 
     <label for="login">Nom d'utilisateur :</label>
@@ -41,12 +41,11 @@
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 </form>
 
-<!-- Affichage des messages d'erreur -->
 <div th:if="${error}" style="color:red;">
     <p th:text="${error}"></p>
 </div>
 
-<!-- Affichage des messages de succès -->
+
 <div th:if="${success}" style="color:green;">
     <p th:text="${success}"></p>
 </div>
