@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Fiche d'une représentation</title>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <article>
+            <h1 th:text="'Représentation du '+${date}+' à '+${heure}">
+                Représentation du 15/01/2020 à 13:30
+            </h1>
+            <p><strong>Spectacle:</strong>
+                <span th:text="${representation.show.title}">Ayiti</span>
+            </p>
+
+            <p><strong>Lieu:</strong>
+                <span th:if="${representation.location}"
+                      th:text="${representation.location.designation}">
+			        	Art Center
+			 </span>
+                <span th:unless="${representation.location}"
+                      th:if="${representation.show.location}"
+                      th:text="${representation.show.location.designation}">
+			        Art Center
+			 </span>
+                <em th:if="${representation.location}==null and
+					${representation.show.location}==null">
+                    à déterminer
+                </em>
+            </p>
+        </article>
+
+        <nav><a th:href="@{/representations}">Retour à l'index</a></nav>
+    </div>
+</div>
+</body>
+</html>
