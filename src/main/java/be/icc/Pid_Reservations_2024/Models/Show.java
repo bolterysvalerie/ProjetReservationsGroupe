@@ -33,7 +33,7 @@ public class Show {
     private Boolean bookable;
 
     // Relation One to Many
-    @OneToMany(mappedBy = "show")
+    @OneToMany(targetEntity = Representation.class, mappedBy = "show", fetch = FetchType.EAGER)
     private List<Representation> representations;
 
     @OneToMany(mappedBy = "show")
@@ -45,10 +45,10 @@ public class Show {
     private Location location;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "shows")
+    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
     List<Price> prices;
 
-    @ManyToMany(mappedBy = "shows")
+    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
     private List<ArtisteType> artiste_types;
 
     // Constructor with params
