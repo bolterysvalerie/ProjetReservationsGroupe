@@ -33,6 +33,25 @@ public class ArtisteType {
     )
     List<Show> shows;
 
+    //Ajout jusqu'au toString
+    public ArtisteType addShow(Show show) {
+        if(!this.shows.contains(show)) {
+            this.shows.add(show);
+            show.addArtistType(this);
+        }
+
+        return this;
+    }
+
+    public ArtisteType removeShow(Show show) {
+        if(this.shows.contains(show)) {
+            this.shows.remove(show);
+            show.getArtistTypes().remove(this);
+        }
+
+        return this;
+    }
+
     // ToString
     @Override
     public String toString() {
