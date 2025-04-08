@@ -5,6 +5,7 @@ import be.icc.Pid_Reservations_2024.Services.ArtistService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ public class ArtistController {
     @Autowired
     ArtistService artistService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/artists")
     public String index(Model model) {
         List<Artist> artists = artistService.getAllArtists();
@@ -29,6 +31,7 @@ public class ArtistController {
         return "Artist/index";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/artist/{id}")
     public String show(@PathVariable("id") long id, Model model) {
         Artist artist = artistService.getArtist(id);
@@ -39,6 +42,7 @@ public class ArtistController {
         return "Artist/show";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/artist/create")
     public String create(Model model) {
 
@@ -49,6 +53,7 @@ public class ArtistController {
         return "Artist/create";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/artist/create")
     public String store(@Valid @ModelAttribute("artist") Artist artist, BindingResult bindingResult, Model model, RedirectAttributes redirAttrs) {
 
@@ -63,6 +68,7 @@ public class ArtistController {
         return "redirect:/artist/"+artist.getId();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/artist/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id, HttpServletRequest httpServletRequest) {
         Artist artist = artistService.getArtist(id);
@@ -81,6 +87,7 @@ public class ArtistController {
         return "Artist/edit";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/artist/{id}/edit")
     public String update(@Valid @ModelAttribute("artist") Artist artist, BindingResult bindingResult, @PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         if(bindingResult.hasErrors()) {
@@ -99,6 +106,7 @@ public class ArtistController {
         return "redirect:/artist/"+artist.getId();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/artist/{id}")
     public String delete(@PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         Artist artistExisting = artistService.getArtist(id);
