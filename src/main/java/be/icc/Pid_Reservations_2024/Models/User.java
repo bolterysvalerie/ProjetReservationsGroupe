@@ -42,10 +42,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
 
-    // Relation Many To Many
-    @ManyToMany(mappedBy = "users")
-    private List<Representation> representations;
-
     @Transient
     private String newPassword;
     @Transient
