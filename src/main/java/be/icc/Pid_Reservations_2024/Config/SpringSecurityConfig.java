@@ -41,15 +41,15 @@ public class SpringSecurityConfig {
                     auth.anyRequest().permitAll();
                 })
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/LogIn")
                         .usernameParameter("login")
-                        .failureUrl("/login?loginError=true"))
+                        .failureUrl("/LogIn?loginError=true"))
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logoutSuccess=true")
+                        .logoutSuccessUrl("/LogIn?logoutSuccess=true")
                         .deleteCookies("JSESSIONID"))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
+                                new LoginUrlAuthenticationEntryPoint("/LogIn?loginRequired=true")))
                 .build();
     }
 }
