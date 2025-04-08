@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layouts/main}"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${TheTitle}">Shows</title>
+    <style>
+        /* Title of the show */
+        #title {
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Picture of the show */
+        #pictureShow {
+            width: 600px;
+            height: 450px;
+            display: block;
+            margin: auto auto 40px;
+        }
+
+        /* Text for place created show */
+        #placeCreated {
+            text-align: center;
+            font-style: italic;
+            text-decoration: underline;
+        }
+
+        /* Table shows */
+        table {
+            margin: auto;
+            width: 900px;
+            border-collapse: collapse;
+        }
+
+        table, td, th {
+            border: 1px solid;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <h1 th:text="${show.title}" id="title">List of Shows</h1>
+
+        <div>
+            <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}" id="pictureShow">
+            <p th:if="${show.location}" id="placeCreated"><strong>Lieu de création:</strong> <span
+                    th:text="${show.location.designation}"></span></p>
+        </div>
+
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Salle</th>
+                <th>Addresse</th>
+                <th>Prix</th>
+                <th>Reserver</th>
+            </tr>
+
+            <tr th:each="representation: ${show.representations}">
+                <td th:text="${#temporals.format(representation.schedule, 'dd MMMM yy')}"></td>
+                <td th:text="${#temporals.format(representation.schedule, 'HH:mm')}"></td>
+                <td th:text="${representation.location.designation}"></td>
+                <td th:utext="${representation.location.address} + '<br/>' + ${representation.location.locality.postalCode} +' ' + ${representation.location.locality.locality} "></td>
+                <td>
+                    <select>
+                        <option th:each="price : ${show.prices}"
+                                th:value="${price.id}"
+                                th:text=" ${price.type} +': ' + ${price.price} + ' €'"></option>
+                    </select>
+                </td>
+                <td>
+                    <button><a type="button" th:href="@{/reservation/{id}(id=${representation.id})}"> Réserver </a>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <div>
+            <div th:each="entry : ${collaborators}">
+                <h5 th:text="${entry.key}">Métiers</h5> <!-- Affiche le métier -->
+                <ul>
+                    <li th:each="auteur : ${entry.value}" th:text="|${auteur.lastname} ${auteur.firstname}|"></li>
+                    <!-- Affiche le nom et prénom -->
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</body>
+</html>
+
+
