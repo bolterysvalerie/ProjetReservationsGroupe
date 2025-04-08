@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
 <head>
-    <title>LogIn</title>
+    <title>Connexion</title>
 </head>
 <body>
-<h1>Page de connexion</h1>
+<div layout:fragment="content">
+    <h1 class="mb-4">Connexion</h1>
 
 
-<div th:if="${error}" style="color: red;">
-    <p th:text="${error}"></p>
+    <form th:action="@{/LogIn}" method="post">
+        <div>
+            <label>Login:</label>
+            <input type="text" name="login" maxlength="60" required>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" maxlength="60" required>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary mt-4">Se connecter</button>
+        </div>
+    </form>
+    <form action="/SignIn" method="get">
+        <button type="submit">S'inscrire</button>
+    </form>
 </div>
-
-<div th:if="${success}" style="color: green;">
-    <p th:text="${success}"></p>
-</div>
-
-<form action="/LogIn" method="post" th:object="${loginForm}">
-    <label for="login">Nom d'utilisateur :</label>
-    <input type="text" id="login" name="login" th:field="*{login}" required />
-    <br>
-
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="password" th:field="*{password}" required />
-    <br>
-
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-    <button type="submit">Se connecter</button>
-
-</form>
-<form action="/SignIn" method="get">
-    <button type="submit">S'inscrire</button>
-</form>
 </body>
 </html>

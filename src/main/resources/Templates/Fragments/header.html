@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Header fragment</title>
@@ -8,24 +9,28 @@
 <header class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#" th:href="@{/}">Réservations</a>
+            <a class="navbar-brand" href="#">Réservations</a>
         </div>
-
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li th:classappend="${module == 'home' ? 'active' : ''}">
                     <a href="#" th:href="@{/}">Home</a>
                 </li>
-                <li sec:authorize="hasRole('ADMIN')" th:classappend="${module == 'artists' ? 'active' : ''}">
+                <li th:classappend="${module == 'artists' ? 'active' : ''}">
                     <a href="#" th:href="@{/artists}">Artists</a>
                 </li>
-                <li th:classappend="${module == 'artists' ? 'active' : ''}">
-                    <a href="#" th:href="@{/types}">Types</a>
-                </li>
-
-<!--                <li sec:authorize="hasRole('ADMIN')">-->
-<!--                    <a th:href="@{/backoffice}">Back-Office</a>-->
             </ul>
+        </div>
+        <div style="float:right">
+            <p sec:authorize="!isAuthenticated()">Vous n'êtes pas connecté.<br>
+                <a th:href="@{/login}" class="nav-link">Se connecter</a>
+            </p>
+            <div sec:authorize="isAuthenticated()">
+                <p>Bonjour <span sec:authentication="principal.username">Bob</span>!</p>
+                <form th:action="@{/logout}" method="post" class="nav-link">
+                    <button class="unset">Se déconnecter</button>
+                </form>
+            </div>
         </div>
     </div>
 </header>
