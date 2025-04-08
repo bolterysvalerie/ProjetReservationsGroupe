@@ -1,40 +1,32 @@
 package be.icc.Pid_Reservations_2024.Controllers;
 
-import be.icc.Pid_Reservations_2024.Repositories.UserRepository;
-import be.icc.Pid_Reservations_2024.Models.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LogInController {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @GetMapping("/LogIn")
-    public String showLoginForm(Model model) {
-        model.addAttribute("loginForm", new User());
-        return "LogIn/LogIn";
-    }
+    public String login(
+            @RequestParam(required = false) final Boolean loginRequired,
+            @RequestParam(required = false) final Boolean loginError,
+            @RequestParam(required = false) final Boolean logoutSuccess,
+            final Model model) {
 
-    @PostMapping("/LogIn")
-    public String processLogin(@ModelAttribute("loginForm") User loginForm, Model model) {
-
-        User userFromDb = userRepository.findByLogin(loginForm.getLogin());
-
-        if (userFromDb != null && passwordEncoder.matches(loginForm.getPassword(), userFromDb.getPassword())) {
-            return "Home/index";
+        if (loginRequired == Boolean.TRUE) {
+            model.addAttribute("errorMessage", "Vous devez vous connecter pour avoir accès.");
         }
 
-        model.addAttribute("error", "Login ou mot de passe incorrect.");
+        if (loginError == Boolean.TRUE) {
+            model.addAttribute("errorMessage", "Échec de la connexion !");
+        }
+
+        if (logoutSuccess == Boolean.TRUE) {
+            model.addAttribute("successMessage", "Vous êtes déconnecté avec succès.");
+        }
+
         return "LogIn/LogIn";
     }
 
