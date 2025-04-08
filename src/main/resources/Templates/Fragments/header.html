@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Header fragment</title>
@@ -16,12 +16,15 @@
                 <li th:classappend="${module == 'home' ? 'active' : ''}">
                     <a href="#" th:href="@{/}">Home</a>
                 </li>
-                <li th:classappend="${module == 'artists' ? 'active' : ''}">
+                <li sec:authorize="hasRole('ADMIN')" th:classappend="${module == 'artists' ? 'active' : ''}">
                     <a href="#" th:href="@{/artists}">Artists</a>
                 </li>
                 <li th:classappend="${module == 'artists' ? 'active' : ''}">
                     <a href="#" th:href="@{/types}">Types</a>
                 </li>
+
+<!--                <li sec:authorize="hasRole('ADMIN')">-->
+<!--                    <a th:href="@{/backoffice}">Back-Office</a>-->
             </ul>
         </div>
     </div>
