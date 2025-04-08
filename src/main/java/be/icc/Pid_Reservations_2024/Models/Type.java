@@ -41,6 +41,25 @@ public class Type {
         this.type = type;
     }
 
+    //Ajout jusqu'au toString
+    public Type addArtist(Artist artist) {
+        if(!this.artists.contains(artist)) {
+            this.artists.add(artist);
+            artist.addType(this);
+        }
+
+        return this;
+    }
+
+    public Type removeType(Artist artist) {
+        if(this.artists.contains(artist)) {
+            this.artists.remove(artist);
+            artist.getTypes().remove(this);
+        }
+
+        return this;
+    }
+
     // ToString
     @Override
     public String toString() {
