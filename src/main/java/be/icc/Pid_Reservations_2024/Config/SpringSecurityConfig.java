@@ -9,12 +9,14 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 @Configuration
+@EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
 
@@ -41,7 +43,7 @@ public class SpringSecurityConfig {
                     auth.anyRequest().permitAll();
                 })
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/LogIn")
                         .usernameParameter("login")
                         .failureUrl("/login?loginError=true"))
                 .logout(logout -> logout
@@ -52,4 +54,6 @@ public class SpringSecurityConfig {
                                 new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
                 .build();
     }
+
+
 }
