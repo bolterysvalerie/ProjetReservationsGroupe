@@ -43,6 +43,25 @@ public class Artist {
         this.lastname = lastname;
     }
 
+    //Ajout jusqu'au toString
+    public Artist addType(Type type) {
+        if(!this.types.contains(type)) {
+            this.types.add(type);
+            type.addArtist(this);
+        }
+
+        return this;
+    }
+
+    public Artist removeType(Type type) {
+        if(this.types.contains(type)) {
+            this.types.remove(type);
+            type.getArtists().remove(this);
+        }
+
+        return this;
+    }
+
     // ToString
     @Override
     public String toString() {
