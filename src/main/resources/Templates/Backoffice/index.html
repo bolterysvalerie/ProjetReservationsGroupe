@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Back-office</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+    <h1>Tableau de bord (Admin)</h1>
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <p>Bienvenue dans l'espace de gestion. Utilisez les liens ci-dessous pour gérer les entités :</p>
+
+        <ul>
+            <li><a th:href="@{/artists}">Gérer les artistes</a></li>
+            <li><a th:href="@{/shows}">Gérer les spectacles</a></li>
+            <li><a th:href="@{/types}">Gérer les types</a></li>
+            <li><a th:href="@{/localities}">Gérer les localités</a></li>
+            <li><a th:href="@{/representations}">Gérer les représentations</a></li>
+        </ul>
+
+        <!-- Liste des spectacles avec leurs représentations -->
+        <h2 class="mt-5">Spectacles et leurs représentations</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Spectacle</th>
+                <th>Description</th>
+                <th>Artistes</th>
+                <th>Représentations</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="show : ${shows}">
+                <td th:text="${show.title}">Titre</td>
+                <td th:text="${show.description}">Description</td>
+                <td>
+                    <ul>
+                        <li th:each="artist : ${show.artists}">
+                            <span th:text="${artist.firstname + ' ' + artist.lastname}">Artiste</span>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="rep : ${show.representations}">
+                            <span th:text="${#temporals.format(rep.when, 'dd/MM/yyyy HH:mm')}">Date</span> —
+                            <span th:text="${rep.location?.designation}">Lieu</span>
+                            <a th:href="@{'/representations/' + ${rep.id} + '/edit'}" class="btn btn-sm btn-outline-primary ms-2">Modifier</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div sec:authorize="!hasRole('ADMIN')">
+        <p class="text-danger">Accès refusé. Cette page est réservée aux administrateurs.</p>
+    </div>
+</div>
+</body>
+</html>
