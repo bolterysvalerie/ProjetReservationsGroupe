@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">
+      layout:decorate="~{layouts/main}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <title>List of artists</title>
 </head>
 <body>
   <div class="container">
       <div id="notification" th:replace="~{main :: notification}"></div>
-    <div layout:fragment="content">
+    <div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
       <h1 th:text="${title}">Liste des artistes</h1>
 
-      <div class="action">
+      <div class="action" sec:authorize="hasRole('ADMIN')">
         <a th:href="@{/artist/create}">Add new artist</a>
       </div>
 
@@ -26,9 +26,12 @@
         <tr th:each="artist : ${artists}">
           <td th:text="${artist.firstname}">Bob</td>
           <td th:text="${artist.lastname}">Sull</td>
-          <td><a th:href="@{/artist/{id}(id=${artist.id})}">View</a></td>
-          <td><a th:href="@{/artist/{id}/edit(id=${artist.id})}">Edit</a></td>
-          <td>
+          <!-- Edit visible uniquement pour ADMIN -->
+          <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/artist/{id}(id=${artist.id})}" sec:authorize="hasRole('ADMIN')">View</a></td>
+          <!-- Edit visible uniquement pour ADMIN -->
+          <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/artist/{id}/edit(id=${artist.id})}" sec:authorize="hasRole('ADMIN')">Edit</a></td>
+          <!-- Delete visible uniquement pour ADMIN -->
+          <td sec:authorize="hasRole('ADMIN')">
             <form th:id="|deleteForm-${artist.id}|" th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
               <a href="#" th:onclick="|if(confirm('Confirm delete artist #${artist.id}')) document.getElementById('deleteForm-${artist.id}').submit(); return false;|">
                 Delete
@@ -42,3 +45,6 @@
   </div>
 </body>
 </html>
+
+
+
