@@ -49,7 +49,7 @@ public class SpringSecurityConfig {
                         .deleteCookies("JSESSIONID"))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/LogIn?loginRequired=true")))
+                                new LoginUrlAuthenticationEntryPoint("/LogIgit n?loginRequired=true")))
                 .build();
     }
 }
