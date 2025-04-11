@@ -75,7 +75,8 @@
             <div class="show-container">
                 <div class="show">
                     <h3 th:text="${show.title}">Title</h3>
-                    <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}">
+<!--                    <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}">-->
+                    <img th:src="@{${show.posterUrl}}" th:alt="${show.title}">
                 </div>
 
                 <div class="show-table">
