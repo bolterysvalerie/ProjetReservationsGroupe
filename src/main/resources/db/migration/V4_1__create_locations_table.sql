@@ -14,7 +14,4 @@ ALTER TABLE locations
     ADD COLUMN locality_id BIGINT NOT NULL AFTER id;
 
 ALTER TABLE locations
-    ADD CONSTRAINT locations_localities UNIQUE (locality_id);
-
-ALTER TABLE locations
     ADD CONSTRAINT locations_id UNIQUE (id);
