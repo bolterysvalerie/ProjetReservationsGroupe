@@ -1,4 +1,4 @@
-INSERT INTO `prices` (`id`, `start_date`, `end_date`, `price`, `type`)
+INSERT INTO `prices` (`id`, `start_date`, `end_date`, `amount`, `type`)
 VALUES (1, '2025-01-01', '2025-01-31', 100.50, 'Standard'),
        (2, '2025-02-01', '2025-02-28', 150.75, 'Premium'),
        (3, '2025-03-01', '2025-03-31', 120.00, 'Standard'),
