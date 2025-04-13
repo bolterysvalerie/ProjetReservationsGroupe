@@ -18,6 +18,7 @@ public class TypeController {
     @Autowired
     TypeService typeService;
 
+
     @GetMapping("/types")
     public String index(Model model) {
         List<Type> types = typeService.getAllTypes();
