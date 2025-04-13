@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter un lieu</title>
+</head>
+<body>
+<h1>Ajouter un lieu</h1>
+
+<form th:action="@{/locations/create}" th:object="${locationForm}" method="post">
+    <label>Désignation : <input type="text" th:field="*{designation}"/></label><br>
+    <label>Adresse : <input type="text" th:field="*{address}"/></label><br>
+    <label>Site web : <input type="text" th:field="*{website}"/></label><br>
+    <label>Téléphone : <input type="text" th:field="*{phone}"/></label><br>
+
+    <label>Localité :
+        <select th:field="*{locality}">
+            <option th:each="locality : ${localities}"
+                    th:value="${locality.id}"
+                    th:text="${locality.postalCode + ' ' + locality.locality}">
+            </option>
+        </select>
+    </label><br>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <button type="submit">Créer</button>
+</form>
+
+<a th:href="@{/locations}">Annuler</a>
+
+</body>
+</html>

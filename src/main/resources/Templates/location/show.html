@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Détail du lieu</title>
+</head>
+<body>
+<h1>Détail du lieu</h1>
+
+<p><strong>Désignation :</strong> <span th:text="${location.designation}">Nom</span></p>
+<p><strong>Slug :</strong> <span th:text="${location.slug}">le-roi-lion</span></p>
+<p><strong>Adresse :</strong> <span th:text="${location.address}">Adresse</span></p>
+<p><strong>Site web :</strong> <span th:text="${location.website}">www...</span></p>
+<p><strong>Téléphone :</strong> <span th:text="${location.phone}">123</span></p>
+<p><strong>Localité :</strong> <span th:text="${location.locality.postalCode + ' ' + location.locality.locality}">Localité</span></p>
+
+<a th:href="@{/locations}">Retour à la liste</a>
+
+</body>
+</html>
