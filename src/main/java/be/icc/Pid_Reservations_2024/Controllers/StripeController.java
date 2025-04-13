@@ -32,6 +32,7 @@ public class StripeController {
     @PostMapping("/create-checkout-session")
     public RedirectView createCheckoutSession(@RequestParam String pictureShow, @RequestParam String nameShow, @RequestParam String dateShow, @RequestParam("priceShow") String priceShow, @RequestParam("quantityShow") String quantityShow) throws StripeException, StripeException {
 
+        System.out.println(pictureShow);
         // Convert price show from String to long
         double priceDouble = Double.parseDouble(priceShow);
         long price = (long) priceDouble;
@@ -53,7 +54,8 @@ public class StripeController {
                                                 .setUnitAmount(price * 100)
                                                 .setProductData(
                                                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                .addImage("http://bobleponge.fr/photos/humour-bob-eponge/Linux-patrick.jpg")
+                                                                //.addImage("http://bobleponge.fr/photos/humour-bob-eponge/Linux-patrick.jpg")
+                                                                .addImage(pictureShow)
                                                                 .setName(nameShow)
                                                                 .setDescription("Le " + dateShow)
                                                                 .build()

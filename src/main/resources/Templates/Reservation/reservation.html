@@ -51,9 +51,10 @@
         <table>
             <form th:action="@{/create-checkout-session}" method="post">
                 <tr>
-                    <td id="tdPicture" rowspan="6">
-                        <img th:src="@{${'/images/' + representation.show.posterUrl}}"
-                             th:alt="${representation.show.title}">
+                    <td id="tdPicture" rowspan="6" >
+<!--                        <img th:src="@{${'/images/' + representation.show.posterUrl}}"-->
+<!--                             th:alt="${representation.show.title}">-->
+                        <img th:src="@{${representation.show.posterUrl}}" th:alt="${representation.show.title}">
                     </td>
                 </tr>
                 <tr>
@@ -105,7 +106,7 @@
 
                         <button id="checkout-button">Payer</button>
                         <input type="hidden" th:name="pictureShow"
-                               th:value="@{${'/images/' + representation.show.posterUrl}}">
+                               th:value="@{${representation.show.posterUrl}}">
                         <input type="hidden" th:name="nameShow" th:value="${title}">
                         <input type="hidden" th:name="dateShow"
                                th:value="${#temporals.format(representation.schedule, 'dd MMMM yyyy'+ ' à ' + 'HH:mm' )}">
