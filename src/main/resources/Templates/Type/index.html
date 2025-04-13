@@ -28,6 +28,7 @@
                         <a href="#" th:onclick="|if(confirm('Confirm delete type #${type.id}')) document.getElementById('deleteForm-${type.id}').submit(); return false;|">
                             Delete
                         </a>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     </form>
                 </td>
             </tr>
