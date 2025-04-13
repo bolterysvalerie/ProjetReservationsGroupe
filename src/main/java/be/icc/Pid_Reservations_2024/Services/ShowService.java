@@ -2,10 +2,12 @@ package be.icc.Pid_Reservations_2024.Services;
 
 import be.icc.Pid_Reservations_2024.Models.ArtisteType;
 import be.icc.Pid_Reservations_2024.Models.Location;
+import be.icc.Pid_Reservations_2024.Models.Price;
 import be.icc.Pid_Reservations_2024.Models.Show;
 import be.icc.Pid_Reservations_2024.Repositories.ShowRepository;
 import com.github.slugify.Slugify;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,16 @@ public class ShowService {
         return showRepository.findAll(pageable);
     }
 
+    public List<Show> getAll() {
+        return showRepository.findAll();
+    }
+
+    public List<Show> getByIds(List<Long> ids) {
+        List<Integer> integerIds = ids.stream()
+                .map(Long::intValue)
+                .toList(); // Convertit chaque Long en Integer
+        return showRepository.findAllById(integerIds);
+    }
 
     public Show getShow(long id) {
         return showRepository.findById(id).orElse(null);
@@ -43,26 +55,6 @@ public class ShowService {
         showRepository.save(show);
     }
 
-//    public void update(Long id, Show show) {
-//        showRepository.save(show);
-//    }
-//
-//
-//    public void delete(Long id) {
-//        //Long indice = Long.parseLong(id);
-//        Optional<Show> showOpt = showRepository.findById(indice);
-//
-//        if (showOpt.isPresent()) {
-//            Show show = showOpt.get();
-//
-//            // Nettoyer la relation ManyToMany avec ArtistType
-//            for (ArtisteType at : new ArrayList<>(show.getArtistTypes())) {
-//                show.removeArtistType(at);  // Cette méthode gère aussi le côté inverse
-//            }
-//
-//            showRepository.deleteById(indice.intValue());
-//        }
-//    }
 
     public void update(Long id, Show newShowData) {
         Optional<Show> optionalShow = showRepository.findById(id);
@@ -74,8 +66,6 @@ public class ShowService {
             existingShow.setPosterUrl(newShowData.getPosterUrl());
             existingShow.setDuration(newShowData.getDuration());
             existingShow.setBookable(newShowData.getBookable());
-            // Vous pouvez décider de mettre à jour la date si besoin (par exemple, une date de dernière modification)
-            // existingShow.setCreated_in(newShowData.getCreated_in());
             existingShow.setLocation(newShowData.getLocation());
 
             // Si le titre a changé, recalculer le slug
@@ -96,19 +86,31 @@ public class ShowService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         Optional<Show> showOpt = showRepository.findById(id);
         if (showOpt.isPresent()) {
             Show show = showOpt.get();
 
-            // Nettoyer la relation ManyToMany avec ArtisteType.
-            // On crée une copie de la liste pour éviter une ConcurrentModificationException.
-            for (ArtisteType at : new ArrayList<>(show.getArtistTypes())) {
-                show.removeArtistType(at); // Assurez-vous que cette méthode retire correctement la relation du côté inverse
+            // Nettoyer la relation ManyToMany avec Price
+            if (show.getPrices() != null) {
+                for (Price p : new ArrayList<>(show.getPrices())) {
+                    p.getShows().remove(show);  // retire 'show' côté Price
+                }
+                show.getPrices().clear();       // vide la collection côté Show
             }
 
-            // Supprimer le show par son identifiant
-            showRepository.deleteById(id.intValue());
+            // Nettoyer la relation ManyToMany avec ArtisteType
+            if (show.getArtistTypes() != null) {
+                // Créer une copie pour éviter ConcurrentModificationException
+                for (ArtisteType at : new ArrayList<>(show.getArtistTypes())) {
+                    show.removeArtistType(at);
+                }
+            }
+
+            // Supprimer le show (suppression en cascade des représentations gérée automatiquement
+            // avec configuration cascade = CascadeType.ALL et orphanRemoval = true sur la collection de représentations)
+            showRepository.delete(show);
 
         } else {
             throw new EntityNotFoundException("Show with id " + id + " not found.");
