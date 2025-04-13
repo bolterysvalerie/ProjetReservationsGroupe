@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,13 +30,16 @@ public class Show {
     private String posterUrl;
     @Column(name = "duration", length = 5, columnDefinition = "SMALLINT UNSIGNED")
     private Integer duration;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "created_in")
-    private Date created_in;
+    private LocalDateTime created_in;
     @Column(name = "bookable", columnDefinition = "TINYINT")
     private Boolean bookable;
 
     // Relation One to Many
-    @OneToMany(targetEntity = Representation.class, mappedBy = "show", fetch = FetchType.EAGER)
+//    @OneToMany(targetEntity = Representation.class, mappedBy = "show", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Representation.class, mappedBy = "show",
+            cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Representation> representations;
 
     @OneToMany(mappedBy = "show")
@@ -53,7 +58,7 @@ public class Show {
     private List<ArtisteType> artiste_types;
 
     // Constructor with params
-    public Show(String title, String posterUrl, Date created_in, Boolean bookable) {
+    public Show(String title, String posterUrl, LocalDateTime created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();
 
         this.slug = slg.slugify(title);
