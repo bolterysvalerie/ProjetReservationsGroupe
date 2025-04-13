@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,8 +29,9 @@ public class Artist {
     private String firstname;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy ="artists")
-    private List<Type> types;
+    @ManyToMany(mappedBy = "artists" , fetch = FetchType.EAGER)
+    List<Type> types; // Initialiser la collection pour éviter les NullPointerException
+
 
     // Constructor with params
     public Artist(String firstname, String lastname, Long id) {
@@ -43,22 +45,26 @@ public class Artist {
         this.lastname = lastname;
     }
 
-    //Ajout jusqu'au toString
+    // Méthode pour ajouter un Type à l'Artist
     public Artist addType(Type type) {
-        if(!this.types.contains(type)) {
-            this.types.add(type);
-            type.addArtist(this);
+        // S'assurer que la liste est initialisée
+        if (this.types == null) {
+            this.types = new ArrayList<>();
         }
-
+        // Si le type n'est pas déjà présent, l'ajouter et mettre à jour l'autre côté
+        if (!this.types.contains(type)) {
+            this.types.add(type);
+            //type.addArtist(this);
+        }
         return this;
     }
 
+    // Méthode pour retirer un Type de l'Artist
     public Artist removeType(Type type) {
-        if(this.types.contains(type)) {
+        if (this.types != null && this.types.contains(type)) {
             this.types.remove(type);
             type.getArtists().remove(this);
         }
-
         return this;
     }
 
