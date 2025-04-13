@@ -15,7 +15,8 @@ import java.util.Optional;
 public class RepresentationService {
 
     @Autowired
-    private RepresentationRepository representationRepository;
+    RepresentationRepository representationRepository;
+    private RepresentationRepository RepresentationRepository;
 
     // CREATE
     public void addRepresentation(Representation representation) {
@@ -47,11 +48,6 @@ public class RepresentationService {
 
     }
 
-//    // DELETE
-//    @Transactional
-//    public void deleteRepresentation(Long id) {
-//        representationRepository.deleteById(id);
-//    }
 
     @Transactional
     public void deleteRepresentation(Long id) {
@@ -60,14 +56,18 @@ public class RepresentationService {
             Representation rep = repOpt.get();
 
 
+    //public Representation getRepresentation(long id) {
+     //   return RepresentationRepository.findById(id).orElse(null);
+    }
+}
 
             // Vérifier si des utilisateurs ont déjà réservé cette représentation
-            if (rep.getUsers() != null && !rep.getUsers().isEmpty()) {
+            //if (rep.getUsers() != null && !rep.getUsers().isEmpty()) {
 
-                throw new IllegalStateException("La représentation ne peut pas être supprimée car elle a des réservations.");
-            }
+            //    throw new IllegalStateException("La représentation ne peut pas être supprimée car elle a des réservations.");
+           // }
 
-//            // Nettoyer la relation avec Show
+//   ?         // Nettoyer la relation avec Show
 //            if (rep.getShow() != null) {
 //                Show associatedShow = rep.getShow();
 //                // Assurez-vous que la collection de représentations dans Show est initialisée
@@ -76,16 +76,16 @@ public class RepresentationService {
 //                rep.setShow(null);
 //            }
             // Si besoin, nettoyer la relation avec le Show
-            if (rep.getShow() != null) {
-                rep.getShow().getRepresentations().remove(rep);
-                rep.setShow(null);
-            }
+           // if (rep.getShow() != null) {
+            //    rep.getShow().getRepresentations().remove(rep);
+            //    rep.setShow(null);
+          //  }
 
             // supprimer l'entité Representation
-            representationRepository.delete(rep);
-        } else {
-            throw new EntityNotFoundException("Representation with id " + id + " not found.");
-        }
-    }
+            //representationRepository.delete(rep);
+        //} else {
+            //throw new EntityNotFoundException("Representation with id " + id + " not found.");
+       // }
+    //}
 
 }

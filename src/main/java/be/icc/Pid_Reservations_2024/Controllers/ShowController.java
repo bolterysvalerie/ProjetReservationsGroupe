@@ -41,7 +41,7 @@ public class ShowController {
      * @param model the model used to send data to the view
      * @return the name of the view to display
      */
-    @GetMapping("/")
+    @GetMapping("/shows")
     public String shows(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
         // Create pagination object
         Pageable pageable = PageRequest.of(page, size);
