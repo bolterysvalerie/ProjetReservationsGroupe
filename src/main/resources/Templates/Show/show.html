@@ -12,7 +12,7 @@
         }
 
         /* Picture of the show */
-        #pictureShow {
+        img {
             width: 600px;
             height: 450px;
             display: block;
@@ -45,7 +45,10 @@
         <h1 th:text="${show.title}" id="title">List of Shows</h1>
 
         <div>
-            <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}" id="pictureShow">
+            <div class="show">
+                <!--            <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}" id="pictureShow">-->
+                <img th:src="@{${show.posterUrl}}" th:alt="${show.title}">
+            </div>
             <p th:if="${show.location}" id="placeCreated"><strong>Lieu de création:</strong> <span
                     th:text="${show.location.designation}"></span></p>
         </div>
