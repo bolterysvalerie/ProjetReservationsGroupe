@@ -5,10 +5,13 @@ import lombok.*;
 
 import java.util.List;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // Génère un constructeur protégé sans argument
+@AllArgsConstructor
 @Entity
-@Getter @Setter
-@Table( name = "artiste_types")
+@Getter
+@Setter
+@Table(name = "artiste_types")
 public class ArtisteType {
 
     @Id
@@ -31,35 +34,35 @@ public class ArtisteType {
             joinColumns = @JoinColumn(name = "artiste_type_id"),
             inverseJoinColumns = @JoinColumn(name = "show_id")
     )
-    List<Show> shows;
+    private List<Show> shows;
 
-    //Ajout jusqu'au toString
+    // Constructeur supplémentaire (avec paramètres pour artist, type et shows)
+    public ArtisteType(Artist artist, Type type, List<Show> shows) {
+        this.artist = artist;
+        this.type = type;
+        this.shows = shows;
+    }
+
+    // Méthode pour ajouter un show
     public ArtisteType addShow(Show show) {
-        if(!this.shows.contains(show)) {
+        if (!this.shows.contains(show)) {
             this.shows.add(show);
             show.addArtistType(this);
         }
-
         return this;
     }
 
+    // Méthode pour retirer un show
     public ArtisteType removeShow(Show show) {
-        if(this.shows.contains(show)) {
+        if (this.shows.contains(show)) {
             this.shows.remove(show);
             show.getArtistTypes().remove(this);
         }
-
         return this;
     }
 
-    // ToString
     @Override
     public String toString() {
-        return "Artiste_Type{" +
-                "id=" + id +
-                ", artist=" + artist +
-                ", type=" + type +
-                '}';
+        return "ArtistType [id=" + id + ", artist=" + artist + ", type=" + type + ", shows=" + shows + "]";
     }
-    
 }
