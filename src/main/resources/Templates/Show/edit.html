@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier le spectacle</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+    <h1>Modifier le spectacle</h1>
+
+    <!-- Affichage du message d'erreur, s'il y en a -->
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <form th:action="@{/show/{id}/edit(id=${show.id})}" th:object="${show}" method="post">
+        <!-- Pour simuler une requête PUT -->
+        <input type="hidden" name="_method" value="put"/>
+
+        <div class="form-group">
+            <label for="title">Titre :</label>
+            <input type="text" id="title" th:field="*{title}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="posterUrl">URL de l'affiche :</label>
+            <input type="text" id="posterUrl" th:field="*{posterUrl}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Durée (minutes) :</label>
+            <input type="number" id="duration" th:field="*{duration}" class="form-control" min="0" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="created_in">Date de création :</label>
+            <input type="datetime-local" id="created_in" th:field="*{created_in}" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="bookable">Réservable :</label>
+            <input type="checkbox" id="bookable" th:field="*{bookable}" class="form-check-input"/>
+        </div>
+
+        <div class="form-group">
+            <label for="locationId">Lieu :</label>
+            <select id="locationId" name="locationId" class="form-control">
+                <option value="">-- Choisir un lieu --</option>
+                <option th:each="loc : ${locations}"
+                        th:value="${loc.id}"
+                        th:text="${loc.designation}"
+                        th:selected="${show.location != null} ? (${show.location.id} == ${loc.id}) : false">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Enregistrer les modifications</button>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </form>
+
+    <!-- Le lien "Annuler" utilise l'attribut 'back' qui doit être préparé dans le modèle par le contrôleur -->
+    <a th:href="${back}" class="btn btn-secondary mt-3">Annuler</a>
+</div>
+</body>
+</html>
