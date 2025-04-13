@@ -1,3 +1,32 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"-->
+<!--      layout:decorate="~{layouts/main}">-->
+<!--<head>-->
+<!--    <title>Liste des représentations de spectacle</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div layout:fragment="content">-->
+<!--        <h1 th:text="${title}">Liste des représentations de spectacle</h1>-->
+
+<!--        <ul th:unless="${#lists.isEmpty(representations)}">-->
+<!--            <li th:each="representation : ${representations}">-->
+<!--                <span th:text="${representation.show.title}">Ayiti</span>-->
+<!--                <span th:if="${representation.location}"-->
+<!--                      th:text="' - '+${representation.location.designation}">- Art Center</span>-->
+<!--                <span th:text="${#temporals.format(representation.schedule,'dd-MM-yyyy')}">-->
+<!--			12-10-2012</span>-->
+<!--                <span th:text="${#temporals.format(representation.schedule,'HH:mm')}">-->
+<!--			13:30</span>-->
+<!--                <a th:href="@{/representations/{id}(id=${representation.id})}">View</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
@@ -7,18 +36,54 @@
 <body>
 <div class="container">
     <div layout:fragment="content">
+
         <h1 th:text="${title}">Liste des représentations de spectacle</h1>
 
+        <!-- Lien pour créer une nouvelle représentation -->
+        <div style="margin-bottom: 15px;">
+            <a th:href="@{/representations/create}">Créer une nouvelle représentation</a>
+        </div>
+
+        <!-- Liste des représentations -->
         <ul th:unless="${#lists.isEmpty(representations)}">
             <li th:each="representation : ${representations}">
-                <span th:text="${representation.show.title}">Ayiti</span>
+
+                <!-- Titre du show -->
+                <span th:text="${representation.show.title}">TitreShow</span>
+
+                <!-- Nom du lieu -->
                 <span th:if="${representation.location}"
-                      th:text="' - '+${representation.location.designation}">- Art Center</span>
-                <span th:text="${#temporals.format(representation.when,'dd-MM-yyyy')}">
-			12-10-2012</span>
-                <span th:text="${#temporals.format(representation.when,'HH:mm')}">
-			13:30</span>
-                <a th:href="@{/representations/{id}(id=${representation.id})}">View</a>
+                      th:text="' - ' + ${representation.location.designation}">
+                    - LieuDesignation
+                </span>
+
+                <!-- Date (jour-mois-année) -->
+                <span th:text="${#temporals.format(representation.schedule,'dd-MM-yyyy')}">
+                    01-01-2025
+                </span>
+
+                <!-- Heure -->
+                <span th:text="${#temporals.format(representation.schedule,'HH:mm')}">
+                    13:30
+                </span>
+
+                <!-- Voir détails -->
+                <a th:href="@{/representations/{id}(id=${representation.id})}">Voir</a>
+
+                <!-- Lien Modifier -->
+                <a th:href="@{/representations/{id}/edit(id=${representation.id})}" style="margin-left:10px;">
+                    Modifier
+                </a>
+
+                <!-- Formulaire Supprimer -->
+                <form th:action="@{/representations/{id}(id=${representation.id})}"
+                      method="post"
+                      style="display:inline-block; margin-left:10px;">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit">Supprimer</button>
+                </form>
+
             </li>
         </ul>
     </div>
