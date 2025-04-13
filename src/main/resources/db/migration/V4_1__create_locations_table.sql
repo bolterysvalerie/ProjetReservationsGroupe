@@ -13,8 +13,15 @@ CREATE TABLE IF NOT EXISTS locations
 ALTER TABLE locations
     ADD COLUMN locality_id BIGINT NOT NULL AFTER id;
 
-ALTER TABLE locations
-    ADD CONSTRAINT locations_localities UNIQUE (locality_id);
+# ALTER TABLE locations
+#     ADD CONSTRAINT locations_localities UNIQUE (locality_id);
 
+-- Ajout de la clé étrangère vers localities
 ALTER TABLE locations
-    ADD CONSTRAINT locations_id UNIQUE (id);
+    ADD CONSTRAINT fk_locations_localities FOREIGN KEY (locality_id)
+        REFERENCES localities(id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE;
+
+# ALTER TABLE locations
+#     ADD CONSTRAINT locations_id UNIQUE (id);
