@@ -24,6 +24,17 @@ public class ArtistService {
         return artistRepository.findById(id);
     }
 
+//    @Transactional
+//    public Artist getArtist(Long id) {
+//        Artist artist = artistRepository.findById(id).orElse(null);
+//        if (artist != null) {
+//            // Forcer l'initialisation de la collection
+//            artist.getTypes().size();
+//        }
+//        return artist;
+//    }
+
+
     public void addArtist(Artist artist){
         artistRepository.save(artist);
     }
