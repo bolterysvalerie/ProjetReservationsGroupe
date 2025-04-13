@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des spectacles</title>
+    <title th:text="${thetitle}">Liste des spectacles</title>
     <style>
-        /* Size picture */
+        /* Taille de l'image */
         img {
             width: 200px;
             height: 200px;
         }
-
-        /* Display title and picture only */
+        /* Affichage du bloc "show" (titre et image) */
         .show {
             border: 1px solid black;
             width: 350px;
@@ -19,65 +20,95 @@
             text-align: center;
             margin-bottom: 20px;
         }
-
-        /* space for the div */
+        /* Conteneur qui regroupe le bloc "show" et la table des infos */
         .show-container {
             display: flex;
             gap: 50px;
             align-items: flex-start;
+            margin-bottom: 30px;
         }
-
-        /* Table content information about the shows */
+        /* Bloc contenant la table d'informations sur le show */
         .show-table {
             border: 1px solid rebeccapurple;
             text-align: left;
             height: 300px;
             width: 350px;
         }
-
         table {
             border: 1px solid red;
-            height: 280px;
             width: 350px;
+            border-collapse: collapse;
         }
-
+        table th,
+        table td {
+            border: 1px solid #ccc;
+            padding: 5px;
+            height: 25px;
+        }
         table a {
             text-decoration: none;
         }
-
-        table tr {
-            height: 25px;
-        }
-
-        /* Pagination */
+        /* Styles pour la pagination */
         .pagination {
             display: flex;
             justify-content: center;
             align-items: center;
             list-style: none;
+            margin-top: 20px;
         }
-
         .pagination li {
             margin: 0 3px;
         }
-
         .pagination li a {
             display: inline-block;
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #333;
+        }
+        .pagination li a.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        /* Boutons personnalisés pour modifier et supprimer */
+        .btn-modify {
+            background-color: #f0ad4e; /* orange */
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .btn-delete {
+            background-color: #d9534f; /* rouge */
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div layout:fragment="content">
-        <h1 th:text="${thetitle}">List_of_Shows</h1>
+        <h1 th:text="${thetitle}">Liste des spectacles</h1>
 
+        <!-- Lien pour ajouter un spectacle (visible uniquement aux ADMIN) -->
+        <div sec:authorize="hasRole('ADMIN')" style="margin-bottom: 20px;">
+            <a th:href="@{/show/create}" class="btn btn-primary">Ajouter un spectacle</a>
+        </div>
+
+        <!-- Boucle sur chaque spectacle -->
         <div th:each="show : ${shows}">
             <div class="show-container">
+                <!-- Bloc d'image et titre -->
                 <div class="show">
-                    <h3 th:text="${show.title}">Title</h3>
+                    <h3 th:text="${show.title}">Titre</h3>
                     <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}">
                 </div>
 
+                <!-- Bloc des infos et actions -->
                 <div class="show-table">
                     <table>
                         <thead>
@@ -87,86 +118,84 @@
                         </tr>
                         <tr>
                             <th>Adresse :</th>
-                            <td th:text="${show.location.address}">Nom de la rue</td>
+                            <td th:text="${show.location.address}">Adresse</td>
                         </tr>
                         <tr>
                             <th>Ville :</th>
-                            <td th:text="|${show.location.locality.postalCode} ${show.location.locality.locality}|">Nom
-                                de la rue
-                            </td>
+                            <td th:text="|${show.location.locality.postalCode} ${show.location.locality.locality}|">Ville</td>
                         </tr>
-                        <!--                        <tr>-->
-                        <!--                            <th>Téléphone :</th>-->
-                        <!--                            <td th:text="${show.location.phone}">Num du tel</td>-->
-                        <!--                        </tr>-->
-                        <!--                        <tr>-->
-                        <!--                            <th>Site internet :</th>-->
-                        <!--                            <td><a th:text="${show.location.designation}" th:href="${show.location.website}" target="_blank">Site du net</a></td>-->
-                        <!--                        </tr>-->
                         </thead>
-
                         <tbody>
-                        <!-- TODO: Add the names of the artists who participated in the show -->
+                        <!-- Lignes d'information additionnelles (exemple pour les auteurs, à adapter si nécessaire) -->
                         <tr>
                             <th>Nom auteur :</th>
                             <td>noms, prenoms</td>
                         </tr>
                         </tbody>
                         <tfoot>
-                        <!-- Loop to display Date for show -->
+                        <!-- Affichage des représentations -->
                         <tr th:if="${#lists.size(show.representations)==1}">
                             <th>Représentation :</th>
                             <td>1 fois</td>
                         </tr>
-                        <tr th:if="${#lists.size(show.representations)>2}">
-                            <th>Représentation :</th>
+                        <tr th:if="${#lists.size(show.representations)>1}">
+                            <th>Représentations :</th>
                             <td th:text="|${#lists.size(show.representations)} fois|">x fois</td>
                         </tr>
-                        <!-- Loop to display price for show -->
+                        <!-- Affichage des prix -->
                         <tr th:if="${#lists.size(show.prices)==1}">
                             <th>Prix :</th>
-                            <td th:text="|${#lists.size(show.prices)} catégorie|">x catégorie</td>
+                            <td th:text="|${#lists.size(show.prices)} catégorie|">1 catégorie</td>
                         </tr>
                         <tr th:if="${#lists.size(show.prices)>=2}">
                             <th>Prix :</th>
                             <td th:text="|${#lists.size(show.prices)} catégories|">x catégories</td>
                         </tr>
-                        <!-- Duration -->
+                        <!-- Durée -->
                         <tr>
                             <th>Durée :</th>
                             <td><b><span th:text="${show.duration}"></span></b> minutes</td>
                         </tr>
+                        <!-- Ligne d'actions -->
+                        <tr sec:authorize="hasRole('ADMIN')">
+                            <th>Actions :</th>
+                            <td>
+                                <!-- Lien pour modifier -->
+                                <a th:href="@{/show/{id}/edit(id=${show.id})}" class="btn-modify">Modifier</a>
+                                <!-- Formulaire pour supprimer -->
+                                <form th:action="@{/show/{id}(id=${show.id})}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <button type="submit" class="btn-delete">Supprimer</button>
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                </form>
+                            </td>
+                        </tr>
                         </tfoot>
                     </table>
-
-                    <a type="button" th:href="@{/show/{id}(id=${show.id})}">Voir plus d'information</a>
+                    <!-- Lien "Voir plus d'information" (visible à tous) -->
+                    <div style="margin-top: 10px;">
+                        <a th:href="@{/show/{id}(id=${show.id})}" class="btn btn-info">Voir plus d'information</a>
+                    </div>
                 </div>
-
             </div>
         </div>
 
         <!-- Pagination -->
         <div>
             <ul class="pagination">
-                <!-- Display the "Previous" button if the previous page exists -->
                 <li th:if="${shows.hasPrevious()}" class="page-item">
-                    <a class="page-link" th:href="@{/shows(page=${currentPage - 1}, size=${size})}">Previous</a>
+                    <a class="page-link" th:href="@{/(page=${currentPage - 1}, size=${size})}">Previous</a>
                 </li>
-                <!-- Display page numbers around the current page -->
                 <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item"
                     th:if="${i >= currentPage - 1 and i <= currentPage + 1}">
-                    <a th:href="@{/shows(page=${i}, size=${size})}" th:text="${i + 1}"
+                    <a th:href="@{/(page=${i}, size=${size})}" th:text="${i + 1}"
                        th:classappend="${i == currentPage ? ' active' : ''}" class="page-link"></a>
                 </li>
-                <!-- Display the "Next" button if the following page exists -->
                 <li th:if="${shows.hasNext()}" class="page-item">
-                    <a class="page-link" th:href="@{/shows(page=${currentPage + 1}, size=${size})} ">Next</a>
+                    <a class="page-link" th:href="@{/(page=${currentPage + 1}, size=${size})}">Next</a>
                 </li>
             </ul>
         </div>
-    </div>
-
-
     </div>
 </div>
 </body>

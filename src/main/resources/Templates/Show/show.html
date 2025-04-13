@@ -69,7 +69,7 @@
                     <select>
                         <option th:each="price : ${show.prices}"
                                 th:value="${price.id}"
-                                th:text=" ${price.type} +': ' + ${price.price} + ' €'"></option>
+                                th:text=" ${price.type} +': ' + ${price.amount} + ' €'"></option>
                     </select>
                 </td>
                 <td>
