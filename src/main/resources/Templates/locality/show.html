@@ -2,23 +2,24 @@
 <html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>Fiche d'une localité</title>
+    <title>Détails d'une localité</title>
 </head>
 <body>
 <div class="container">
     <div layout:fragment="content">
-        <h1 th:text="|${locality.postalCode}  ${locality.locality}|">1000 Bruxelles</h1>
+        <h1 th:text="|${locality.postalCode} ${locality.locality}|">1000 Bruxelles</h1>
 
         <ul th:unless="${#lists.isEmpty(locality.locations)}">
             <li th:each="location : ${locality.locations}"
-                th:text="${location.designation}">Dexia Art center</li>
+                th:text="${location.designation}">Dexia Art Center</li>
         </ul>
 
         <p th:if="${#lists.isEmpty(locality.locations)}">Aucun lieu de spectacle.</p>
 
-        <nav><a th:href="@{/localities}">Retour à l'index</a></nav>
+        <nav>
+            <a th:href="@{/localities}">Retour à la liste</a>
+        </nav>
     </div>
 </div>
 </body>
 </html>
-
