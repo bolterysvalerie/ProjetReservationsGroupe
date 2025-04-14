@@ -15,12 +15,6 @@ import java.util.List;
 @Controller
 public class BackofficeController {
 
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("/backoffice")
-//    public String dashboard(Model model) {
-//        model.addAttribute("title", "Back-office");
-//        return "backoffice/index";
-//    }
 
     @Autowired
     private ShowService showService;
