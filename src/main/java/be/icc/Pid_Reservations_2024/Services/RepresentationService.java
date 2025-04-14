@@ -16,7 +16,6 @@ public class RepresentationService {
 
     @Autowired
     RepresentationRepository representationRepository;
-    private RepresentationRepository RepresentationRepository;
 
     // CREATE
     public void addRepresentation(Representation representation) {
@@ -49,43 +48,42 @@ public class RepresentationService {
     }
 
 
+    public Representation getRepresentation(long id) {
+        return representationRepository.findById(id).orElse(null);
+    }
+
+//    @Transactional
+//    public void deleteRepresentation(Long id) {
+//        Optional<Representation> repOpt = representationRepository.findById(id);
+//        if (repOpt.isPresent()) {
+//            Representation rep = repOpt.get();
+//        }
+//    }
+
     @Transactional
     public void deleteRepresentation(Long id) {
         Optional<Representation> repOpt = representationRepository.findById(id);
         if (repOpt.isPresent()) {
             Representation rep = repOpt.get();
 
-
-    //public Representation getRepresentation(long id) {
-     //   return RepresentationRepository.findById(id).orElse(null);
-    }
-}
-
-            // Vérifier si des utilisateurs ont déjà réservé cette représentation
+            // //Vérifier si des utilisateurs ont déjà réservé cette représentation
             //if (rep.getUsers() != null && !rep.getUsers().isEmpty()) {
-
+            //
             //    throw new IllegalStateException("La représentation ne peut pas être supprimée car elle a des réservations.");
-           // }
+            // }
 
-//   ?         // Nettoyer la relation avec Show
-//            if (rep.getShow() != null) {
-//                Show associatedShow = rep.getShow();
-//                // Assurez-vous que la collection de représentations dans Show est initialisée
-//                // Vous pouvez aussi utiliser une méthode dans l'entité Show pour retirer la représentation
-//                associatedShow.getRepresentations().remove(rep);
-//                rep.setShow(null);
-//            }
-            // Si besoin, nettoyer la relation avec le Show
-           // if (rep.getShow() != null) {
-            //    rep.getShow().getRepresentations().remove(rep);
-            //    rep.setShow(null);
-          //  }
+            // Si nécessaire, retirer l'association avec l'entité Show
+            if (rep.getShow() != null) {
+                rep.getShow().getRepresentations().remove(rep);
+                rep.setShow(null);
+            }
 
-            // supprimer l'entité Representation
-            //representationRepository.delete(rep);
-        //} else {
-            //throw new EntityNotFoundException("Representation with id " + id + " not found.");
-       // }
-    //}
+            // Supprimer l'entité Representation
+            representationRepository.delete(rep);
+        } else {
+            throw new EntityNotFoundException("Representation with id " + id + " not found.");
+        }
+    }
+
 
 }
