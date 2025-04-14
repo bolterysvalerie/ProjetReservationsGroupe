@@ -1,26 +1,79 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Liste des prix</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Liste des prix</h1>-->
+
+<!--<a th:href="@{/prices/create}">Créer un nouveau price</a>-->
+
+<!--<ul th:if="${prices}">-->
+<!--    <li th:each="p : ${prices}">-->
+<!--        <a th:href="@{/prices/{id}(id=${p.id})}"-->
+<!--           th:text="${p.type}">Type</a>-->
+<!--        - <span th:text="${p.amount}">0.00</span>-->
+<!--        (<form th:action="@{/prices/{id}(id=${p.id})}" method="post" style="display:inline;">-->
+<!--        <input type="hidden" name="_method" value="delete"/>-->
+<!--        <button type="submit">Supprimer</button>-->
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+<!--    </form>)-->
+<!--        <a th:href="@{/prices/{id}/edit(id=${p.id})}">Modifier</a>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+    <meta charset="UTF-8">
     <title>Liste des prix</title>
 </head>
-<body>
-<h1>Liste des prix</h1>
+<body layout:decorate="~{layouts/main}">
+<div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+    <div id="notification" th:replace="~{main :: notification}"></div>
 
-<a th:href="@{/prices/create}">Créer un nouveau price</a>
+    <h1>Liste des prix</h1>
 
-<ul th:if="${prices}">
-    <li th:each="p : ${prices}">
-        <a th:href="@{/prices/{id}(id=${p.id})}"
-           th:text="${p.type}">Type</a>
-        - <span th:text="${p.amount}">0.00</span>
-        (<form th:action="@{/prices/{id}(id=${p.id})}" method="post" style="display:inline;">
-        <input type="hidden" name="_method" value="delete"/>
-        <button type="submit">Supprimer</button>
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-    </form>)
-        <a th:href="@{/prices/{id}/edit(id=${p.id})}">Modifier</a>
-    </li>
-</ul>
+    <div class="actions">
+        <a th:href="@{/prices/create}">Créer un nouveau prix</a>
+    </div>
 
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Montant</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${prices}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.type}"></td>
+            <td th:text="${p.amount}"></td>
+            <td th:text="${#dates.format(p.start_date, 'dd/MM/yyyy')}"></td>
+            <td th:text="${#dates.format(p.end_date, 'dd/MM/yyyy')}"></td>
+            <td>
+                <a th:href="@{/prices/{id}(id=${p.id})}">Voir</a> |
+                <a th:href="@{/prices/{id}/edit(id=${p.id})}">Modifier</a> |
+                <form th:action="@{/prices/{id}(id=${p.id})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
