@@ -37,23 +37,6 @@ public class Representation {
         this.show = show;
     }
 
-    public Representation addUser(User user) {
-        if(!this.users.contains(user)) {
-            this.users.add(user);
-            user.addRepresentation(this);
-        }
-
-        return this;
-    }
-
-    public Representation removeUser(User user) {
-        if(this.users.contains(user)) {
-            this.users.remove(user);
-            user.getRepresentations().remove(this);
-        }
-
-        return this;
-    }
 
     // ToString
     @Override
