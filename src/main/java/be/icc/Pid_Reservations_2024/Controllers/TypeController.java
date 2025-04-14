@@ -5,6 +5,7 @@ import be.icc.Pid_Reservations_2024.Services.TypeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +19,7 @@ public class TypeController {
     @Autowired
     TypeService typeService;
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/types")
     public String index(Model model) {
         List<Type> types = typeService.getAllTypes();
@@ -29,6 +30,7 @@ public class TypeController {
         return "Type/index";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/type/{id}")
     public String show(@PathVariable("id") long id, Model model) {
         Type type = typeService.getType(id);
@@ -39,6 +41,7 @@ public class TypeController {
         return "Type/show";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/type/create")
     public String create(Model model) {
         Type type = new Type(null);
@@ -48,6 +51,7 @@ public class TypeController {
         return "Type/create";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/type/create")
     public String create(@Valid @ModelAttribute("addType") Type type, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
@@ -59,6 +63,7 @@ public class TypeController {
         return "redirect:/type/"+type.getId();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/type/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id, HttpServletRequest httpServletRequest) {
         Type type = typeService.getType(id);
@@ -77,6 +82,7 @@ public class TypeController {
         return "Type/edit";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/type/{id}/edit")
     public String update(@Valid @ModelAttribute("onetype") Type type, BindingResult bindingResult, @PathVariable("id") long id, Model model) {
         if(bindingResult.hasErrors()) {
@@ -94,6 +100,7 @@ public class TypeController {
         return "redirect:/type/"+type.getId();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/type/{id}")
     public String delete(@PathVariable("id") long id, Model model) {
         Type type = typeService.getType(id);
