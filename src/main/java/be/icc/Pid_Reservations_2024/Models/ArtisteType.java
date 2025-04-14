@@ -3,6 +3,7 @@ package be.icc.Pid_Reservations_2024.Models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,6 +37,15 @@ public class ArtisteType {
     )
     private List<Show> shows;
 
+    public static ArtisteType create(Artist artist, Type type, List<Show> shows) {
+        return new ArtisteType(artist, type, shows);
+    }
+
+    public static ArtisteType empty() {
+        return new ArtisteType(null, null, new ArrayList<>());
+    }
+
+
     // Constructeur supplémentaire (avec paramètres pour artist, type et shows)
     public ArtisteType(Artist artist, Type type, List<Show> shows) {
         this.artist = artist;
@@ -47,7 +57,9 @@ public class ArtisteType {
     public ArtisteType addShow(Show show) {
         if (!this.shows.contains(show)) {
             this.shows.add(show);
-            show.addArtistType(this);
+            //show.addArtistType(this);
+            // Synchronise l'autre côté, si Show possède une collection d'ArtisteType
+            show.getArtistTypes().add(this);
         }
         return this;
     }
