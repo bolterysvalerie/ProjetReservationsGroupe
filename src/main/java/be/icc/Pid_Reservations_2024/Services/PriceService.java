@@ -24,8 +24,12 @@ public class PriceService {
         return prices;
     }
 
+    //public Price getOne(Long id) {
+    //    return priceRepository.findById(id).orElse(null);
+    //}
+
     public Price getOne(Long id) {
-        return priceRepository.findById(id).orElse(null);
+        return priceRepository.findByIdWithShows(id);
     }
 
     public List<Price> getByIds(List<Long> ids) {
