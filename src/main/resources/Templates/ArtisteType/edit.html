@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier le Lien Artiste-Type</title>
+    <link rel="stylesheet" href="/css/formulaire/formulaire.css">
+</head>
+<body>
+<h1>Modifier le Lien Artiste-Type</h1>
+<form th:action="@{'/artiste-types/' + ${artisteType.id} + '/edit'}" method="post">
+    <label for="artistId">Artiste :</label>
+    <select id="artistId" name="artistId" required>
+        <option th:each="artist : ${artists}"
+                th:value="${artist.id}"
+                th:text="${artist.firstname + ' ' + artist.lastname}"
+                th:selected="${artist.id == artisteType.artist.id}"></option>
+    </select>
+    <br><br>
+    <label for="typeId">Type :</label>
+    <select id="typeId" name="typeId" required>
+        <option th:each="type : ${types}"
+                th:value="${type.id}"
+                th:text="${type.type}"
+                th:selected="${type.id == artisteType.type.id}"></option>
+    </select>
+    <br><br>
+    <label>Spectacle(s) :</label>
+    <select name="showIds" multiple>
+        <option th:each="show : ${shows}"
+                th:value="${show.id}"
+                th:text="${show.title}"
+                th:selected="${#lists.contains(artisteType.shows, show)}">
+        </option>
+    </select>
+    <br><br>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <button type="submit">Modifier</button>
+</form>
+<a th:href="@{/artiste-types}">Retour à la liste</a>
+</body>
+</html>

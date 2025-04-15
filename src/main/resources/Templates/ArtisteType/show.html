@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails du Lien Artiste-Type</title>
+    <link rel="stylesheet" href="/css/formulaire/formulaire.css">
+</head>
+<body>
+<h1>Détails du Lien Artiste-Type</h1>
+
+<div>
+    <p><strong>ID :</strong> <span th:text="${artisteType.id}"></span></p>
+    <p>
+        <strong>Artiste :</strong>
+        <span th:text="${artisteType.artist.firstname + ' ' + artisteType.artist.lastname}"></span>
+    </p>
+    <p><strong>Type :</strong> <span th:text="${artisteType.type.type}"></span></p>
+    <p><strong>Spectacles associés :</strong></p>
+    <ul>
+        <li th:each="show : ${artisteType.shows}" th:text="${show.title}">Titre du spectacle</li>
+    </ul>
+</div>
+
+<div>
+    <a th:href="@{'/artiste-types/' + ${artisteType.id} + '/edit'}">Modifier</a>
+    <a th:href="@{/artiste-types}">Retour à la liste</a>
+</div>
+</body>
+</html>

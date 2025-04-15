@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Update an artist</title>
+    <link rel="stylesheet" href="/css/formulaire/formulaire.css">
     <style>
         .fieldError { color: red; }
     </style>
@@ -40,3 +41,57 @@
 </div>
 </body>
 </html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="fr" xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"-->
+<!--      layout:decorate="~{layouts/main}">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Modifier l'artiste</title>-->
+<!--    <style>-->
+<!--        .fieldError { color: red; }-->
+<!--        .checkbox-group { margin-bottom: 15px; }-->
+<!--        .checkbox-group label { margin-right: 10px; display: inline-block; }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container" layout:fragment="content">-->
+<!--    <h1 th:text="|${artist.firstname} ${artist.lastname}|">Artist Name</h1>-->
+
+<!--    <form th:action="@{/artist/{id}/edit(id=${artist.id})}" th:object="${artist}" method="post">-->
+<!--        &lt;!&ndash; Gestion de la méthode PUT &ndash;&gt;-->
+<!--        <input type="hidden" name="_method" value="put" />-->
+
+<!--        &lt;!&ndash; Champ pour le prénom &ndash;&gt;-->
+<!--        <div>-->
+<!--            <label for="firstname">Firstname:</label>-->
+<!--            <input type="text" id="firstname" th:field="*{firstname}" />-->
+<!--            <p th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" class="fieldError"></p>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Champ pour le nom &ndash;&gt;-->
+<!--        <div>-->
+<!--            <label for="lastname">Lastname:</label>-->
+<!--            <input type="text" id="lastname" th:field="*{lastname}" />-->
+<!--            <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" class="fieldError"></p>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Sélectionner les types via des check-boxes &ndash;&gt;-->
+<!--        <div class="checkbox-group">-->
+<!--            <label>Type(s) :</label><br/>-->
+<!--            <div th:each="t : ${types}">-->
+<!--                <label>-->
+<!--                    <input type="checkbox" name="typeIds" th:id="'typeCheckbox_' + ${t.id}" th:value="${t.id}"-->
+<!--                           th:checked="${artist.types != null and artist.types.contains(t)}" />-->
+<!--                    <span th:text="${t.type}">Nom du type</span>-->
+<!--                </label><br/>-->
+<!--            </div>-->
+<!--            <small>Cocher les cases correspondant aux types de l'artiste.</small>-->
+<!--        </div>-->
+
+<!--        <button type="submit">Mettre à jour</button>-->
+<!--    </form>-->
+
+<!--    <a th:href="@{/artist/{id}(id=${artist.id})}">Annuler</a>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

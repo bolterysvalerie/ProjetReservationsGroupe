@@ -27,6 +27,15 @@ public class TypeService {
         return typeId.isPresent() ? typeId.get() : null;
     }
 
+    public List<Type> getByIds(List<Long> ids) {
+        // La méthode findAllById de JpaRepository retourne un Iterable,
+        // que nous convertissons en List.
+        Iterable<Type> iterable = typeRepository.findAllById(ids);
+        List<Type> types = new ArrayList<>();
+        iterable.forEach(types::add);
+        return types;
+    }
+
     public void createType(Type type){
         typeRepository.save(type);
     }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier un lieu</title>
+</head>
+<body>
+<h1>Modifier le lieu</h1>
+
+<form th:action="@{/locations/{id}/edit(id=${locationForm.id})}"
+      th:object="${locationForm}" method="post">
+    <input type="hidden" name="_method" value="put"/>
+
+    <label>Désignation : <input type="text" th:field="*{designation}"/></label><br>
+    <label>Slug (généré automatiquement) :
+        <input type="text" th:value="${locationForm.slug}" disabled/>
+    </label><br>
+    <label>Adresse : <input type="text" th:field="*{address}"/></label><br>
+    <label>Site web : <input type="text" th:field="*{website}"/></label><br>
+    <label>Téléphone : <input type="text" th:field="*{phone}"/></label><br>
+
+    <label>Localité :
+        <select th:field="*{locality}">
+            <option th:each="locality : ${localities}"
+                    th:value="${locality.id}"
+                    th:text="${locality.postalCode + ' ' + locality.locality}"
+                    th:selected="${locality.id == locationForm.locality.id}">
+            </option>
+        </select>
+    </label><br>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <button type="submit">Mettre à jour</button>
+</form>
+
+<a th:href="${back}">Annuler</a>
+
+</body>
+</html>

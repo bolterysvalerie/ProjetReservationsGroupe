@@ -1,21 +1,26 @@
 package be.icc.Pid_Reservations_2024.Controllers;
 
-import be.icc.Pid_Reservations_2024.Models.Artist;
-import be.icc.Pid_Reservations_2024.Models.ArtisteType;
-import be.icc.Pid_Reservations_2024.Models.Show;
+import be.icc.Pid_Reservations_2024.Models.*;
+import be.icc.Pid_Reservations_2024.Services.LocationService;
+import be.icc.Pid_Reservations_2024.Services.PriceService;
 import be.icc.Pid_Reservations_2024.Services.ShowService;
+import com.github.slugify.Slugify;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,6 +28,12 @@ public class ShowController {
 
     @Autowired
     private ShowService showService;
+
+    @Autowired
+    private LocationService locationService;
+
+    @Autowired
+    private PriceService priceService;
 
     /**
      * @param page  the current page number
@@ -69,5 +80,194 @@ public class ShowController {
         model.addAttribute("TheTitle", "Details of the Show");
 
         return "Show/show";
+    }
+
+    // --- Opérations accessibles uniquement aux ADMIN ---
+
+    /**
+     * Traite la soumission du formulaire pour créer un nouveau show.
+     *
+     * Accessible uniquement par les administrateurs.
+     *
+     * @param model             modèle pour la vue
+     @return la vue "Show/create"
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/show/create")
+    public String create(Model model) {
+        if (!model.containsAttribute("show")) {
+            model.addAttribute("show", new Show());
+           // model.addAttribute("prices", priceService.getAll());
+        }
+        // Charger la liste des lieux disponibles
+        model.addAttribute("locations", locationService.getAll());
+        return "Show/create";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/show/create")
+    public String store(
+            @Valid @ModelAttribute("show") Show showForm,
+            @RequestParam(value="locationId", required=false) Long locationId,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirAttrs
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "Show/create";
+        }
+
+        // Gérer l'ID du location si besoin
+        if (locationId != null) {
+            Location loc = locationService.get(locationId.toString());
+            if (loc == null) {
+                model.addAttribute("errorMessage", "Le lieu sélectionné n'existe pas !");
+                return "Show/create";
+            }
+            showForm.setLocation(loc);
+        }
+
+        // Générer le slug si nécessaire
+        if (showForm.getSlug() == null || showForm.getSlug().trim().isEmpty()) {
+            try {
+                Slugify slg = Slugify.builder().build();
+                showForm.setSlug(slg.slugify(showForm.getTitle()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                model.addAttribute("errorMessage", "Erreur lors de la génération du slug.");
+                return "Show/create";
+            }
+        }
+
+        if (showForm.getPrices() != null && !showForm.getPrices().isEmpty()) {
+            List<Price> attachedPrices = new ArrayList<>();
+            for (Price price : showForm.getPrices()) {
+                List<Price> allPrices = priceService.getAll(); // Récupère tous les prix
+                for (Price realPrice : allPrices) {
+                    if (realPrice.getId().equals(price.getId())) { // Vérifie si l'ID correspond
+                        attachedPrices.add(realPrice);
+                        break;
+                    }
+                }
+            }
+            showForm.setPrices(attachedPrices);
+        }
+
+        showService.add(showForm);
+        redirAttrs.addFlashAttribute("successMessage", "Show ajouté avec succès !");
+        return "redirect:/show/" + showForm.getId();
+    }
+
+
+    /**
+     * Affiche le formulaire d'édition d'un show existant.
+     *
+     * Accessible uniquement par les administrateurs.
+     *
+     * @param id              identifiant du show à modifier
+     * @param model           modèle pour la vue
+     * @param request         requête HTTP (pour récupérer la référence de la page précédente)
+     * @return la vue "Show/edit"
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/show/{id}/edit")
+    public String edit(@PathVariable("id") long id,
+                       Model model,
+                       HttpServletRequest request) {
+        Show show = showService.getShow(id);
+        if (show == null) {
+
+            return "redirect:/";
+        }
+
+        model.addAttribute("show", show);
+        model.addAttribute("locations", locationService.getAll());
+
+        // Gérer le lien retour
+        String referrer = request.getHeader("Referer");
+        model.addAttribute("back", (referrer != null && !referrer.isEmpty()) ? referrer : "/show/" + id);
+
+        return "Show/edit";
+    }
+
+    /**
+     * Traite la soumission du formulaire d'édition d'un show.
+     *
+     * Accessible uniquement par les administrateurs.
+     *
+     * @param bindingResult   résultat de la validation
+     * @param id              identifiant du show
+     * @param model           modèle pour la vue
+     * @param redirAttrs      attributs de redirection
+     * @return redirection vers le détail du show
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/show/{id}/edit")
+    public String update(
+            @Valid @ModelAttribute("show") Show showForm,
+            @RequestParam("locationId") Long locationId,  // <-- l’ID du location sélectionné
+            BindingResult bindingResult,
+            @PathVariable("id") long id,
+            Model model,
+            RedirectAttributes redirAttrs
+    ) {
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("locations", locationService.getAll());
+            return "Show/edit";
+        }
+
+        // Récupère le show existant en base
+        Show existingShow = showService.getShow(id);
+        if (existingShow == null) {
+            redirAttrs.addFlashAttribute("errorMessage", "Show introuvable !");
+            return "redirect:/";
+        }
+
+        // Récupère le location choisi
+        Location loc = locationService.get(locationId.toString());
+        if (loc == null) {
+            model.addAttribute("errorMessage", "Le lieu sélectionné n'existe pas !");
+            model.addAttribute("locations", locationService.getAll());
+            return "Show/edit";
+        }
+
+        // Mettre à jour seulement les champs nécessaires
+        existingShow.setTitle(showForm.getTitle());
+        existingShow.setPosterUrl(showForm.getPosterUrl());
+        existingShow.setDuration(showForm.getDuration());
+        existingShow.setCreated_in(showForm.getCreated_in());
+        existingShow.setBookable(showForm.getBookable());
+
+        // Associer le Location existant
+        existingShow.setLocation(loc);
+
+        // Persister le tout
+        showService.update(id, existingShow);
+
+        redirAttrs.addFlashAttribute("successMessage", "Show mis à jour avec succès !");
+        return "redirect:/show/" + id;
+    }
+
+    /**
+     * Supprime un show existant.
+     *
+     * Accessible uniquement par les administrateurs.
+     *
+     * @param id             identifiant du show à supprimer
+     * @param redirAttrs     attributs de redirection
+     * @return redirection vers la page d'accueil des shows
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/show/{id}")
+    public String delete(@PathVariable("id") long id, RedirectAttributes redirAttrs) {
+        Show existingShow = showService.getShow(id);
+        if (existingShow != null) {
+            showService.delete(id);
+            redirAttrs.addFlashAttribute("successMessage", "Show supprimé avec succès !");
+        } else {
+            redirAttrs.addFlashAttribute("errorMessage", "Erreur lors de la suppression du show !");
+        }
+        return "redirect:/";
     }
 }

@@ -8,8 +8,9 @@
 <div class="container">
     <div layout:fragment="content">
         <article>
-            <h1 th:text="'Représentation du '+${date}+' à '+${heure}">
-                Représentation du 15/01/2020 à 13:30
+            <h1 th:text="'Représentation du ' + ${#temporals.format(representation.schedule, 'dd-MM-yyyy')}
+                          + ' à ' + ${#temporals.format(representation.schedule, 'HH:mm')}">
+                Représentation du 15-01-2020 à 13:30
             </h1>
             <p><strong>Spectacle:</strong>
                 <span th:text="${representation.show.title}">Ayiti</span>

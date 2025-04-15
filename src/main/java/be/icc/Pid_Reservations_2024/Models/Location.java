@@ -53,6 +53,51 @@ public class Location {
         this.locality = locality;
     }
 
+    public Location addShow(Show show) {
+        if(!this.shows.contains(show)) {
+            this.shows.add(show);
+            show.setLocation(this);
+        }
+
+        return this;
+    }
+
+    public Location removeShow(Show show) {
+        if(this.shows.contains(show)) {
+            this.shows.remove(show);
+            if(show.getLocation().equals(this)) {
+                show.setLocation(null);
+            }
+        }
+
+        return this;
+    }
+
+
+    public List<Representation> getRepresentations() {
+        return representations;
+    }
+
+    public Location addRepresentation(Representation representation) {
+        if(!this.representations.contains(representation)) {
+            this.representations.add(representation);
+            representation.setLocation(this);
+        }
+
+        return this;
+    }
+
+    public Location removeRepresentation(Representation representation) {
+        if(this.representations.contains(representation)) {
+            this.representations.remove(representation);
+            if(representation.getLocation().equals(this)) {
+                representation.setLocation(null);
+            }
+        }
+
+        return this;
+    }
+
     // ToString
     @Override
     public String toString() {

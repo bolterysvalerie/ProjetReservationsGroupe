@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/main}">
 <head>
     <meta charset="UTF-8">
@@ -71,6 +71,12 @@
     <div layout:fragment="content">
         <h1 th:text="${thetitle}">List_of_Shows</h1>
 
+        <!-- Lien pour ajouter un spectacle (visible uniquement aux ADMIN) -->
+        <div sec:authorize="hasRole('ADMIN')" style="margin-bottom: 20px;">
+            <a th:href="@{/show/create}" class="btn btn-primary">Ajouter un spectacle</a>
+        </div>
+
+        <!-- Boucle sur chaque spectacle -->
         <div th:each="show : ${shows}">
             <div class="show-container">
                 <div class="show">
@@ -136,6 +142,20 @@
                         <tr>
                             <th>Durée :</th>
                             <td><b><span th:text="${show.duration}"></span></b> minutes</td>
+                        </tr>
+                        <!-- Ligne d'actions -->
+                        <tr sec:authorize="hasRole('ADMIN')">
+                            <th>Actions :</th>
+                            <td>
+                                <!-- Lien pour modifier -->
+                                <a th:href="@{/show/{id}/edit(id=${show.id})}" class="btn-modify">Modifier</a>
+                                <!-- Formulaire pour supprimer -->
+                                <form th:action="@{/show/{id}(id=${show.id})}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <button type="submit" class="btn-delete">Supprimer</button>
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                </form>
+                            </td>
                         </tr>
                         </tfoot>
                     </table>

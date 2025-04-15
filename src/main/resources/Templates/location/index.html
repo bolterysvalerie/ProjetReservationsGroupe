@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des lieux</title>
+</head>
+<body layout:decorate="~{layouts/main}">
+<div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+    <div id="notification" th:replace="~{main :: notification}"></div>
+    <h1>Liste des lieux</h1>
+
+    <div class="actions">
+        <a th:href="@{/locations/create}">Ajouter un lieu</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Désignation</th>
+            <th>Slug</th>
+            <th>Adresse</th>
+            <th>Localité</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="location : ${locations}">
+            <td th:text="${location.designation}">Désignation</td>
+            <td th:text="${location.slug}">slug</td>
+            <td th:text="${location.address}">Adresse</td>
+            <td th:text="${location.locality.postalCode + ' ' + location.locality.locality}">Localité</td>
+            <td>
+                <a th:href="@{/locations/{id}(id=${location.id})}">Voir</a> |
+                <a th:href="@{/locations/{id}/edit(id=${location.id})}">Modifier</a> |
+                <form th:action="@{/locations/{id}(id=${location.id})}" method="post" style="display:inline">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" onclick="return confirm('Supprimer ce lieu ?')">Supprimer</button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

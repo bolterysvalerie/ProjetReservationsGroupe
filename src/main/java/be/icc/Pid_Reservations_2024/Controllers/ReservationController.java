@@ -18,6 +18,7 @@ public class ReservationController {
     @GetMapping("/reservation/{id}")
     public String reservation(@PathVariable("id") long id, Model model) throws JsonProcessingException {
         Representation representation =  representationService.getRepresentation(id);
+       // Representation representation =  representationService.getById(id);
 
         model.addAttribute("representation", representation);
         model.addAttribute("title", representation.getShow().getTitle());

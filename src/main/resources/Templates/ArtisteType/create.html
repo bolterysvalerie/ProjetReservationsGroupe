@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Créer un Lien Artiste-Type</title>
+    <link rel="stylesheet" href="/css/formulaire/formulaire.css">
+</head>
+<body>
+<h1>Créer un Lien Artiste-Type et Spectacle</h1>
+<form th:action="@{/artiste-types/create}" method="post">
+    <div>
+        <label for="artistId">Artiste :</label>
+        <select id="artistId" name="artistId" required>
+            <option th:each="artist : ${artists}"
+                    th:value="${artist.id}"
+                    th:text="${artist.firstname + ' ' + artist.lastname}"></option>
+        </select>
+    </div>
+    <!-- Sélection de shows sous forme de checkbox -->
+    <div>
+        <label>Spectacle(s) :</label>
+        <div th:each="show : ${shows}">
+                <input type="checkbox" name="showIds" th:value="${show.id}" th:id="${'show_' + show.id}" />
+                <label th:for="${'show_' + show.id}" th:text="${show.title}"></label>
+            </div>
+
+    </div>
+    <br>
+    <div>
+        <label>Type(s) :</label>
+        <div th:each="type : ${types}">
+            <input type="checkbox" name="typeIds" th:id="${'type_' + type.id}" th:value="${type.id}"/>
+            <label th:for="${'type_' + type.id}" th:text="${type.type}"></label>
+        </div>
+    </div>
+    <br>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <button type="submit">Créer</button>
+</form>
+<a th:href="@{/artiste-types}">Retour à la liste</a>
+</body>
+</html>
