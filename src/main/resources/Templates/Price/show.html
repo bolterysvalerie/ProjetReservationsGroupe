@@ -1,31 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main}"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
 <head>
+    <meta charset="UTF-8">
     <title>Détails d'un Price</title>
 </head>
 <body>
-<h1>Informations sur le price</h1>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div layout:fragment="content">
+    <h1>Informations sur le price</h1>
 
-<!-- Affichage des champs de l'entité -->
-<p><strong>Type :</strong> <span th:text="${price.type}">type_value</span></p>
-<p><strong>Montant :</strong> <span th:text="${price.amount}">0.00</span></p>
-<p><strong>Début :</strong> <span th:text="${price.start_date}">2025-01-01</span></p>
-<p><strong>Fin :</strong> <span th:text="${price.end_date}">2025-12-31</span></p>
+    <!-- Affichage des champs de l'entité -->
+    <p><strong>Type :</strong> <span th:text="${price.type}">type_value</span></p>
+    <p><strong>Montant :</strong> <span th:text="${price.amount}">0.00</span></p>
+    <p><strong>Début :</strong> <span th:text="${price.start_date}">2025-01-01</span></p>
+    <p><strong>Fin :</strong> <span th:text="${price.end_date}">2025-12-31</span></p>
 
-<!-- Liens pour modifier ou supprimer le price (optionnels) -->
-<nav>
-    <!-- Lien Edit -->
-    <a th:href="@{/prices/{id}/edit(id=${price.id})}">Modifier</a>
+    <!-- Liens pour modifier ou supprimer le price (optionnels) -->
+    <nav>
+        <!-- Lien Edit -->
+        <a th:href="@{/prices/{id}/edit(id=${price.id})}">Modifier</a>
 
-    <!-- Formulaire de suppression -->
-    <form th:action="@{/prices/{id}(id=${price.id})}" method="post" style="display:inline;">
-        <input type="hidden" name="_method" value="delete" />
-        <button type="submit">Supprimer</button>
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-    </form>
+        <!-- Formulaire de suppression -->
+        <form th:action="@{/prices/{id}(id=${price.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit">Supprimer</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
 
-    <!-- Lien de retour vers la liste -->
-    <a th:href="@{/prices}">Retour à la liste</a>
-</nav>
+        <!-- Lien de retour vers la liste -->
+        <a th:href="@{/prices}">Retour à la liste</a>
+    </nav>
+</div>
 </body>
 </html>

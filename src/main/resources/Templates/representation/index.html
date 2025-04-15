@@ -2,15 +2,16 @@
 <html lang="fr"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Liste des représentations de spectacle</title>
 </head>
-<body layout:decorate="~{layouts/main}">
+<body>
+<div id="notification" th:replace="~{main :: notification}"></div>
 <div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
     <!--    Inclusion du fragment de notification défini dans votre layout principal-->
-    <div id="notification" th:replace="~{main :: notification}"></div>
 
     <h1 th:text="${title}">Liste des représentations de spectacle</h1>
 
