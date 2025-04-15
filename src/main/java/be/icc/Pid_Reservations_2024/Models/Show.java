@@ -57,6 +57,15 @@ public class Show {
     @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
     private List<ArtisteType> artiste_types;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "show_tag",
+            joinColumns = @JoinColumn(name = "show_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    //list de tags du show
+    private List<Tag> tags;
+
     // Constructor with params
     public Show(String title, String posterUrl, LocalDateTime created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();

@@ -71,6 +71,30 @@
     <div layout:fragment="content">
         <h1 th:text="${thetitle}">List_of_Shows</h1>
 
+        <!-- Formulaire de recherche -->
+<!--        <form th:action="@{/shows}" method="get" style="margin-bottom: 20px;">-->
+<!--            <input type="text" name="keyword" placeholder="Rechercher un spectacle..." th:value="${keyword}">-->
+<!--            <button type="submit">Rechercher</button>-->
+<!--        </form>-->
+
+        <!-- Formulaire de recherche avec option d'exclusion -->
+        <form th:action="@{/shows}" method="get" style="margin-bottom: 20px;">
+            <input type="text" name="keyword" placeholder="Rechercher un spectacle..." th:value="${keyword}">
+            <label>
+                <input type="checkbox" name="exclude" th:value="true" th:checked="${exclude}"> Exclure
+            </label>
+            <button type="submit">Rechercher</button>
+        </form>
+
+
+        <!-- Résultats de recherche -->
+        <div th:if="${keyword != null && keyword != ''}">
+            <p th:text="|${shows.totalElements} résultat(s) pour '${keyword}'|"></p>
+        </div>
+
+
+
+
         <!-- Lien pour ajouter un spectacle (visible uniquement aux ADMIN) -->
         <div sec:authorize="hasRole('ADMIN')" style="margin-bottom: 20px;">
             <a th:href="@{/show/create}" class="btn btn-primary">Ajouter un spectacle</a>

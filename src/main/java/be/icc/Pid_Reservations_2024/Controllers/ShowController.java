@@ -4,6 +4,7 @@ import be.icc.Pid_Reservations_2024.Models.*;
 import be.icc.Pid_Reservations_2024.Services.LocationService;
 import be.icc.Pid_Reservations_2024.Services.PriceService;
 import be.icc.Pid_Reservations_2024.Services.ShowService;
+import be.icc.Pid_Reservations_2024.Services.TagService;
 import com.github.slugify.Slugify;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,6 +36,9 @@ public class ShowController {
     @Autowired
     private PriceService priceService;
 
+    @Autowired
+    private TagService tagService;
+
     /**
      * @param page  the current page number
      * @param size  the number of shows per page
@@ -42,16 +46,27 @@ public class ShowController {
      * @return the name of the view to display
      */
     @GetMapping("/shows")
-    public String shows(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
+    public String shows(@RequestParam(defaultValue = "") String keyword,
+                        @RequestParam(defaultValue = "false") boolean exclude,
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "5") int size, Model model) {
         // Create pagination object
         Pageable pageable = PageRequest.of(page, size);
         // Get the shows for the current page
-        Page<Show> showPage = showService.getAllShows(pageable);
+
+        Page<Show> showPage;
+        if (exclude) {
+            // Exclure les spectacles avec ce tag
+            showPage = showService.getAllShowsByExclureTags(keyword, PageRequest.of(page, size));
+        } else {
+            // Recherche normale sans exclusion
+            showPage = showService.getAllShowsByTags(PageRequest.of(page, size), keyword);
+        }
 
         // Add All necessary data to the model to be used in the view
         model.addAttribute("shows", showPage);
         model.addAttribute("thetitle", "List of Shows");
-
+        model.addAttribute("keyword", keyword);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", showPage.getTotalPages());
 
@@ -78,6 +93,7 @@ public class ShowController {
         model.addAttribute("show", show);
         model.addAttribute("collaborators", collaborators);
         model.addAttribute("TheTitle", "Details of the Show");
+        model.addAttribute("allTags", tagService.findAll());
 
         return "Show/show";
     }
@@ -269,5 +285,15 @@ public class ShowController {
             redirAttrs.addFlashAttribute("errorMessage", "Erreur lors de la suppression du show !");
         }
         return "redirect:/";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/show/{id}/add-tag")
+    public String addTagToShow(@PathVariable Long id, @RequestParam Long tagId) {
+        Show show = showService.getShow(id);
+        Tag tag = tagService.findById(tagId).orElseThrow(() -> new IllegalArgumentException("tag not found"));
+        show.getTags().add(tag);
+        showService.save(show);
+        return "redirect:/show/" + id;
     }
 }

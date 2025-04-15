@@ -92,6 +92,29 @@
             </div>
         </div>
 
+        <div>
+            <h3>Tags</h3>
+            <ul>
+                <li th:each="tag : ${show.tags}" th:text="|${tag.tag}|"></li>
+            </ul>
+
+        </div>
+
+        <div style="margin-top: 50px;margin-bottom: 50px; border: solid 1px; text-align: center">
+            <h2>Ajouter un tag à ce spectacle</h2>
+            <form th:action="@{/show/{id}/add-tag(id=${show.id})}" method="post">
+                <label for="tag">Tag :</label>
+                <select name="tagId" id="tag">
+                    <option th:each="tag : ${allTags}"
+                            th:value="${tag.id}"
+                            th:text="${tag.tag}">
+                    </option>
+                </select>
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
+
+
     </div>
 </div>
 </div>

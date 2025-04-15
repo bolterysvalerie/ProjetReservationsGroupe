@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,10 @@ public class ShowService {
      */
     public Page<Show> getAllShows(Pageable pageable) {
         return showRepository.findAll(pageable);
+    }
+
+    public Page<Show> getAllShowsByTags(Pageable pageable, String tags) {
+        return showRepository.findByTagNameContaining(tags, pageable);
     }
 
     public List<Show> getAll() {
@@ -120,6 +125,15 @@ public class ShowService {
 
     public List<Show> getFromLocation(Location location) {
         return showRepository.findByLocation(location);
+    }
+
+    public Show save(Show show) {
+        return showRepository.save(show);
+    }
+
+
+    public Page<Show> getAllShowsByExclureTags(String keyword, PageRequest of) {
+        return showRepository.findByTagsNotContaining(of, keyword);
     }
 
 }

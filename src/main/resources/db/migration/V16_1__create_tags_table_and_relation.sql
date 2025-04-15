@@ -1,22 +1,17 @@
-CREATE TABLE IF NOT EXISTS reviews
-(
-    id        BIGINT    NOT NULL AUTO_INCREMENT,
-    stars     SMALLINT,
-    validated BOOLEAN,
-    create_at TIMESTAMP NULL DEFAULT NULL,
-    update_ad TIMESTAMP NULL DEFAULT NULL,
-    review    TEXT,
+CREATE TABLE IF NOT EXISTS tags (
+    id   BIGINT NOT NULL AUTO_INCREMENT,
+    tag  VARCHAR(30) NOT NULL UNIQUE,
     PRIMARY KEY (id)
-);
+    );
 
-ALTER TABLE reviews
-    ADD COLUMN show_id BIGINT NOT NULL AFTER id,
-    ADD COLUMN user_id BIGINT NOT NULL AFTER show_id;
-
-ALTER TABLE reviews
-    ADD CONSTRAINT fk_reviews_user FOREIGN KEY (user_id)
-        REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE reviews
-    ADD CONSTRAINT fk_reviews_show FOREIGN KEY (show_id)
-        REFERENCES shows (id) ON UPDATE CASCADE ON DELETE CASCADE;
+CREATE TABLE IF NOT EXISTS show_tag (
+    show_id BIGINT NOT NULL,
+    tag_id  BIGINT NOT NULL,
+    PRIMARY KEY (show_id, tag_id),
+    FOREIGN KEY (show_id) REFERENCES shows(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+    FOREIGN KEY (tag_id) REFERENCES tags(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+    );
