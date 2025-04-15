@@ -28,7 +28,7 @@ public class PriceController {
 
     // 1) LISTE PRICES
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
+    @GetMapping("/")
     public String index(Model model) {
         List<Price> prices = priceService.getAll();
         model.addAttribute("prices", prices);

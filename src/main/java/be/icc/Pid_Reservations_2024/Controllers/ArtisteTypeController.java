@@ -1,80 +1,3 @@
-//package be.icc.Pid_Reservations_2024.Controllers;
-//
-//import be.icc.Pid_Reservations_2024.Models.ArtisteType;
-//import be.icc.Pid_Reservations_2024.Models.Artist;
-//import be.icc.Pid_Reservations_2024.Models.Type;
-//import be.icc.Pid_Reservations_2024.Services.ArtisteTypeService;
-//import be.icc.Pid_Reservations_2024.Services.ArtistService;
-//import be.icc.Pid_Reservations_2024.Services.TypeService;
-////import ch.qos.logback.core.model.Model;
-//import org.springframework.ui.Model;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-//
-//
-//import java.util.List;
-//
-////@Controller
-////@RequestMapping("/artiste-types")
-////public class ArtisteTypeController {
-////
-////    @Autowired
-////    private ArtisteTypeService artisteTypeService;
-////
-////    @Autowired
-////    private ArtistService artistService;
-////
-////    @Autowired
-////    private TypeService typeService;
-////
-////    @PostMapping("/link")
-////    public ArtisteType linkArtistToTypes(@RequestParam Long artistId, @RequestParam List<Long> typeIds) {
-////        Artist artist = artistService.getById(artistId);
-////        List<Type> types = typeService.getByIds(typeIds);
-////
-////        return artisteTypeService.createArtisteType(artist, types);
-////    }
-////}
-//
-//@Controller
-//@RequestMapping("/artiste-types")
-//public class ArtisteTypeController {
-//
-//    @Autowired
-//    private ArtisteTypeService artisteTypeService;
-//
-//    @Autowired
-//    private ArtistService artistService;
-//
-//    @Autowired
-//    private TypeService typeService;
-//
-//    // Affichage du formulaire
-//    @GetMapping("/link")
-//    public String showForm(Model model) {
-//        model.addAttribute("artists", artistService.getAllArtists());
-//        model.addAttribute("types", typeService.getAllTypes());
-//        return "ArtisteType/link"; // le nom de ton fichier HTML dans templates/ArtisteType/link.html
-//    }
-//
-//    // Traitement du formulaire
-//    @PostMapping("/link")
-//    public String linkArtistToTypes(@RequestParam Long artistId,
-//                                    @RequestParam List<Long> typeIds,
-//                                    RedirectAttributes redirectAttributes) {
-//
-//        Artist artist = artistService.getById(artistId);
-//        List<Type> types = typeService.getByIds(typeIds);
-//
-//        artisteTypeService.createArtisteTypes(artist, types);
-//
-//        redirectAttributes.addFlashAttribute("successMessage", "Artiste lié aux types !");
-//        return "redirect:/artiste-types/link"; // ou autre redirection souhaitée
-//    }
-//}
-
 package be.icc.Pid_Reservations_2024.Controllers;
 
 import be.icc.Pid_Reservations_2024.Models.ArtisteType;
@@ -121,7 +44,7 @@ public class ArtisteTypeController {
     public String index(Model model) {
         List<ArtisteType> artisteTypes = artisteTypeService.getAll();
         model.addAttribute("artisteTypes", artisteTypes);
-        return "ArtisteType/index"; // Fichier : templates/ArtisteType/index.html
+        return "ArtisteType/index";
     }
 
     // Afficher le formulaire de création d'un lien
@@ -134,7 +57,7 @@ public class ArtisteTypeController {
         model.addAttribute("shows", showService.getAll());
         // On peut envoyer un objet vide pour le data binding si besoin (optionnel)
         model.addAttribute("artisteType", ArtisteType.empty());
-        return "ArtisteType/create"; // Fichier : templates/ArtisteType/create.html
+        return "ArtisteType/create";
     }
 
 
@@ -142,7 +65,7 @@ public class ArtisteTypeController {
     @PostMapping("/artiste-types/create")
     public String createArtisteType(@RequestParam Long artistId,
                                     @RequestParam List<Long> typeIds,
-                                    @RequestParam(required=false) List<Long> showIds,
+                                    @RequestParam(required = false) List<Long> showIds,
                                     RedirectAttributes redirectAttributes) {
 
         // Récupérer l'artiste
@@ -152,7 +75,6 @@ public class ArtisteTypeController {
         List<Type> types = typeService.getByIds(typeIds);
 
         // Récupérer la liste de shows
-        //    (méthode showService.getByIds(...) à créer ou utiliser si déjà existante)
         List<Show> shows = new ArrayList<>();
         if (showIds != null && !showIds.isEmpty()) {
             shows = showService.getByIds(showIds);
@@ -229,7 +151,7 @@ public class ArtisteTypeController {
         if (showIds != null && !showIds.isEmpty()) {
             List<Show> shows = showService.getByIds(showIds);
             for (Show s : shows) {
-                artisteType.addShow(s);  // Cette méthode gère la bidirectionnalité
+                artisteType.addShow(s);  // méthode gère la bidirectionnalité
             }
         }
 

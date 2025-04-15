@@ -52,25 +52,12 @@ public class RepresentationService {
         return representationRepository.findById(id).orElse(null);
     }
 
-//    @Transactional
-//    public void deleteRepresentation(Long id) {
-//        Optional<Representation> repOpt = representationRepository.findById(id);
-//        if (repOpt.isPresent()) {
-//            Representation rep = repOpt.get();
-//        }
-//    }
 
     @Transactional
     public void deleteRepresentation(Long id) {
         Optional<Representation> repOpt = representationRepository.findById(id);
         if (repOpt.isPresent()) {
             Representation rep = repOpt.get();
-
-            // //Vérifier si des utilisateurs ont déjà réservé cette représentation
-            //if (rep.getUsers() != null && !rep.getUsers().isEmpty()) {
-            //
-            //    throw new IllegalStateException("La représentation ne peut pas être supprimée car elle a des réservations.");
-            // }
 
             // Si nécessaire, retirer l'association avec l'entité Show
             if (rep.getShow() != null) {
@@ -84,6 +71,5 @@ public class RepresentationService {
             throw new EntityNotFoundException("Representation with id " + id + " not found.");
         }
     }
-
 
 }
