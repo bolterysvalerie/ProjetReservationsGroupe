@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Liste des lieux</title>
 </head>
-<body layout:decorate="~{layouts/main}">
+<body>
+<div id="notification" th:replace="~{main :: notification}"></div>
 <div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
-    <div id="notification" th:replace="~{main :: notification}"></div>
     <h1>Liste des lieux</h1>
 
     <div class="actions">

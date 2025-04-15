@@ -40,7 +40,7 @@
                 <li sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/prices}">Prix</a>
                 </li>
-                <li>
+                <li sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
                     <a th:href="@{/Modification}">Modifier le profil</a>
                 </li>
                 <!-- 🔐 Lien vers back-office pour ADMIN uniquement -->
