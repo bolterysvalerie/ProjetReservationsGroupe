@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,11 +47,14 @@ public class ShowController {
                         @RequestParam(required = false) String title,
                         @RequestParam(required = false) String duration,
                         @RequestParam(required = false) String address,
+                        @RequestParam(required = false, defaultValue = "created_in") String sortField,
+                        @RequestParam(required = false) String sortDirection,
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "5") int size,
                         Model model) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        boolean sortAsc = "on".equals(sortDirection);
+        Pageable pageable = PageRequest.of(page, size, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
         Page<Show> showPage = showService.findShowsByFilters(date, title, duration,address, pageable);
 
         model.addAttribute("shows", showPage);
@@ -63,6 +67,8 @@ public class ShowController {
         model.addAttribute("date", date);
         model.addAttribute("title", title);
         model.addAttribute("duration", duration);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
 
         return "Show/index";
     }
