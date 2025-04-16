@@ -42,21 +42,32 @@ public class ShowController {
      * @return the name of the view to display
      */
     @GetMapping("/shows")
-    public String shows(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
-        // Create pagination object
-        Pageable pageable = PageRequest.of(page, size);
-        // Get the shows for the current page
-        Page<Show> showPage = showService.getAllShows(pageable);
+    public String shows(@RequestParam(required = false) String date,
+                        @RequestParam(required = false) String title,
+                        @RequestParam(required = false) String duration,
+                        @RequestParam(required = false) String address,
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "5") int size,
+                        Model model) {
 
-        // Add All necessary data to the model to be used in the view
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Show> showPage = showService.findShowsByFilters(date, title, duration,address, pageable);
+
         model.addAttribute("shows", showPage);
         model.addAttribute("thetitle", "List of Shows");
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", showPage.getTotalPages());
 
+        // Pour garder les champs remplis après la recherche
+        model.addAttribute("date", date);
+        model.addAttribute("title", title);
+        model.addAttribute("duration", duration);
+
         return "Show/index";
     }
+
+
 
     @GetMapping("/show/{id}")
     public String show(@PathVariable("id") long id, Model model) {

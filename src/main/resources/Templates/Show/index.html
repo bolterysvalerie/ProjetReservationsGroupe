@@ -76,6 +76,35 @@
             <a th:href="@{/show/create}" class="btn btn-primary">Ajouter un spectacle</a>
         </div>
 
+        <form th:action="@{/shows}" method="get" style="margin-bottom: 20px;">
+            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <label for="title">Titre :</label>
+                    <input type="text" id="title" name="title" placeholder="Titre du spectacle" th:value="${title}">
+                </div>
+
+                <div>
+                    <label for="duration">Durée :</label>
+                    <input type="number" id="duration" name="duration" placeholder="Durée en minutes" th:value="${duration}">
+                </div>
+
+                <div>
+                    <label for="date">Date de création :</label>
+                    <input type="date" id="date" name="date" th:value="${date}">
+                </div>
+
+                <div>
+                    <label for="address">Adresse :</label>
+                    <input type="text" id="address" name="address" placeholder="Adresse du spectacle" th:value="${address}">
+                </div>
+
+                <div>
+                    <button type="submit">Filtrer</button>
+                </div>
+            </div>
+        </form>
+
+
         <!-- Boucle sur chaque spectacle -->
         <div th:each="show : ${shows}">
             <div class="show-container">
