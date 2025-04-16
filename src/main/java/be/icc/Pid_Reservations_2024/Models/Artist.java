@@ -29,7 +29,7 @@ public class Artist {
     private String firstname;
 
     // Relation Many To Many
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "artists", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(mappedBy = "artists" , fetch = FetchType.EAGER)
     List<Type> types; // Initialiser la collection pour éviter les NullPointerException
 
 

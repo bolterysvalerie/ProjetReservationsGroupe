@@ -30,10 +30,10 @@ public class Location {
     private String phone;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "location")
     private List<Representation> representations;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "location")
     private List<Show> shows;
 
     // Relation Many To One
