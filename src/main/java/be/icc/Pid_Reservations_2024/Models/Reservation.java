@@ -24,7 +24,7 @@ public class Reservation {
     private String status;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reservation")
     private List<RepresentationReservation> representation_reservations;
 
     // Relation Many To One
