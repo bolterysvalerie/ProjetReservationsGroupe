@@ -29,7 +29,7 @@ public class ArtisteType {
     private Type type;
 
     // Relation Many To Many
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "artiste_type_shows",
             joinColumns = @JoinColumn(name = "artiste_type_id"),

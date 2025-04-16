@@ -23,7 +23,7 @@ public class Type {
     private String type;
 
     // Relation Many to Many
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "artiste_types",
             joinColumns = @JoinColumn(name = "type_id"),

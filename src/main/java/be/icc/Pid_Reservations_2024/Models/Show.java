@@ -42,7 +42,7 @@ public class Show {
             cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Representation> representations;
 
-    @OneToMany(mappedBy = "show")
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
     // Relation Many To One
@@ -51,10 +51,10 @@ public class Show {
     private Location location;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "shows", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<Price> prices;
 
-    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "shows", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<ArtisteType> artiste_types;
 
     // Constructor with params
