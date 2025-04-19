@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/prices")
 public class PriceController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class PriceController {
 
     // 1) LISTE PRICES
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/")
+    @GetMapping("/prices")
     public String index(Model model) {
         List<Price> prices = priceService.getAll();
         model.addAttribute("prices", prices);
@@ -37,7 +36,7 @@ public class PriceController {
 
     // 2) DETAILS PRICE
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("/prices/{id}")
     public String show(@PathVariable Long id, Model model) {
         Price price = priceService.getOne(id);
         if (price == null) {
@@ -49,7 +48,7 @@ public class PriceController {
 
     // 3) FORMULAIRE DE CREATION - GET
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/create")
+    @GetMapping("/prices/create")
     public String create(Model model) {
         // Price vide pour le binder
         model.addAttribute("price", new Price());
@@ -60,7 +59,7 @@ public class PriceController {
 
     // 4) TRAITEMENT CREATION - POST
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create")
+    @PostMapping("/prices/create")
     public String store(@Valid @ModelAttribute("price") Price priceForm,
                         BindingResult bindingResult,
                         @RequestParam(value = "showIds", required = false) List<Long> showIds,
@@ -87,7 +86,7 @@ public class PriceController {
 
     // 5) FORMULAIRE EDIT - GET
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{id}/edit")
+    @GetMapping("/prices/{id}/edit")
     public String edit(@PathVariable Long id, Model model) {
         Price price = priceService.getOne(id);
         if (price == null) {
@@ -101,7 +100,7 @@ public class PriceController {
 
     // 6) TRAITEMENT EDIT - PUT
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}/edit")
+    @PutMapping("/prices/{id}/edit")
     public String update(@PathVariable Long id,
                          @Valid @ModelAttribute("price") Price formPrice,
                          BindingResult bindingResult,
@@ -142,7 +141,7 @@ public class PriceController {
 
     // 7) SUPPRESSION
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/prices/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirAttrs) {
         Price existing = priceService.getOne(id);
         if (existing != null) {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -99,13 +100,16 @@ public class LocationController {
     public String update(@Valid @ModelAttribute("locationForm") Location formLocation,
                          BindingResult bindingResult,
                          @PathVariable("id") long id,
-                         Model model) {
+                         Model model,
+                         RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("localities", localityRepository.findAll());
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la mise à jour !");
             return "Location/edit";
         }
 
         locationService.update(String.valueOf(id), formLocation);
+        redirectAttributes.addFlashAttribute("successMessage", "Salle mise à jour!");
         return "redirect:/locations";
     }
 
@@ -114,8 +118,9 @@ public class LocationController {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/locations/{id}")
-    public String delete(@PathVariable("id") long id) {
+    public String delete(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
         locationService.delete(String.valueOf(id));
+        redirectAttributes.addFlashAttribute("successMessage", "La salle a été supprimée");
         return "redirect:/locations";
     }
 }
