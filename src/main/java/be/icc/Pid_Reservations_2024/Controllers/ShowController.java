@@ -238,7 +238,7 @@ public class ShowController {
         Show existingShow = showService.getShow(id);
         if (existingShow == null) {
             redirAttrs.addFlashAttribute("errorMessage", "Show introuvable !");
-            return "redirect:/";
+            return "redirect:/edit";
         }
 
         // Récupère le location choisi
@@ -285,6 +285,6 @@ public class ShowController {
         } else {
             redirAttrs.addFlashAttribute("errorMessage", "Erreur lors de la suppression du show !");
         }
-        return "redirect:/";
+        return "redirect:/shows";
     }
 }
