@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -121,5 +123,16 @@ public class ShowService {
     public List<Show> getFromLocation(Location location) {
         return showRepository.findByLocation(location);
     }
-
+    public Page<Show> findShowsByFilters(String dateStr, String title, String duration,String address, Pageable pageable) {
+        LocalDate date = null;
+        if (dateStr != null && !dateStr.isBlank()) {
+            try {
+                date = LocalDate.parse(dateStr); // Format attendu : "yyyy-MM-dd"
+            } catch (DateTimeParseException ignored) {}
+        }
+        if(duration != null && duration.isBlank()) {
+            duration = null;
+        }
+        return showRepository.findByFilters(date, title, duration,address, pageable);
+    }
 }
