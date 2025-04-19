@@ -1,5 +1,11 @@
+//{
+//  "deploy": {
+//    "goal": "spring-boot:run"
+//  }
+//}
+
 {
   "deploy": {
-    "goal": "spring-boot:run"
+    "goal": "java -jar target/*.jar"
   }
 }
