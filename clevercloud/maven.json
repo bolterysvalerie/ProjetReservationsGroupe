@@ -1,5 +1,5 @@
 {
   "deploy": {
-    "goal": "clean package -DskipTests"
+    "goal": "mvn clean package -DskipTests"
   }
 }
