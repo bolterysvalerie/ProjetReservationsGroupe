@@ -32,7 +32,7 @@ public class ArtistController {
         model.addAttribute("artists", artists);
         model.addAttribute("title", "List of artists");
 
-        return "Artist/index";
+        return "artist/index";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -43,7 +43,7 @@ public class ArtistController {
         model.addAttribute("artist", artist);
         model.addAttribute("title", "Profile of an artist");
 
-        return "Artist/show";
+        return "artist/show";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -55,7 +55,7 @@ public class ArtistController {
         }
         // Charger la liste des types disponibles dans le modèle.
         model.addAttribute("types", typeService.getAllTypes());
-        return "Artist/create";
+        return "artist/create";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -66,7 +66,7 @@ public class ArtistController {
             model.addAttribute("errorMessage", "Failure of the artist’s creation!");
             // En cas d’erreur, il faut aussi recharger la liste des types
             model.addAttribute("types", typeService.getAllTypes());
-            return "Artist/create";
+            return "artist/create";
         }
 
         artistService.addArtist(artist);
@@ -93,7 +93,7 @@ public class ArtistController {
             model.addAttribute("back", "/artist/" + artist.getId());
         }
 
-        return "Artist/edit";
+        return "artist/edit";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -101,13 +101,13 @@ public class ArtistController {
     public String update(@Valid @ModelAttribute("artist") Artist artist, BindingResult bindingResult, @PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         if (bindingResult.hasErrors()) {
 
-            return "Artist/edit";
+            return "artist/edit";
         }
 
         Artist artistExisting = artistService.getArtist(id);
 
         if (artistExisting == null) {
-            return "Artist/index";
+            return "artist/index";
         }
         artistService.updateArtist(id, artist);
 

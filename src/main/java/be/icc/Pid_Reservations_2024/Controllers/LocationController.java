@@ -1,7 +1,6 @@
 package be.icc.Pid_Reservations_2024.Controllers;
 
 import be.icc.Pid_Reservations_2024.Models.Location;
-import be.icc.Pid_Reservations_2024.Models.Locality;
 import be.icc.Pid_Reservations_2024.Repositories.LocalityRepository;
 import be.icc.Pid_Reservations_2024.Services.LocationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +33,7 @@ public class LocationController {
         List<Location> locations = locationService.getAll();
         model.addAttribute("locations", locations);
         model.addAttribute("title", "Liste des lieux");
-        return "Location/index";
+        return "location/index";
     }
 
     /**
@@ -45,7 +44,7 @@ public class LocationController {
     public String show(@PathVariable("id") Long id, Model model) {
         Location location = locationService.get(String.valueOf(id));
         model.addAttribute("location", location);
-        return "Location/show";
+        return "location/show";
     }
 
     /**
@@ -56,7 +55,7 @@ public class LocationController {
     public String create(Model model) {
         model.addAttribute("locationForm", new Location());
         model.addAttribute("localities", localityRepository.findAll());
-        return "Location/create";
+        return "location/create";
     }
 
     /**
@@ -69,7 +68,7 @@ public class LocationController {
                         Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("localities", localityRepository.findAll());
-            return "Location/create";
+            return "location/create";
         }
 
         locationService.add(formLocation);
@@ -89,7 +88,7 @@ public class LocationController {
         String referrer = request.getHeader("Referer");
         model.addAttribute("back", (referrer != null && !referrer.isEmpty()) ? referrer : "/locations");
 
-        return "Location/edit";
+        return "location/edit";
     }
 
     /**
@@ -105,7 +104,7 @@ public class LocationController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("localities", localityRepository.findAll());
             redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la mise à jour !");
-            return "Location/edit";
+            return "location/edit";
         }
 
         locationService.update(String.valueOf(id), formLocation);

@@ -31,7 +31,7 @@ public class PriceController {
     public String index(Model model) {
         List<Price> prices = priceService.getAll();
         model.addAttribute("prices", prices);
-        return "Price/index";
+        return "price/index";
     }
 
     // 2) DETAILS PRICE
@@ -43,7 +43,7 @@ public class PriceController {
             return "redirect:/prices";
         }
         model.addAttribute("price", price);
-        return "Price/show";
+        return "price/show";
     }
 
     // 3) FORMULAIRE DE CREATION - GET
@@ -54,7 +54,7 @@ public class PriceController {
         model.addAttribute("price", new Price());
         // Charger tous les shows pour affichage (checkbox ou select multiple)
         model.addAttribute("shows", showService.getAll());
-        return "Price/create";
+        return "price/create";
     }
 
     // 4) TRAITEMENT CREATION - POST
@@ -68,7 +68,7 @@ public class PriceController {
         if (bindingResult.hasErrors()) {
             // En cas d’erreur, on ré-affiche la page avec la liste de shows
             model.addAttribute("shows", showService.getAll());
-            return "Price/create";
+            return "price/create";
         }
 
         // Associer les shows sélectionnés
@@ -95,7 +95,7 @@ public class PriceController {
         model.addAttribute("price", price);
         // Charger tous les shows pour l'édition
         model.addAttribute("shows", showService.getAll());
-        return "Price/edit";
+        return "price/edit";
     }
 
     // 6) TRAITEMENT EDIT - PUT
@@ -109,7 +109,7 @@ public class PriceController {
                          Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("shows", showService.getAll());
-            return "Price/edit";
+            return "price/edit";
         }
 
         // Charger l’existant

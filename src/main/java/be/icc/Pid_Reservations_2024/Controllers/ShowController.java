@@ -58,7 +58,7 @@ public class ShowController {
         Page<Show> showPage = showService.findShowsByFilters(date, title, duration,address, pageable);
 
         model.addAttribute("shows", showPage);
-        model.addAttribute("thetitle", "List of Shows");
+        model.addAttribute("thetitle", "Liste des spectacles");
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", showPage.getTotalPages());
@@ -70,7 +70,7 @@ public class ShowController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
 
-        return "Show/index";
+        return "show/index";
     }
 
 
@@ -96,7 +96,7 @@ public class ShowController {
         model.addAttribute("collaborators", collaborators);
         model.addAttribute("TheTitle", "Details of the Show");
 
-        return "Show/show";
+        return "show/show";
     }
 
     // --- Opérations accessibles uniquement aux ADMIN ---
@@ -118,7 +118,7 @@ public class ShowController {
         }
         // Charger la liste des lieux disponibles
         model.addAttribute("locations", locationService.getAll());
-        return "Show/create";
+        return "show/create";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -131,7 +131,7 @@ public class ShowController {
             RedirectAttributes redirAttrs
     ) {
         if (bindingResult.hasErrors()) {
-            return "Show/create";
+            return "show/create";
         }
 
         // Gérer l'ID du location si besoin
@@ -139,7 +139,7 @@ public class ShowController {
             Location loc = locationService.get(locationId.toString());
             if (loc == null) {
                 model.addAttribute("errorMessage", "Le lieu sélectionné n'existe pas !");
-                return "Show/create";
+                return "show/create";
             }
             showForm.setLocation(loc);
         }
@@ -152,7 +152,7 @@ public class ShowController {
             } catch (Exception e) {
                 e.printStackTrace();
                 model.addAttribute("errorMessage", "Erreur lors de la génération du slug.");
-                return "Show/create";
+                return "show/create";
             }
         }
 
@@ -204,7 +204,7 @@ public class ShowController {
         String referrer = request.getHeader("Referer");
         model.addAttribute("back", (referrer != null && !referrer.isEmpty()) ? referrer : "/show/" + id);
 
-        return "Show/edit";
+        return "show/edit";
     }
 
     /**
@@ -231,7 +231,7 @@ public class ShowController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("locations", locationService.getAll());
-            return "Show/edit";
+            return "show/edit";
         }
 
         // Récupère le show existant en base
@@ -246,7 +246,7 @@ public class ShowController {
         if (loc == null) {
             model.addAttribute("errorMessage", "Le lieu sélectionné n'existe pas !");
             model.addAttribute("locations", locationService.getAll());
-            return "Show/edit";
+            return "show/edit";
         }
 
         // Mettre à jour seulement les champs nécessaires

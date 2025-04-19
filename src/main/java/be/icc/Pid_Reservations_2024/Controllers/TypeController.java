@@ -27,7 +27,7 @@ public class TypeController {
         model.addAttribute("types", types);
         model.addAttribute("title", "List of types");
 
-        return "Type/index";
+        return "type/index";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -38,7 +38,7 @@ public class TypeController {
         model.addAttribute("type", type);
         model.addAttribute("title", "Type Details");
 
-        return "Type/show";
+        return "type/show";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -48,14 +48,14 @@ public class TypeController {
 
         model.addAttribute("addType", type);
 
-        return "Type/create";
+        return "type/create";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/type/create")
     public String create(@Valid @ModelAttribute("addType") Type type, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
-            return "Type/create";
+            return "type/create";
         }
 
         typeService.createType(type);
@@ -79,20 +79,20 @@ public class TypeController {
             model.addAttribute("back", "type/"+type.getId());
         }
 
-        return "Type/edit";
+        return "type/edit";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/type/{id}/edit")
     public String update(@Valid @ModelAttribute("onetype") Type type, BindingResult bindingResult, @PathVariable("id") long id, Model model) {
         if(bindingResult.hasErrors()) {
-            return "Type/edit";
+            return "type/edit";
         }
 
         Type typeExisting = typeService.getType(id);
 
         if(typeExisting == null) {
-            return "Type/index";
+            return "type/index";
         }
 
         typeService.updateType(id, type);

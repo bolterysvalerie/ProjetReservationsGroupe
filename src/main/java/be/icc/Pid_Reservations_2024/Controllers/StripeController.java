@@ -97,7 +97,7 @@ public class StripeController {
         reservation.setStatus("Confirmed");
         reservation.setUser(userID);
         reservationService.save(reservation);
-        return "Stripe/success";
+        return "stripe/success";
     }
 
     @GetMapping("/cancel")
@@ -112,6 +112,6 @@ public class StripeController {
         reservation.setStatus("Canceled");
         reservation.setUser(userID);
         reservationService.save(reservation);
-        return "Stripe/cancel";
+        return "stripe/cancel";
     }
 }

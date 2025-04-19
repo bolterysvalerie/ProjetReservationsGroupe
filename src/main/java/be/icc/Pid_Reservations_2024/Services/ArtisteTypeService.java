@@ -1,8 +1,6 @@
 package be.icc.Pid_Reservations_2024.Services;
 
 import be.icc.Pid_Reservations_2024.Models.ArtisteType;
-import be.icc.Pid_Reservations_2024.Models.Artist;
-import be.icc.Pid_Reservations_2024.Models.Type;
 import be.icc.Pid_Reservations_2024.Repositories.ArtisteTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

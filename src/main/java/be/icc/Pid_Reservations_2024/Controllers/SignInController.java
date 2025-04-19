@@ -23,30 +23,30 @@ public class SignInController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/SignIn")
+    @GetMapping("/signin")
     public String showInscriptionForm(Model model) {
         model.addAttribute("user", new User());
-        return "SignIn/signIn";
+        return "signin/signin";
     }
 
 
-    @PostMapping("/SignIn")
+    @PostMapping("/signin")
     public String processSignUp(@Valid @ModelAttribute User user, BindingResult result, Model model) {
         user.setRole(UserRoles.MEMBER);
         user.setCreatedAt(LocalDateTime.now());
         if (result.hasErrors()) {
-            return "SignIn/signIn";
+            return "signin/signin";
         }
 
         if (userRepository.findByLogin(user.getLogin()) != null) {
             model.addAttribute("error", "Ce login est déjà pris. Veuillez en choisir un autre.");
-            return "SignIn/signIn";
+            return "signin/signin";
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
         model.addAttribute("success", "Inscription réussie. Veuillez vous connecter.");
-        return "redirect:/LogIn";
+        return "redirect:/login";
     }
 }

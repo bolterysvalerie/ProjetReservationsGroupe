@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
@@ -44,15 +43,15 @@ public class SpringSecurityConfig {
                     auth.anyRequest().permitAll();
                 })
                 .formLogin(form -> form
-                        .loginPage("/LogIn")
+                        .loginPage("/login")
                         .usernameParameter("login")
-                        .failureUrl("/LogIn?loginError=true"))
+                        .failureUrl("/login?loginError=true"))
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/LogIn?logoutSuccess=true")
+                        .logoutSuccessUrl("/login?logoutSuccess=true")
                         .deleteCookies("JSESSIONID"))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/LogIn?loginRequired=true")))
+                                new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
                 .build();
     }
 

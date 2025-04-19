@@ -19,26 +19,26 @@ public class ProfileModificationController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/Modification")
+    @GetMapping("/modification")
     public String afficherModifierProfil(Model model) {
         model.addAttribute("user", new User());
-        return "Modification/ProfileModification";
+        return "modification/profileModification";
 
     }
 
-    @PostMapping("/Modification")
+    @PostMapping("/modification")
     public String traiterModification(@ModelAttribute("user") User userForm, Model model) {
         User userFromDb = userRepository.findById(userForm.getId()).orElse(null);
 
         if (userFromDb == null) {
             model.addAttribute("error", "Utilisateur introuvable.");
-            return "Modification/ProfileModification";
+            return "modification/profileModification";
 
         }
 
         if (!passwordEncoder.matches(userForm.getOldPassword(), userFromDb.getPassword())) {
             model.addAttribute("error", "L'ancien mot de passe est incorrect.");
-            return "Modification/ProfileModification";
+            return "modification/profileModification";
 
         }
 
@@ -46,7 +46,7 @@ public class ProfileModificationController {
         if (userForm.getNewPassword() != null && !userForm.getNewPassword().isEmpty()) {
             if (!userForm.getNewPassword().equals(userForm.getConfirmPassword())) {
                 model.addAttribute("error", "Le nouveau mot de passe et la confirmation ne correspondent pas.");
-                return "Modification/ProfileModification";
+                return "modification/profileModification";
             }
 
             userFromDb.setPassword(passwordEncoder.encode(userForm.getNewPassword()));
@@ -59,7 +59,7 @@ public class ProfileModificationController {
 
         userRepository.save(userFromDb);
 
-        return "redirect:/profil";
+        return "modification/profileModification";
     }
 
 
