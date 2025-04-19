@@ -1,0 +1,65 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"-->
+<!--      layout:decorate="~{layouts/main}">-->
+<!--<head>-->
+<!--    <title>Créer une localité</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div layout:fragment="content">-->
+<!--        <h1>Créer une nouvelle localité</h1>-->
+
+<!--        <form th:action="@{/locality/create}" th:object="${locality}" method="post">-->
+<!--            <label for="postalCode">Code postal :</label>-->
+<!--            <input type="text" id="postalCode" th:field="*{postalCode}" required/>-->
+<!--            <br/>-->
+
+<!--            <label for="locality">Nom de la localité :</label>-->
+<!--            <input type="text" id="locality" th:field="*{locality}" required/>-->
+<!--            <br/>-->
+
+<!--            <button type="submit">Créer</button>-->
+<!--        </form>-->
+
+<!--        <nav>-->
+<!--            <a th:href="@{/localities}">Retour à la liste</a>-->
+<!--        </nav>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Créer une localité</title>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <h1>Créer une nouvelle localité</h1>
+
+        <!-- On utilise "localities/create" (avec un 's') pour l'action -->
+        <!-- On utilise "localityForm" comme object, car c'est ce qu'on a mis dans le model -->
+        <form th:action="@{/localities/create}" th:object="${localityForm}" method="post">
+            <label for="postalCode">Code postal :</label>
+            <input type="text" id="postalCode" th:field="*{postalCode}" required/>
+            <br/>
+
+            <label for="locality">Nom de la localité :</label>
+            <input type="text" id="locality" th:field="*{locality}" required/>
+            <br/>
+
+            <button type="submit">Créer</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+
+        <nav>
+            <a th:href="@{/localities}">Retour à la liste</a>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

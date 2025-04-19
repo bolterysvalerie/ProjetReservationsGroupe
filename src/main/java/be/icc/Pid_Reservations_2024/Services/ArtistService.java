@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ArtistService {
@@ -23,6 +24,22 @@ public class ArtistService {
     public Artist getArtist(long id){
         return artistRepository.findById(id);
     }
+
+    //Lié avec ArtisteTypeController
+    public Artist getById(Long id) {
+        return artistRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Artist not found"));
+    }
+
+//    @Transactional
+//    public Artist getArtist(Long id) {
+//        Artist artist = artistRepository.findById(id).orElse(null);
+//        if (artist != null) {
+//            // Forcer l'initialisation de la collection
+//            artist.getTypes().size();
+//        }
+//        return artist;
+//    }
+
 
     public void addArtist(Artist artist){
         artistRepository.save(artist);

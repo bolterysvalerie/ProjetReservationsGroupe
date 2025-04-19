@@ -27,6 +27,7 @@
                 <button type="reset" th:text="Reset">Reset</button>
                 <a th:href="${back}">Back</a>
             </div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         </form>
 
         <nav><a th:href="@{/types}">Back to the index</a></nav>

@@ -32,6 +32,27 @@ public class Locality {
         this.locality = locality;
     }
 
+    //Ajout
+    public Locality addLocation(Location location) {
+        if(!this.locations.contains(location)) {
+            this.locations.add(location);
+            location.setLocality(this);
+        }
+
+        return this;
+    }
+
+    public Locality removeLocation(Location location) {
+        if(this.locations.contains(location)) {
+            this.locations.remove(location);
+            if(location.getLocality().equals(this)) {
+                location.setLocality(null);
+            }
+        }
+
+        return this;
+    }
+
     // toString for locality and postalCode
     @Override
     public String toString() {

@@ -20,8 +20,8 @@ public class Price {
     private Long id;
     @Column(name = "type", length = 30)
     private String type;
-    @Column(name = "price", nullable = false, length = 10, precision = 2)
-    private Double price;
+    @Column(name = "amount", nullable = false, length = 10, precision = 2)
+    private Double amount;
     @Column(name = "start_date")
     private LocalDate start_date;
     @Column(name = "end_date")
@@ -41,10 +41,10 @@ public class Price {
     List<Show> shows;
 
     // Constructor with params
-    public Price(Long id, String type, Double price, LocalDate start_date, LocalDate end_date) {
+    public Price(Long id, String type, Double amount, LocalDate start_date, LocalDate end_date) {
         this.id = id;
         this.type = type;
-        this.price = price;
+        this.amount = amount;
         this.start_date = start_date;
         this.end_date = end_date;
     }
@@ -54,7 +54,7 @@ public class Price {
     public String toString() {
         return "Prices{" +
                 "type='" + type + '\'' +
-                ", price=" + price +
+                ", price=" + amount +
                 ", start_date=" + start_date +
                 ", end_date=" + end_date +
                 '}';

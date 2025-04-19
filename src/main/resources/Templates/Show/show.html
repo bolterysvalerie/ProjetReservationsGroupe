@@ -43,6 +43,7 @@
 <div class="container">
     <div layout:fragment="content">
         <h1 th:text="${show.title}" id="title">List of Shows</h1>
+        location
 
         <div>
             <div class="show">
@@ -72,7 +73,7 @@
                     <select>
                         <option th:each="price : ${show.prices}"
                                 th:value="${price.id}"
-                                th:text=" ${price.type} +': ' + ${price.price} + ' €'"></option>
+                                th:text=" ${price.type} +': ' + ${price.amount} + ' €'"></option>
                     </select>
                 </td>
                 <td>

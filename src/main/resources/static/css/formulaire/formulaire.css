@@ -1,0 +1,69 @@
+/* Réinitialisation de base */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #aed5eb, #1e90ff);
+}
+
+/* Container principal */
+.container {
+    max-width: 600px;         /* Largeur maximale du formulaire */
+    margin: 30px auto;        /* Le centre horizontal, avec marge en haut/bas */
+    padding: 0 20px;
+}
+
+/* Titre du formulaire */
+h1 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* Style global du formulaire */
+form {
+    display: flex;
+    flex-direction: column;   /* Aligne les éléments de formulaire verticalement */
+}
+
+/* Style des labels */
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Inputs texte / nombre */
+input[type="text"],
+input[type="number"],
+textarea {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font: inherit;            /* Hérite de la police du parent */
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+    margin-top: 8px;
+    width: auto;              /* Évite qu’il prenne 100% de la largeur */
+}
+
+/* Bouton de soumission */
+button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #2B009A;  /* Couleur du bouton */
+    color: #fff;
+    font-size: 1rem;
+}
+
+button[type="submit"]:hover {
+    background-color: #2B009A;  /* Couleur au survol */
+}

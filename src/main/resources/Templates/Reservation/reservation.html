@@ -70,8 +70,8 @@
                         <label>Prix: </label>
                         <label>
                             <select name="priceShow" id="priceShow">
-                                <option th:each=" price : ${representation.show.prices}" th:value="${price.price}"
-                                        th:text="|${price.type + ' : '} ${price.price +' €'}|">
+                                <option th:each=" price : ${representation.show.prices}" th:value="${price.amount}"
+                                        th:text="|${price.type + ' : '} ${price.amount +' €'}|">
                                 </option>
                             </select>
                         </label>

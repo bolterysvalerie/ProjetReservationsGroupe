@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data @NoArgsConstructor
@@ -27,7 +28,7 @@ public class Type {
             name = "artiste_types",
             joinColumns = @JoinColumn(name = "type_id"),
             inverseJoinColumns = @JoinColumn(name = "artist_id"))
-    private List<Artist> artists;
+    private List<Artist> artists = new ArrayList<>();
 
 
     // Constructor with params
@@ -39,6 +40,26 @@ public class Type {
     // Constructor without id
     public Type(String type) {
         this.type = type;
+    }
+
+    //Ajout jusqu'au toString
+    public Type addArtist(Artist artist) {
+        if (this.artists == null) {
+            this.artists = new ArrayList<>();
+        }
+        if (!this.artists.contains(artist)) {
+            this.artists.add(artist);
+        }
+        return this;
+    }
+
+    public Type removeArtist(Artist artist) {
+        if(this.artists.contains(artist)) {
+            this.artists.remove(artist);
+            artist.getTypes().remove(this);
+        }
+
+        return this;
     }
 
     // ToString
