@@ -1,0 +1,17 @@
+CREATE TABLE tag_shows (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE tag_shows
+    ADD COLUMN tag_id BIGINT NOT NULL AFTER id,
+    ADD COLUMN show_id BIGINT NOT NULL AFTER tag_id;
+
+ALTER TABLE tag_shows
+    ADD CONSTRAINT fk_tag_shows_tags FOREIGN KEY (tag_id)
+        REFERENCES tags (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+ALTER TABLE tag_shows
+    ADD CONSTRAINT fk_tag_shows_shows FOREIGN KEY (show_id)
+        REFERENCES shows (id) ON UPDATE CASCADE ON DELETE RESTRICT;
