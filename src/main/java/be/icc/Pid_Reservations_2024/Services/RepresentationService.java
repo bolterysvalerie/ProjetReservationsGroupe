@@ -1,7 +1,6 @@
 package be.icc.Pid_Reservations_2024.Services;
 
 import be.icc.Pid_Reservations_2024.Models.Representation;
-import be.icc.Pid_Reservations_2024.Models.Show;
 import be.icc.Pid_Reservations_2024.Repositories.RepresentationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

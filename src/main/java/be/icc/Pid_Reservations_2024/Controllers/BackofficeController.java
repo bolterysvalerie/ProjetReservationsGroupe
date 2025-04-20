@@ -27,7 +27,7 @@ public class BackofficeController {
         List<Show> shows = showService.getAllShows(pageable).getContent();
         model.addAttribute("shows", shows);
         model.addAttribute("title", "Back-office");
-        return "Backoffice/index";
+        return "backoffice/index";
     }
 
 }

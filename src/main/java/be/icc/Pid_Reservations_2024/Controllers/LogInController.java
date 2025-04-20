@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LogInController {
 
-    @GetMapping("/LogIn")
+    @GetMapping("/login")
     public String login(
             @RequestParam(required = false) final Boolean loginRequired,
             @RequestParam(required = false) final Boolean loginError,
@@ -27,7 +27,7 @@ public class LogInController {
             model.addAttribute("successMessage", "Vous êtes déconnecté avec succès.");
         }
 
-        return "LogIn/LogIn";
+        return "login/login";
     }
 
 }

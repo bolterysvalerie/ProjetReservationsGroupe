@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
 public class ArtisteTypeController {
 
     @Autowired
@@ -44,7 +43,7 @@ public class ArtisteTypeController {
     public String index(Model model) {
         List<ArtisteType> artisteTypes = artisteTypeService.getAll();
         model.addAttribute("artisteTypes", artisteTypes);
-        return "ArtisteType/index";
+        return "artisteType/index";
     }
 
     // Afficher le formulaire de création d'un lien
@@ -57,7 +56,7 @@ public class ArtisteTypeController {
         model.addAttribute("shows", showService.getAll());
         // On peut envoyer un objet vide pour le data binding si besoin (optionnel)
         model.addAttribute("artisteType", ArtisteType.empty());
-        return "ArtisteType/create";
+        return "artisteType/create";
     }
 
 
@@ -114,7 +113,7 @@ public class ArtisteTypeController {
         model.addAttribute("artists", artistService.getAllArtists());
         model.addAttribute("types", typeService.getAllTypes());
         model.addAttribute("shows", showService.getAll());
-        return "ArtisteType/edit"; // Fichier : templates/ArtisteType/edit.html
+        return "artisteType/edit"; // Fichier : templates/ArtisteType/edit.html
     }
 
 

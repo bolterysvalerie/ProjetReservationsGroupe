@@ -39,7 +39,7 @@ public class RepresentationController {
     public String index(Model model) {
         List<Representation> representations = representationService.getAll();
         model.addAttribute("representations", representations);
-        return "Representation/index"; // --> page thymeleaf: Representation/index.html
+        return "representation/index"; // --> page thymeleaf: Representation/index.html
     }
 
     // 2) DETAILS D’UNE REPRESENTATION (READ - détail)
@@ -51,7 +51,7 @@ public class RepresentationController {
             return "redirect:/representations";
         }
         model.addAttribute("representation", rep);
-        return "Representation/show"; // --> page thymeleaf: Representation/show.html
+        return "representation/show"; // --> page thymeleaf: Representation/show.html
     }
 
     // 3) FORMULAIRE DE CREATION (CREATE) - GET
@@ -64,7 +64,7 @@ public class RepresentationController {
         model.addAttribute("shows", showService.getAllShows(pageable).getContent());
         model.addAttribute("locations", locationService.getAll());
 
-        return "Representation/create";
+        return "representation/create";
     }
 
     // 4) TRAITEMENT DU FORMULAIRE DE CREATION (CREATE) - POST
@@ -81,7 +81,7 @@ public class RepresentationController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("shows", showService.getAllShows(null).getContent());
             model.addAttribute("locations", locationService.getAll());
-            return "Representation/create";
+            return "representation/create";
         }
 
         // Récupérer le Show et le Location
@@ -93,7 +93,7 @@ public class RepresentationController {
             model.addAttribute("errorMessage", "Show ou Location introuvable.");
             model.addAttribute("shows", showService.getAllShows(null).getContent());
             model.addAttribute("locations", locationService.getAll());
-            return "Representation/create";
+            return "representation/create";
         }
 
         // Associer au formRep
@@ -123,7 +123,7 @@ public class RepresentationController {
         model.addAttribute("shows", showService.getAllShows(defaultPageable).getContent());
         model.addAttribute("locations", locationService.getAll());
 
-        return "Representation/edit";
+        return "representation/edit";
     }
 
 
@@ -143,7 +143,7 @@ public class RepresentationController {
             Pageable defaultPageable = PageRequest.of(0, 100);
             model.addAttribute("shows", showService.getAllShows(defaultPageable).getContent());
             model.addAttribute("locations", locationService.getAll());
-            return "Representation/edit";
+            return "representation/edit";
         }
 
         // Vérifier l'existant
@@ -162,7 +162,7 @@ public class RepresentationController {
             Pageable defaultPageable = PageRequest.of(0, 100);
             model.addAttribute("shows", showService.getAllShows(defaultPageable).getContent());
             model.addAttribute("locations", locationService.getAll());
-            return "Representation/edit";
+            return "representation/edit";
         }
 
         // Mettre à jour la représentation

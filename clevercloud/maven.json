@@ -1,0 +1,11 @@
+//{
+//  "deploy": {
+//    "goal": "clean package -DskipTests"
+//  }
+//}
+
+{
+  "deploy": {
+    "goal": "spring-boot:run"
+  }
+}

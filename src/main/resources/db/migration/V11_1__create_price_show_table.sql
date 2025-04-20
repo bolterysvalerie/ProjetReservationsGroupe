@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS prices (
+CREATE TABLE price_shows (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    end_date DATE,
-    amount FLOAT NOT NULL,
-    start_date DATE,
-    type VARCHAR(30),
     PRIMARY KEY (id)
 );
+
+ALTER TABLE price_shows
+    ADD COLUMN price_id BIGINT NOT NULL AFTER id,
+    ADD COLUMN show_id BIGINT NOT NULL AFTER price_id;
 
 ALTER TABLE price_shows
     ADD CONSTRAINT fk_price_show_price FOREIGN KEY (price_id)
@@ -15,6 +15,3 @@ ALTER TABLE price_shows
     ADD CONSTRAINT fk_price_show_show FOREIGN KEY (show_id)
         REFERENCES shows (id) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE representation_reservations
-    ADD CONSTRAINT fk_representation_price FOREIGN KEY (price_id)
-        REFERENCES prices (id) ON UPDATE CASCADE ON DELETE CASCADE;

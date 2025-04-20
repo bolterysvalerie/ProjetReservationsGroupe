@@ -33,7 +33,7 @@ public class LocalityController {
         List<Locality> localities = localityService.getAll();
         model.addAttribute("localities", localities);
         model.addAttribute("title", "Liste des localités");
-        return "Locality/index";
+        return "locality/index";
     }
 
     /**
@@ -45,7 +45,7 @@ public class LocalityController {
         Locality locality = localityRepository.findByIdWithLocations(id)
                 .orElseThrow(() -> new RuntimeException("Locality not found"));
         model.addAttribute("locality", locality);
-        return "Locality/show";
+        return "locality/show";
     }
 
     /**
@@ -55,7 +55,7 @@ public class LocalityController {
     @GetMapping("/localities/create")
     public String create(Model model) {
         model.addAttribute("localityForm", new Locality());
-        return "Locality/create";
+        return "locality/create";
     }
 
     /**
@@ -67,7 +67,7 @@ public class LocalityController {
                         BindingResult bindingResult,
                         Model model) {
         if (bindingResult.hasErrors()) {
-            return "Locality/create";
+            return "locality/create";
         }
         localityService.addLocality(formLocality);
         return "redirect:/localities";
@@ -85,7 +85,7 @@ public class LocalityController {
         String referrer = request.getHeader("Referer");
         model.addAttribute("back", (referrer != null && !referrer.isEmpty()) ? referrer : "/localities");
 
-        return "Locality/edit";
+        return "locality/edit";
     }
 
 
@@ -99,7 +99,7 @@ public class LocalityController {
                          @PathVariable("id") long id,
                          Model model) {
         if (bindingResult.hasErrors()) {
-            return "Locality/edit";
+            return "locality/edit";
         }
         // On sauvegarde
         localityService.updateLocality(id, formLocality);
