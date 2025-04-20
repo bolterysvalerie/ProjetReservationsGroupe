@@ -51,10 +51,13 @@ public class Show {
 
     // Relation Many To Many
     @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
-    List<Price> prices;
+    private List<Price> prices;
 
     @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
     private List<ArtisteType> artiste_types;
+
+    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
+    private List<Tag> tags;
 
     // Constructor with params
     public Show(String title, String posterUrl, LocalDateTime created_in, Boolean bookable) {
