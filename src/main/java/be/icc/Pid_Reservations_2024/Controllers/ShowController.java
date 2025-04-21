@@ -1,9 +1,7 @@
 package be.icc.Pid_Reservations_2024.Controllers;
 
 import be.icc.Pid_Reservations_2024.Models.*;
-import be.icc.Pid_Reservations_2024.Services.LocationService;
-import be.icc.Pid_Reservations_2024.Services.PriceService;
-import be.icc.Pid_Reservations_2024.Services.ShowService;
+import be.icc.Pid_Reservations_2024.Services.*;
 import com.github.slugify.Slugify;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -36,6 +34,11 @@ public class ShowController {
     @Autowired
     private PriceService priceService;
 
+    @Autowired
+    private TagService tagService;
+    @Autowired
+    private UserService userService;
+
     /**
      * @param page  the current page number
      * @param size  the number of shows per page
@@ -43,19 +46,34 @@ public class ShowController {
      * @return the name of the view to display
      */
     @GetMapping("/shows")
-    public String shows(@RequestParam(required = false) String date,
-                        @RequestParam(required = false) String title,
-                        @RequestParam(required = false) String duration,
-                        @RequestParam(required = false) String address,
-                        @RequestParam(required = false, defaultValue = "created_in") String sortField,
-                        @RequestParam(required = false) String sortDirection,
-                        @RequestParam(defaultValue = "0") int page,
-                        @RequestParam(defaultValue = "5") int size,
-                        Model model) {
+    public String shows(
+            @RequestParam(required = false) String tagName,
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String duration,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false, defaultValue = "created_in") String sortField,
+            @RequestParam(required = false) String sortDirection,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         boolean sortAsc = "on".equals(sortDirection);
         Pageable pageable = PageRequest.of(page, size, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
-        Page<Show> showPage = showService.findShowsByFilters(date, title, duration,address, pageable);
+        Page<Show> showPage = showService.findShowsByFilters(date, title, duration, address, pageable);
+        int totalTags = 0;
+
+        if (tagName != null && !tagName.trim().isBlank()) {
+            showPage = tagService.searchByTagName(tagName, pageable);
+            totalTags = Math.toIntExact(showPage.stream().count());
+
+            if (showPage.isEmpty()) {
+                redirectAttributes.addFlashAttribute("message",
+                        "Nous ne trouvons pas de show avec le tag : " + tagName);
+                return "redirect:/shows";
+            }
+        }
 
         model.addAttribute("shows", showPage);
         model.addAttribute("thetitle", "Liste des spectacles");
@@ -70,22 +88,25 @@ public class ShowController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
 
+        model.addAttribute("tagName", tagName);
+        model.addAttribute("totalTags", totalTags);
+
         return "show/index";
     }
-
 
 
     @GetMapping("/show/{id}")
     public String show(@PathVariable("id") long id, Model model) {
         Show show = showService.getShow(id);
+        List<Tag> tagList = tagService.getTagByShowId(id);
 
         // Get artists by show and group by type
         Map<String, ArrayList<Artist>> collaborators = new HashMap<>();
 
-        for(ArtisteType artisteType : show.getArtiste_types()) {
+        for (ArtisteType artisteType : show.getArtiste_types()) {
             String type = artisteType.getType().getType();
 
-            if(collaborators.get(type) == null) {
+            if (collaborators.get(type) == null) {
                 collaborators.put(type, new ArrayList<>());
             }
 
@@ -96,6 +117,8 @@ public class ShowController {
         model.addAttribute("collaborators", collaborators);
         model.addAttribute("TheTitle", "Details of the Show");
 
+        model.addAttribute("tags", tagList);
+
         return "show/show";
     }
 
@@ -103,18 +126,18 @@ public class ShowController {
 
     /**
      * Traite la soumission du formulaire pour créer un nouveau show.
-     *
+     * <p>
      * Accessible uniquement par les administrateurs.
      *
-     * @param model             modèle pour la vue
-     @return la vue "Show/create"
+     * @param model modèle pour la vue
+     * @return la vue "Show/create"
      */
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/show/create")
     public String create(Model model) {
         if (!model.containsAttribute("show")) {
             model.addAttribute("show", new Show());
-           // model.addAttribute("prices", priceService.getAll());
+            // model.addAttribute("prices", priceService.getAll());
         }
         // Charger la liste des lieux disponibles
         model.addAttribute("locations", locationService.getAll());
@@ -125,7 +148,7 @@ public class ShowController {
     @PostMapping("/show/create")
     public String store(
             @Valid @ModelAttribute("show") Show showForm,
-            @RequestParam(value="locationId", required=false) Long locationId,
+            @RequestParam(value = "locationId", required = false) Long locationId,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirAttrs
@@ -178,12 +201,12 @@ public class ShowController {
 
     /**
      * Affiche le formulaire d'édition d'un show existant.
-     *
+     * <p>
      * Accessible uniquement par les administrateurs.
      *
-     * @param id              identifiant du show à modifier
-     * @param model           modèle pour la vue
-     * @param request         requête HTTP (pour récupérer la référence de la page précédente)
+     * @param id      identifiant du show à modifier
+     * @param model   modèle pour la vue
+     * @param request requête HTTP (pour récupérer la référence de la page précédente)
      * @return la vue "Show/edit"
      */
     @PreAuthorize("hasRole('ADMIN')")
@@ -209,13 +232,13 @@ public class ShowController {
 
     /**
      * Traite la soumission du formulaire d'édition d'un show.
-     *
+     * <p>
      * Accessible uniquement par les administrateurs.
      *
-     * @param bindingResult   résultat de la validation
-     * @param id              identifiant du show
-     * @param model           modèle pour la vue
-     * @param redirAttrs      attributs de redirection
+     * @param bindingResult résultat de la validation
+     * @param id            identifiant du show
+     * @param model         modèle pour la vue
+     * @param redirAttrs    attributs de redirection
      * @return redirection vers le détail du show
      */
     @PreAuthorize("hasRole('ADMIN')")
@@ -268,11 +291,11 @@ public class ShowController {
 
     /**
      * Supprime un show existant.
-     *
+     * <p>
      * Accessible uniquement par les administrateurs.
      *
-     * @param id             identifiant du show à supprimer
-     * @param redirAttrs     attributs de redirection
+     * @param id         identifiant du show à supprimer
+     * @param redirAttrs attributs de redirection
      * @return redirection vers la page d'accueil des shows
      */
     @PreAuthorize("hasRole('ADMIN')")
