@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${TitleShowWithNotTag}"></title>
+</head>
+<body>
+<div clas="container">
+    <div layout:fragment="content">
+        <h1 th:text="${TitleShowWithNotTag}"></h1>
+
+        <div>
+            <ol>
+                <li th:each="show : ${showWithNoTag}" th:text="${show.title}"></li>
+            </ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>

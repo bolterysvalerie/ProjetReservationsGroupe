@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${TitleTag}"></title>
+</head>
+<body>
+<div class="container">
+    <div id="notification" th:replace="~{main :: notification}"></div>
+    <div layout:fragment="content">
+        <h1 th:text="${TitleTag}"></h1>
+        <h2 th:text="${show.title}"></h2>
+
+        <form th:action="@{/createTag}" method="post">
+            <label>Nom du tag</label>
+            <input type="text" name="newTag" th:value="${newTag}" required>
+
+            <input type="hidden" name="showId" th:value="${show.id}" />
+            <button type="submit">Sauvegarder</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
