@@ -56,6 +56,30 @@ public class Show {
     @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
     private List<ArtisteType> artiste_types;
 
+//    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
+//    private List<Tag> tags = new ArrayList<>();
+    /**
+     * Côté propriétaire Many‑to‑Many pour Tag.
+     */
+    @ManyToMany(
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE },
+            fetch   = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "show_tag",
+            joinColumns = @JoinColumn(
+                    name = "show_id",
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "fk_show_tag_show")
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "tag_id",
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "fk_show_tag_tag")
+            )
+    )
+    private List<Tag> tags = new ArrayList<>();
+
     // Constructor with params
     public Show(String title, String posterUrl, LocalDateTime created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();
@@ -141,6 +165,21 @@ public class Show {
             }
         }
         return artists;
+    }
+
+    public Show addTag(Tag tag) {
+        if (!tags.contains(tag)) {
+            tags.add(tag);
+            tag.getShows().add(this);
+        }
+        return this;
+    }
+
+    public Show removeTag(Tag tag) {
+        if (tags.remove(tag)) {
+            tag.getShows().remove(this);
+        }
+        return this;
     }
 
     // ToString
