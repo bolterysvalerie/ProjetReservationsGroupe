@@ -49,6 +49,14 @@ public class ShowService {
         return showRepository.findAllById(integerIds);
     }
 
+    public Page<Show> searchByTag(String kw, Pageable pageable) {
+        return showRepository.searchByTag(kw, pageable);
+    }
+
+    public Page<Show> findWithoutTag(String tag, Pageable pageable) {
+        return showRepository.findWithoutTag(tag, pageable);
+    }
+
     public Show getShow(long id) {
         return showRepository.findById(id).orElse(null);
     }

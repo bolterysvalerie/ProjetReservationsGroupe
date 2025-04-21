@@ -1,6 +1,7 @@
 package be.icc.Pid_Reservations_2024.Controllers;
 
 import be.icc.Pid_Reservations_2024.Models.*;
+import be.icc.Pid_Reservations_2024.Repositories.TagRepository;
 import be.icc.Pid_Reservations_2024.Services.LocationService;
 import be.icc.Pid_Reservations_2024.Services.PriceService;
 import be.icc.Pid_Reservations_2024.Services.ShowService;
@@ -36,37 +37,88 @@ public class ShowController {
     @Autowired
     private PriceService priceService;
 
+    @Autowired
+    private TagRepository tagRepo;
+
+
     /**
      * @param page  the current page number
      * @param size  the number of shows per page
      * @param model the model used to send data to the view
      * @return the name of the view to display
      */
-    @GetMapping("/shows")
-    public String shows(@RequestParam(required = false) String date,
-                        @RequestParam(required = false) String title,
-                        @RequestParam(required = false) String duration,
-                        @RequestParam(required = false) String address,
-                        @RequestParam(required = false, defaultValue = "created_in") String sortField,
-                        @RequestParam(required = false) String sortDirection,
-                        @RequestParam(defaultValue = "0") int page,
-                        @RequestParam(defaultValue = "5") int size,
-                        Model model) {
+//    @GetMapping("/shows")
+//    public String shows(@RequestParam(required = false) String date,
+//                        @RequestParam(required = false) String title,
+//                        @RequestParam(required = false) String duration,
+//                        @RequestParam(required = false) String address,
+//                        @RequestParam(required = false, defaultValue = "created_in") String sortField,
+//                        @RequestParam(required = false) String sortDirection,
+//                        @RequestParam(defaultValue = "0") int page,
+//                        @RequestParam(defaultValue = "5") int size,
+//                        Model model) {
+//
+//        boolean sortAsc = "on".equals(sortDirection);
+//        Pageable pageable = PageRequest.of(page, size, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+//        Page<Show> showPage = showService.findShowsByFilters(date, title, duration,address, pageable);
+//
+//        model.addAttribute("shows", showPage);
+//        model.addAttribute("thetitle", "Liste des spectacles");
+//
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", showPage.getTotalPages());
+//
+//        // Pour garder les champs remplis après la recherche
+//        model.addAttribute("date", date);
+//        model.addAttribute("title", title);
+//        model.addAttribute("duration", duration);
+//        model.addAttribute("sortField", sortField);
+//        model.addAttribute("sortDirection", sortDirection);
+//
+//        return "show/index";
+//    }
 
-        boolean sortAsc = "on".equals(sortDirection);
-        Pageable pageable = PageRequest.of(page, size, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
-        Page<Show> showPage = showService.findShowsByFilters(date, title, duration,address, pageable);
+    @GetMapping("/shows")
+    public String shows(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String duration,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false, defaultValue = "created_in") String sortField,
+            @RequestParam(required = false) String sortDirection,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
+
+        boolean sortAsc = "on".equalsIgnoreCase(sortDirection);
+        Pageable pageable = PageRequest.of(page, size,
+                sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC,
+                sortField);
+
+        Page<Show> showPage;
+        Integer count = null;
+
+        if (q != null && !q.isBlank()) {
+            // Appel à un nouveau service qui renvoie un Page<Show> pour la recherche par tag
+            showPage = showService.searchByTag(q, pageable);
+            count = Math.toIntExact(showPage.getTotalElements());
+        } else {
+            showPage = showService.findShowsByFilters(date, title, duration, address, pageable);
+        }
 
         model.addAttribute("shows", showPage);
-        model.addAttribute("thetitle", "Liste des spectacles");
+        model.addAttribute("count", count);
+        model.addAttribute("q", q);
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", showPage.getTotalPages());
 
-        // Pour garder les champs remplis après la recherche
+        // conservent les autres champs de filtre
         model.addAttribute("date", date);
         model.addAttribute("title", title);
         model.addAttribute("duration", duration);
+        model.addAttribute("address", address);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
 
@@ -120,6 +172,65 @@ public class ShowController {
         model.addAttribute("locations", locationService.getAll());
         return "show/create";
     }
+
+
+    /**
+     * Affiche tous les shows qui n'ont PAS le mot‑clé donné.
+     */
+//    @GetMapping("/shows/without-tag/{tag}")
+//    public String showsWithoutTag(@PathVariable String tag, Model model) {
+//        List<Show> shows = showService.findWithoutTag(tag, pageable);
+//        model.addAttribute("shows", shows);
+//        model.addAttribute("count", shows.size());
+//        model.addAttribute("q", tag);
+//        // Vous pouvez réutiliser le même template index
+//        return "show/index";
+//    }
+//}
+    @GetMapping("/shows/without-tag/{tag}")
+    public String showsWithoutTag(
+            @PathVariable String tag,
+            @RequestParam(required=false) String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "created_in") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            Model model) {
+
+        boolean sortAsc = "asc".equalsIgnoreCase(sortDirection);
+        Pageable pageable = PageRequest.of(page, size, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+
+        Page<Show> shows = showService.findWithoutTag(tag, pageable);
+        model.addAttribute("shows", shows);
+        model.addAttribute("count", shows.getTotalElements());
+        model.addAttribute("q", tag);
+        model.addAttribute("title", title);
+        model.addAttribute("thetitle", "Spectacles sans le tag «" + tag + "»");
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", shows.getTotalPages());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+
+        return "show/index";
+    }
+
+
+        @PreAuthorize("hasRole('ADMIN')")
+        @PostMapping("/show/{id}/tags")
+        public String addTagToShow(@PathVariable Long id,
+                                   @RequestParam String tagName) {
+            Show show = showService.getShow(id);
+            if (show == null) {
+                return "redirect:/shows";
+            }
+            // Cherche ou crée le Tag
+            Tag tag = tagRepo.findByTag(tagName)
+                    .orElseGet(() -> tagRepo.save(new Tag(tagName)));
+            // Met à jour la relation
+            show.addTag(tag);
+            showService.add(show);  // ou showService.update(...)
+            return "redirect:/show/" + id;
+        }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/show/create")
