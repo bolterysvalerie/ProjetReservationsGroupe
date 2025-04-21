@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layouts/main}"
-      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title th:text="${TheTitle}">Shows</title>
@@ -43,7 +43,6 @@
 <div class="container">
     <div layout:fragment="content">
         <h1 th:text="${show.title}" id="title">List of Shows</h1>
-        location
 
         <div>
             <div class="show">
@@ -62,6 +61,7 @@
                 <th>Addresse</th>
                 <th>Prix</th>
                 <th>Reserver</th>
+                <th sec:authorize="hasRole('ADMIN')">Tag</th>
             </tr>
 
             <tr th:each="representation: ${show.representations}">
@@ -80,6 +80,10 @@
                     <button><a type="button" th:href="@{/reservation/{id}(id=${representation.id})}"> Réserver </a>
                     </button>
                 </td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <button><a type="button" th:href="@{/createTag(showId=${show.id})}"> Ajouter Tag </a>
+                    </button>
+                </td>
             </tr>
         </table>
 
@@ -90,6 +94,13 @@
                     <li th:each="auteur : ${entry.value}" th:text="|${auteur.lastname} ${auteur.firstname}|"></li>
                     <!-- Affiche le nom et prénom -->
                 </ul>
+            </div>
+        </div>
+
+        <div>
+            <h4>Tags: </h4>
+            <div th:each="tag : ${tags}">
+                <p th:text="${tag.tag}"></p>
             </div>
         </div>
 

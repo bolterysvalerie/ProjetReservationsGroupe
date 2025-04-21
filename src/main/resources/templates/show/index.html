@@ -77,7 +77,6 @@
         </div>
 
         <div>
-            <h4>Filtrer</h4>
             <form th:action="@{/shows}" method="get" style="margin-bottom: 20px;">
                 <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
                     <div>
@@ -87,7 +86,8 @@
 
                     <div>
                         <label for="duration">Durée :</label>
-                        <input type="number" id="duration" name="duration" placeholder="Durée en minutes" th:value="${duration}">
+                        <input type="number" id="duration" name="duration" placeholder="Durée en minutes"
+                               th:value="${duration}">
                     </div>
 
                     <div>
@@ -97,7 +97,8 @@
 
                     <div>
                         <label for="address">Adresse :</label>
-                        <input type="text" id="address" name="address" placeholder="Adresse du spectacle" th:value="${address}">
+                        <input type="text" id="address" name="address" placeholder="Adresse du spectacle"
+                               th:value="${address}">
                     </div>
 
                     <div>
@@ -129,18 +130,32 @@
                 </div>
             </form>
 
+            <hr>
+            <!-- TODO: Search par Tag -->
+            <form th:action="@{/shows}">
+                <div th:if="${session.message}" class="alert alert-warning" role="alert">
+                    <p th:text="${session.message}"></p>
+                </div>
+
+                <label>
+                    <input type="text" name="tagName" th:value="${tagName}" value="Entrez le tag">
+                </label>
+
+                <button type="submit">Chercher</button>
+
+                <p th:if="${totalTags >= 1}"
+                   th:text="|Il y a ${totalTags} tag${totalTags > 1 ? 's' : ''}|"></p>
+            </form>
 
 
         </div>
-
-
 
         <!-- Boucle sur chaque spectacle -->
         <div th:each="show : ${shows}">
             <div class="show-container">
                 <div class="show">
                     <h3 th:text="${show.title}">Title</h3>
-<!--                    <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}">-->
+                    <!--                    <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}">-->
                     <img th:src="@{${show.posterUrl}}" th:alt="${show.title}">
                 </div>
 
@@ -247,7 +262,6 @@
     </div>
 
 
-    </div>
 </div>
 </body>
 </html>
