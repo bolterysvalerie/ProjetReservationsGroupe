@@ -1,0 +1,72 @@
+/* header.css */
+header.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    z-index: 1000;
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+header.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header.navbar .navbar-brand {
+    color: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+    margin-right: 2rem;
+}
+
+header.navbar .nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+header.navbar .nav li {
+    margin-right: 1rem;
+}
+
+header.navbar .nav li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem;
+    display: block;
+    transition: background 0.2s;
+}
+
+header.navbar .nav li.active a,
+header.navbar .nav li a:hover {
+    background-color: #333;
+    border-radius: 4px;
+}
+
+header.navbar .navbar-collapse {
+    flex-grow: 1;
+}
+
+header.navbar p,
+header.navbar form {
+    margin: 0;
+    color: #fff;
+}
+
+header.navbar .unset {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+body {
+    padding-top: 4rem; /* laisser de la place sous le header */
+}
