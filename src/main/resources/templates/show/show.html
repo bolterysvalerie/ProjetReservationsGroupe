@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layouts/main}"
-      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title th:text="${TheTitle}">Shows</title>
@@ -37,6 +37,11 @@
             border: 1px solid;
             text-align: center;
         }
+
+        .badge:not(:last-child)::after {
+            content: ",";
+            margin-right: 0.25rem;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +54,18 @@
             <div class="show">
                 <!--            <img th:src="@{${'/images/' + show.posterUrl}}" th:alt="${show.title}" id="pictureShow">-->
                 <img th:src="@{${show.posterUrl}}" th:alt="${show.title}">
+            </div>
+            <p>Tags :
+                <span th:each="t : ${show.tags}" class="badge" th:text="${t.tag}"></span>
+                <em th:if="${#lists.isEmpty(show.tags)}">Aucun tag</em>
+            </p>
+            <div sec:authorize="hasRole('ADMIN')" style="margin-top:20px;">
+                <form th:action="@{/show/{id}/tags(id=${show.id})}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <label for="tagName">Nouveau mot‑clé :</label>
+                    <input type="text" id="tagName" name="tagName" maxlength="30" placeholder="ex. comédie"/>
+                    <button type="submit">Ajouter</button>
+                </form>
             </div>
             <p th:if="${show.location}" id="placeCreated"><strong>Lieu de création:</strong> <span
                     th:text="${show.location.designation}"></span></p>

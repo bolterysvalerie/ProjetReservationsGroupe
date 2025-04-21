@@ -129,7 +129,18 @@
                 </div>
             </form>
 
-
+            <!-- Recherche par mot‑clé -->
+            <form th:action="@{/shows}" method="get" style="margin:20px 0;">
+                <label for="q">Rechercher un tag :</label>
+                <input type="text" id="q" name="q" th:value="${q}" placeholder="ex. humour"/>
+                <button type="submit">Rechercher</button>
+            </form>
+            <div th:if="${count != null}">
+                <p th:text="${count} + ' résultat(s) pour « ' + ${q} + ' »'"></p>
+                <a th:href="@{/shows/without-tag/{tag}(tag=${q})}"
+                   th:text="'Voir les spectacles sans le tag « ' + ${q} + ' »'">
+                </a>
+            </div>
 
         </div>
 
@@ -219,6 +230,17 @@
                         </tfoot>
                     </table>
 
+<!--                    &lt;!&ndash; Affichage des tags et lien exclusion &ndash;&gt;-->
+<!--                    <div style="margin-top:10px;">-->
+<!--                        <strong>Tags :</strong>-->
+<!--                        <span th:each="t : ${show.tags}" style="margin-right:8px;">-->
+<!--              <span class="badge" th:text="${t.tag}">tag</span>-->
+<!--              <a th:href="@{/shows/without-tag/{tag}(tag=${t.tag})}"-->
+<!--                 title="Spectacles sans « ${t.tag} »">×</a>-->
+<!--            </span>-->
+<!--                        <em th:if="${#lists.isEmpty(show.tags)}">Aucun tag</em>-->
+<!--                    </div>-->
+
                     <a type="button" th:href="@{/show/{id}(id=${show.id})}">Voir plus d'information</a>
                 </div>
 
@@ -235,12 +257,12 @@
                 <!-- Display page numbers around the current page -->
                 <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item"
                     th:if="${i >= currentPage - 1 and i <= currentPage + 1}">
-                    <a th:href="@{/shows(page=${i}, size=${size})}" th:text="${i + 1}"
+                    <a th:href="@{/shows(page=${i}, size=${size}, q=${q})}" th:text="${i + 1}"
                        th:classappend="${i == currentPage ? ' active' : ''}" class="page-link"></a>
                 </li>
                 <!-- Display the "Next" button if the following page exists -->
                 <li th:if="${shows.hasNext()}" class="page-item">
-                    <a class="page-link" th:href="@{/shows(page=${currentPage + 1}, size=${size})} ">Next</a>
+                    <a class="page-link" th:href="@{/shows(page=${currentPage+1}, size=${size}, q=${q})}">Next</a>
                 </li>
             </ul>
         </div>
