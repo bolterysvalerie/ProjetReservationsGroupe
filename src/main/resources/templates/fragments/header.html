@@ -47,6 +47,10 @@
                 <li sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/backoffice}">Back-Office</a>
                 </li>
+                <!-- Link to display show without tag -->
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/show-with-no-tag}"> Liste des spectacles sans tags</a>
+                </li>
             </ul>
         </div>
         <div style="float:right">
