@@ -17,7 +17,7 @@ public class Tag {
     @Column(name = "tag", unique = true, nullable = false, length = 30)
     private String tag;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tag_shows",
             joinColumns = @JoinColumn(name = "tag_id"),
