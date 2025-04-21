@@ -40,6 +40,8 @@ public class SpringSecurityConfig {
                     auth.requestMatchers("/admin").hasRole("ADMIN");
                     auth.requestMatchers("/user").hasRole("MEMBER");
                     auth.requestMatchers("/reservation/**").hasAnyRole("ADMIN", "MEMBER");
+                    auth.requestMatchers("/createTag").hasRole("ADMIN");
+                    auth.requestMatchers("/show-with-no-tag").hasRole("ADMIN");
                     auth.anyRequest().permitAll();
                 })
                 .formLogin(form -> form
