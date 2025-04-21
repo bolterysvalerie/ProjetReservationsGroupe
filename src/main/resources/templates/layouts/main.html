@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Project Reservation</title>
-    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/header.css}" />
+    </th:block>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}">Header here</div>
@@ -23,6 +25,11 @@
 <div class="container">
     <div layout:fragment="content">Main content will be inserted here.</div>
 </div>
+
+<!-- **C’est ici que sera inséré votre fragment “content”** -->
+<!--<div class="container" layout:fragment="content">-->
+<!--    Main content will be inserted here.-->
+<!--</div>-->
 
 <div th:replace="~{fragments/footer :: footer}">&copy; 2024/2025 - ICC - Groupe PID Reservation </div>
 <th:block layout:fragment="scripts"></th:block>
