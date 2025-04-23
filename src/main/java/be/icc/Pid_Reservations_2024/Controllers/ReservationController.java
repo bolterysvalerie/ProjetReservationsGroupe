@@ -23,7 +23,7 @@ public class ReservationController {
         model.addAttribute("representation", representation);
         model.addAttribute("title", representation.getShow().getTitle());
 
-        return "Reservation/reservation";
+        return "reservation/reservation";
     }
 
 }

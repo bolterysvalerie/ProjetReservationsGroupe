@@ -20,7 +20,7 @@ public class RepresentationReservationController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/RepresentationReservation")
+    @GetMapping("/representationReservation")
     public String consulterRepresentations(Model model, Authentication authentication) {
         // Récupérer l'utilisateur connecté
         String currentUsername = authentication.getName();
@@ -38,6 +38,6 @@ public class RepresentationReservationController {
 
         // Ajouter les données au modèle
         model.addAttribute("representations", userReservations);
-        return "RepresentationReservation/ReservationRepresentation"; // Vue Thymeleaf
+        return "representationReservation/ReservationRepresentation"; // Vue Thymeleaf
     }
 }

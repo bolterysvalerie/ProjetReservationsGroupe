@@ -21,7 +21,7 @@ public class ProfileModificationController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/Modification")
+    @GetMapping("/modification")
     public String afficherModifierProfil(@RequestParam(value = "userId", required = false) Long userId,
                                          Authentication authentication, Model model) {
         // Identifie l'utilisateur connecté
@@ -34,7 +34,7 @@ public class ProfileModificationController {
             userToEdit = userRepository.findById(userId).orElse(null);
             if (userToEdit == null) {
                 model.addAttribute("error", "Utilisateur introuvable.");
-                return "Modification/ProfileModification";
+                return "modification/ProfileModification";
             }
         } else {
             // Sinon, c'est l'utilisateur connecté qui est modifié
@@ -43,10 +43,10 @@ public class ProfileModificationController {
 
         model.addAttribute("user", userToEdit);
         model.addAttribute("role", currentUser.getRole().toString());
-        return "Modification/ProfileModification";
+        return "modification/ProfileModification";
     }
 
-    @PostMapping("/Modification")
+    @PostMapping("/modification")
     public String traiterModification(@ModelAttribute("user") User userForm,
                                       Authentication authentication, Model model) {
         String currentUsername = authentication.getName();
@@ -56,20 +56,20 @@ public class ProfileModificationController {
         User userFromDb = userRepository.findById(userForm.getId()).orElse(null);
         if (userFromDb == null) {
             model.addAttribute("error", "Utilisateur introuvable.");
-            return "Modification/ProfileModification";
+            return "modification/ProfileModification";
         }
 
         // Vérifie si l'utilisateur connecté est autorisé à faire la modification
         if (!currentUser.getRole().toString().equals("ADMIN") && !currentUser.getId().equals(userFromDb.getId())) {
             model.addAttribute("error", "Vous n'êtes pas autorisé à modifier ce profil.");
-            return "redirect:/Modification";
+            return "redirect:/modification";
         }
 
 //        // Validation de l'ancien mot de passe si ce n'est pas un admin
 //        if (currentUser.getRole().toString().equals("MEMBER")) {
 //            if (!passwordEncoder.matches(userForm.getOldPassword(), userFromDb.getPassword())) {
 //                model.addAttribute("error", "L'ancien mot de passe est incorrect.");
-//                return "Modification/ProfileModification";
+//                return "modification/ProfileModification";
 //            }
  //       }
 
@@ -77,7 +77,7 @@ public class ProfileModificationController {
 //        if (userForm.getNewPassword() != null && !userForm.getNewPassword().isEmpty()) {
 //            if (!userForm.getNewPassword().equals(userForm.getConfirmPassword())) {
 //                model.addAttribute("error", "Le nouveau mot de passe et la confirmation ne correspondent pas.");
-//                return "Modification/ProfileModification";
+//                return "modification/ProfileModification";
 //            }
 //            userFromDb.setPassword(passwordEncoder.encode(userForm.getNewPassword()));
 //        }
