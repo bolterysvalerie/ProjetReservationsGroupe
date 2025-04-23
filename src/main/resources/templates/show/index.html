@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des spectacles</title>
+    <style>
+
+        h1, h4 {
+            color: #333;
+            text-align: center;
+        }
+
+        #containerShow {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-modify {
+            color: #007bff;
+            margin-right: 10px;
+            text-decoration: underline;
+        }
+
+        .btn-delete {
+            color: red;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filter-form,
+        .sort-form {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-form input,
+        .sort-form select,
+        .sort-form input[type="checkbox"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .filter-form button,
+        .sort-form button {
+            padding: 8px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .show-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .show {
+            flex: 1;
+            text-align: center;
+        }
+
+        .show img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .show h3 {
+            margin-top: 10px;
+            color: #444;
+        }
+
+        .show-table {
+            flex: 2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        th, td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        th {
+            color: #555;
+            font-weight: normal;
+            width: 130px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            list-style: none;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #007bff;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+
+        <div id="containerShow">
+            <h1 th:text="${thetitle}">Liste des spectacles</h1>
+
+            <div sec:authorize="hasRole('ADMIN')" style="margin-bottom: 20px;">
+                <a th:href="@{/show/create}" class="btn btn-primary">➕ Ajouter un spectacle</a>
+            </div>
+
+            <!-- Filtrer -->
+            <form th:action="@{/shows}" method="get" class="filter-form">
+                <h4>🔍 Filtrer</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <div><label>Titre :</label><br><input type="text" name="title" th:value="${title}"></div>
+                    <div><label>Durée :</label><br><input type="number" name="duration" th:value="${duration}"></div>
+                    <div><label>Date :</label><br><input type="date" name="date" th:value="${date}"></div>
+                    <div><label>Adresse :</label><br><input type="text" name="address" th:value="${address}"></div>
+                    <div style="align-self: end;">
+                        <button type="submit">Filtrer</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Trier -->
+            <form th:action="@{/shows}" method="get" class="sort-form">
+                <h4>🔁 Trier</h4>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <div>
+                        <label for="sort">Trier par :</label>
+                        <select name="sortField" id="sort">
+                            <option value="created_in" th:selected="${sortField == 'created_in'}">Date</option>
+                            <option value="duration" th:selected="${sortField == 'duration'}">Durée</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" name="sortDirection" th:checked="${sortDirection}">
+                            Croissant
+                        </label>
+                    </div>
+                    <button type="submit">Trier</button>
+                </div>
+            </form>
+
+            <!-- Liste des spectacles -->
+            <div th:each="show : ${shows}">
+                <div class="show-container">
+                    <div class="show">
+                        <h3 th:text="${show.title}">Titre</h3>
+                        <img th:src="@{${show.posterUrl}}" th:alt="${show.title}">
+                    </div>
+                    <div class="show-table">
+                        <table>
+                            <tr>
+                                <th>Salle :</th>
+                                <td th:text="${show.location.designation}">Nom</td>
+                            </tr>
+                            <tr>
+                                <th>Adresse :</th>
+                                <td th:text="${show.location.address}">Adresse</td>
+                            </tr>
+                            <tr>
+                                <th>Ville :</th>
+                                <td th:text="|${show.location.locality.postalCode} ${show.location.locality.locality}|">
+                                    Ville
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Nom auteur :</th>
+                                <td>noms, prénoms</td>
+                            </tr>
+                            <tr th:if="${#lists.size(show.representations)==1}">
+                                <th>Représentation :</th>
+                                <td>1 fois</td>
+                            </tr>
+                            <tr th:if="${#lists.size(show.representations)>1}">
+                                <th>Représentation :</th>
+                                <td th:text="|${#lists.size(show.representations)} fois|">x fois</td>
+                            </tr>
+                            <tr th:if="${#lists.size(show.prices)==1}">
+                                <th>Prix :</th>
+                                <td th:text="|${#lists.size(show.prices)} catégorie|">x catégorie</td>
+                            </tr>
+                            <tr th:if="${#lists.size(show.prices)>1}">
+                                <th>Prix :</th>
+                                <td th:text="|${#lists.size(show.prices)} catégories|">x catégories</td>
+                            </tr>
+                            <tr>
+                                <th>Durée :</th>
+                                <td><b><span th:text="${show.duration}"></span></b> minutes</td>
+                            </tr>
+                            <tr sec:authorize="hasRole('ADMIN')">
+                                <th>Actions :</th>
+                                <td>
+                                    <a th:href="@{/show/{id}/edit(id=${show.id})}" class="btn-modify">Modifier</a>
+                                    <form th:action="@{/show/{id}(id=${show.id})}" method="post"
+                                          style="display:inline;">
+                                        <input type="hidden" name="_method" value="delete">
+                                        <button type="submit" class="btn-delete">Supprimer</button>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                        <a th:href="@{/show/{id}(id=${show.id})}">📄 Voir plus d'information</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <ul class="pagination">
+                <li th:if="${shows.hasPrevious()}">
+                    <a th:href="@{/shows(page=${currentPage - 1}, size=${size})}">⏪ Précédent</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:if="${i >= currentPage - 1 and i <= currentPage + 1}">
+                    <a th:href="@{/shows(page=${i}, size=${size})}"
+                       th:text="${i + 1}"
+                       th:classappend="${i == currentPage ? 'active' : ''}"></a>
+                </li>
+                <li th:if="${shows.hasNext()}">
+                    <a th:href="@{/shows(page=${currentPage + 1}, size=${size})}">Suivant ⏩</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
