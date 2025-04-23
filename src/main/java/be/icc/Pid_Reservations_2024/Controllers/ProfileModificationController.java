@@ -18,8 +18,8 @@ public class ProfileModificationController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/modification")
     public String afficherModifierProfil(@RequestParam(value = "userId", required = false) Long userId,
@@ -82,6 +82,7 @@ public class ProfileModificationController {
 //            userFromDb.setPassword(passwordEncoder.encode(userForm.getNewPassword()));
 //        }
 
+        userFromDb.setId(userForm.getId());
         userFromDb.setLastName(userForm.getLastName());
         userFromDb.setFirstName(userForm.getFirstName());
         userFromDb.setEmail(userForm.getEmail());
@@ -90,6 +91,6 @@ public class ProfileModificationController {
         // Sauvegarde en base
         userRepository.save(userFromDb);
 
-        return "redirect:/Home";
+        return "redirect:/";
     }
 }

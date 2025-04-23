@@ -38,6 +38,6 @@ public class RepresentationReservationController {
 
         // Ajouter les données au modèle
         model.addAttribute("representations", userReservations);
-        return "representationReservation/ReservationRepresentation"; // Vue Thymeleaf
+        return "representationReservation/reservationRepresentation"; // Vue Thymeleaf
     }
 }

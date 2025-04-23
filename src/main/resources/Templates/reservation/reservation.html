@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultrag.net/thymeleaf/layout" layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Table display the show */
+        table {
+            margin: auto;
+            width: 980px;
+            border-collapse: collapse;
+        }
+
+        table, td, th {
+            border: 1px solid;
+            text-align: center;
+            min-width: 100px;
+            height: 50px;
+        }
+
+        /* Size td for picture */
+        #tdPicture {
+            width: 350px;
+        }
+
+        /* Size of picture */
+        img {
+            height: 500px;
+            width: 340px;
+        }
+
+        /* Style title */
+        #titleShow {
+            font-style: oblique;
+            font-size: xx-large;
+        }
+
+        /* designation Theatre */
+        #designation {
+            font-size: x-large;
+            font-weight: bolder;
+        }
+    </style>
+
+
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <table>
+            <form th:action="@{/create-checkout-session}" method="post">
+                <tr>
+                    <td id="tdPicture" rowspan="6" >
+                        <!--                        <img th:src="@{${'/images/' + representation.show.posterUrl}}"-->
+                        <!--                             th:alt="${representation.show.title}">-->
+                        <img th:src="@{${representation.show.posterUrl}}" th:alt="${representation.show.title}">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="titleShow" colspan="3" th:text="${title}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Date: </label>
+                        <p th:text="${#temporals.format(representation.schedule, 'dd MMMM yyyy'+ ' à ' + 'HH:mm' )}"></p>
+                    </td>
+                    <td>
+                        <label>Prix: </label>
+                        <label>
+                            <select name="priceShow" id="priceShow">
+                                <option th:each=" price : ${representation.show.prices}" th:value="${price.amount}"
+                                        th:text="|${price.type + ' : '} ${price.amount +' €'}|">
+                                </option>
+                            </select>
+                        </label>
+                    </td>
+                    <td>
+                        <label>Quantité: </label>
+                        <select name="quantityShow" id="quantityShow">
+                            <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" th:each="address : ${representation.location}">
+                        <p id="designation" th:text="${address.designation}"></p>
+                        <p>
+                            <span th:text="${address.address}"></span><br>
+                            <span th:text="${address.locality.postalCode}"></span>
+                            <span th:text="${address.locality.locality}"></span>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td th:text="${representation.location.phone}">
+                    </td>
+                    <td colspan="2">
+                        <a th:href="${representation.location.website}" th:text="${representation.location.website}"
+                           target="_blank"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+
+                        <button id="checkout-button">Payer</button>
+                        <input type="hidden" th:name="pictureShow"
+                               th:value="@{${representation.show.posterUrl}}">
+                        <input type="hidden" th:name="nameShow" th:value="${title}">
+                        <input type="hidden" th:name="dateShow"
+                               th:value="${#temporals.format(representation.schedule, 'dd MMMM yyyy'+ ' à ' + 'HH:mm' )}">
+
+                    </td>
+                </tr>
+            </form>
+        </table>
+
+
+    </div>
+</div>
+
+</body>
+</html>
