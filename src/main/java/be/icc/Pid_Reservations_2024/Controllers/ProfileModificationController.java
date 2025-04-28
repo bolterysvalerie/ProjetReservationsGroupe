@@ -34,7 +34,7 @@ public class ProfileModificationController {
             userToEdit = userRepository.findById(userId).orElse(null);
             if (userToEdit == null) {
                 model.addAttribute("error", "Utilisateur introuvable.");
-                return "modification/ProfileModification";
+                return "modification/profileModification";
             }
         } else {
             // Sinon, c'est l'utilisateur connecté qui est modifié
@@ -43,27 +43,35 @@ public class ProfileModificationController {
 
         model.addAttribute("user", userToEdit);
         model.addAttribute("role", currentUser.getRole().toString());
-        return "modification/ProfileModification";
+        return "modification/profileModification";
     }
 
     @PostMapping("/modification")
     public String traiterModification(@ModelAttribute("user") User userForm,
                                       Authentication authentication, Model model) {
+        // Vérifier si l'ID est valide
+        if (userForm.getId() == null) {
+            model.addAttribute("error", "L'identifiant de l'utilisateur est manquant.");
+            return "modification/profileModification";
+        }
+
         String currentUsername = authentication.getName();
         User currentUser = userRepository.findByLogin(currentUsername);
 
-        // Vérifie si l'utilisateur existe dans la base
+        // Récupérer l'utilisateur de la base
         User userFromDb = userRepository.findById(userForm.getId()).orElse(null);
         if (userFromDb == null) {
             model.addAttribute("error", "Utilisateur introuvable.");
-            return "modification/ProfileModification";
+            return "modification/profileModification";
         }
 
-        // Vérifie si l'utilisateur connecté est autorisé à faire la modification
+        // Vérifiez les autorisations de modification
         if (!currentUser.getRole().toString().equals("ADMIN") && !currentUser.getId().equals(userFromDb.getId())) {
             model.addAttribute("error", "Vous n'êtes pas autorisé à modifier ce profil.");
             return "redirect:/modification";
         }
+
+
 
 //        // Validation de l'ancien mot de passe si ce n'est pas un admin
 //        if (currentUser.getRole().toString().equals("MEMBER")) {
@@ -82,14 +90,15 @@ public class ProfileModificationController {
 //            userFromDb.setPassword(passwordEncoder.encode(userForm.getNewPassword()));
 //        }
 
-        userFromDb.setId(userForm.getId());
+
+        // Mise à jour des informations
         userFromDb.setLastName(userForm.getLastName());
         userFromDb.setFirstName(userForm.getFirstName());
         userFromDb.setEmail(userForm.getEmail());
         userFromDb.setLanguage(userForm.getLanguage());
 
-        // Sauvegarde en base
-        userRepository.save(userFromDb);
+        userRepository.save(userFromDb); // Sauvegarde des modifications
+
 
         return "redirect:/";
     }

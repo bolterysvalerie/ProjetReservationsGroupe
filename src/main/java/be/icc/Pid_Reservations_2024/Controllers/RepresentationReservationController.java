@@ -29,7 +29,7 @@ public class RepresentationReservationController {
         // Vérifier si l'utilisateur est connecté
         if (currentUser == null) {
             model.addAttribute("error", "Utilisateur non authentifié.");
-            return "error-page"; // Vous pouvez définir une page d'erreur personnalisée
+            return "error"; // Vous pouvez définir une page d'erreur personnalisée
         }
 
         // Récupérer toutes les réservations de l'utilisateur
