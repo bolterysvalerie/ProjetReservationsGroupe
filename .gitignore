@@ -31,4 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Custom Rules ###
 /src/main/resources/META-INF
+**/META-INF/
