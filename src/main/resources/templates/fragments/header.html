@@ -43,6 +43,9 @@
                 <li sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
                     <a th:href="@{/modification}">Modifier le profil</a>
                 </li>
+                <li sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
+                    <a th:href="@{/representationReservation}">Consulter les reservations</a>
+                </li>
                 <!-- 🔐 Lien vers back-office pour ADMIN uniquement -->
                 <li sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/backoffice}">Back-Office</a>
