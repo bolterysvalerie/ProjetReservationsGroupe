@@ -1,7 +1,6 @@
 package be.icc.Pid_Reservations_2024.api.controller;
 
 import be.icc.Pid_Reservations_2024.Models.Show;
-import be.icc.Pid_Reservations_2024.Repositories.ShowRepository;
 import be.icc.Pid_Reservations_2024.Services.ShowService;
 import be.icc.Pid_Reservations_2024.api.assembler.ShowModelAssembler;
 import org.springframework.hateoas.CollectionModel;
@@ -9,10 +8,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -77,6 +73,11 @@ public class ShowApiController {
             // Save the new show to the database
             Optional<Show> existing = showService.findBySlug(newShow.getSlug());
 
+            // Si artiste_types est null, initialiser une liste vide
+            if (newShow.getArtiste_types() == null) {
+                newShow.setArtiste_types(new ArrayList<>());
+            }
+
             if (existing.isPresent()) {
                 Map<String, String> errorResponse = new HashMap<>();
                 errorResponse.put("error", "Le slug existe déjà.");
@@ -118,12 +119,21 @@ public class ShowApiController {
         try {
             Show existingShow = showService.getShow(id);
 
+            if (existingShow == null) {
+                // if show doesn't exist
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "Show non trouvé.");
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
+
             existingShow.setSlug(updatedShow.getSlug());
             existingShow.setTitle(updatedShow.getTitle());
             existingShow.setPosterUrl(updatedShow.getPosterUrl());
             existingShow.setDuration(updatedShow.getDuration());
             existingShow.setCreated_in(updatedShow.getCreated_in());
             existingShow.setBookable(updatedShow.getBookable());
+
+            showService.add(existingShow);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "Show enregistré avec succès.");
