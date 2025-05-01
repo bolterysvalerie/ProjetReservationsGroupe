@@ -53,8 +53,13 @@ public class ShowService {
         return showRepository.findById(id).orElse(null);
     }
 
-    public void add(Show show) {
+    public Optional<Show> findBySlug(String slug) {
+        return Optional.ofNullable(showRepository.findBySlug(slug));
+    }
+
+    public Show add(Show show) {
         showRepository.save(show);
+        return show;
     }
 
 
