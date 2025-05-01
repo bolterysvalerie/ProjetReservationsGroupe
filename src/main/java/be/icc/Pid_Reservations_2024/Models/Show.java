@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Show {
     private Integer duration;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "created_in")
-    private Date created_in;
+    private LocalDateTime created_in;
     @Column(name = "bookable", columnDefinition = "TINYINT")
     private Boolean bookable;
 
@@ -66,7 +67,7 @@ public class Show {
     List<ArtisteType> artiste_types = new ArrayList<>();
 
     // Constructor with params
-    public Show(String title, String posterUrl, Date created_in, Boolean bookable) {
+    public Show(String title, String posterUrl, LocalDateTime created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();
 
         this.slug = slg.slugify(title);
