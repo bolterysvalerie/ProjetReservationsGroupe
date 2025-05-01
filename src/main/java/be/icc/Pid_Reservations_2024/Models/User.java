@@ -2,6 +2,7 @@
 package be.icc.Pid_Reservations_2024.Models;
 
 import be.icc.Pid_Reservations_2024.Enums.UserRoles;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,10 +37,12 @@ public class User {
     private LocalDateTime createdAt;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Review> reviews;
 
     @Transient

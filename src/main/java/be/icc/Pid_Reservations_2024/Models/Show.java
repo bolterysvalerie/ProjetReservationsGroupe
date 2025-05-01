@@ -1,5 +1,9 @@
 package be.icc.Pid_Reservations_2024.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.slugify.Slugify;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,12 +12,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 @Table(name = "shows")
 public class Show {
@@ -31,33 +37,36 @@ public class Show {
     private Integer duration;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "created_in")
-    private LocalDateTime created_in;
+    private Date created_in;
     @Column(name = "bookable", columnDefinition = "TINYINT")
     private Boolean bookable;
 
-    // Relation One to Many
-//    @OneToMany(targetEntity = Representation.class, mappedBy = "show", fetch = FetchType.EAGER)
     @OneToMany(targetEntity = Representation.class, mappedBy = "show",
             cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference("show-representation")
     private List<Representation> representations;
 
-    @OneToMany(mappedBy = "show")
+    @OneToMany(mappedBy = "show", fetch = FetchType.EAGER)
+    @JsonManagedReference("show-review")
     private List<Review> reviews;
 
     // Relation Many To One
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference("location-show")
     private Location location;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "shows", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JsonIgnore
     List<Price> prices;
 
-    @ManyToMany(mappedBy = "shows", fetch = FetchType.EAGER)
-    private List<ArtisteType> artiste_types;
+    @ManyToMany(mappedBy = "shows", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JsonIgnore
+    List<ArtisteType> artiste_types = new ArrayList<>();
 
     // Constructor with params
-    public Show(String title, String posterUrl, LocalDateTime created_in, Boolean bookable) {
+    public Show(String title, String posterUrl, Date created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();
 
         this.slug = slg.slugify(title);
@@ -69,7 +78,7 @@ public class Show {
 
     //Ajout jusqu'au toString
     public Show addRepresentation(Representation representation) {
-        if(!this.representations.contains(representation)) {
+        if (!this.representations.contains(representation)) {
             this.representations.add(representation);
             representation.setShow(this);
         }
@@ -78,9 +87,9 @@ public class Show {
     }
 
     public Show removeRepresentation(Representation representation) {
-        if(this.representations.contains(representation)) {
+        if (this.representations.contains(representation)) {
             this.representations.remove(representation);
-            if(representation.getLocation().equals(this)) {
+            if (representation.getLocation().equals(this)) {
                 representation.setLocation(null);
             }
         }
@@ -96,7 +105,7 @@ public class Show {
     }
 
     public Show addArtistType(ArtisteType artistType) {
-        if(!this.artiste_types.contains(artistType)) {
+        if (!this.artiste_types.contains(artistType)) {
             this.artiste_types.add(artistType);
             artistType.addShow(this);
         }
@@ -105,7 +114,7 @@ public class Show {
     }
 
     public Show removeArtistType(ArtisteType artistType) {
-        if(this.artiste_types.contains(artistType)) {
+        if (this.artiste_types.contains(artistType)) {
             this.artiste_types.remove(artistType);
             artistType.getShows().remove(this);
         }
