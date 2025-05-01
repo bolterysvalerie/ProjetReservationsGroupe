@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -35,13 +36,16 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain configure(final HttpSecurity http) throws Exception {
         return http.cors(Customizer.withDefaults())
-                .csrf(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/admin").hasRole("ADMIN");
                     auth.requestMatchers("/user").hasRole("MEMBER");
                     auth.requestMatchers("/reservation/**").hasAnyRole("ADMIN", "MEMBER");
                     auth.requestMatchers("/representationReservation").hasAnyRole("ADMIN", "MEMBER");
                     auth.requestMatchers("/modification/**").hasAnyRole("ADMIN", "MEMBER");
+                    // This is for API
+                    auth.requestMatchers("/api/**").permitAll(); // access for everyone
+                    auth.requestMatchers("/api/admin/**").hasRole("ADMIN"); // access only for Admin
                     auth.anyRequest().permitAll();
                 })
                 .formLogin(form -> form
