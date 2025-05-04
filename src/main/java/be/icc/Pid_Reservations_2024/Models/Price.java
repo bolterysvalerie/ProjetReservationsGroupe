@@ -1,5 +1,6 @@
 package be.icc.Pid_Reservations_2024.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -28,11 +29,12 @@ public class Price {
     private LocalDate end_date;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "price")
+    @OneToMany(mappedBy = "price", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<RepresentationReservation> representation_reservations;
 
     // Relation Many to Many
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "price_shows",
             joinColumns = @JoinColumn(name = "price_id"),

@@ -1,5 +1,6 @@
 package be.icc.Pid_Reservations_2024.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -29,7 +30,8 @@ public class Artist {
     private String firstname;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "artists" , fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "artists" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Type> types; // Initialiser la collection pour éviter les NullPointerException
 
 

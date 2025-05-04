@@ -1,5 +1,7 @@
 package be.icc.Pid_Reservations_2024.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,16 +22,18 @@ public class ArtisteType {
     private Long id;
 
     // Relation Many To One
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "artist_id", referencedColumnName = "id", nullable = false)
     private Artist artist;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "type_id", referencedColumnName = "id", nullable = false)
     private Type type;
 
     // Relation Many To Many
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JsonBackReference("show-artist-type")
+    @JsonIgnore
     @JoinTable(
             name = "artiste_type_shows",
             joinColumns = @JoinColumn(name = "artiste_type_id"),
