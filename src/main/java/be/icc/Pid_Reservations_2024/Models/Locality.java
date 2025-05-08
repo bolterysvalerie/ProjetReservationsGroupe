@@ -1,5 +1,6 @@
 package be.icc.Pid_Reservations_2024.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -23,7 +24,8 @@ public class Locality {
     private String locality;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "locality")
+    @OneToMany(mappedBy = "locality", fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<Location> locations;
 
     // Constructor with params

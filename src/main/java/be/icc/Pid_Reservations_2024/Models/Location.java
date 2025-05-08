@@ -1,5 +1,6 @@
 package be.icc.Pid_Reservations_2024.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.slugify.Slugify;
 import jakarta.persistence.*;
@@ -33,10 +34,12 @@ public class Location {
     // Relation One To Many
     @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
     @JsonManagedReference("location-representation")
+    @JsonIgnore
     private List<Representation> representations;
 
     @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
     @JsonManagedReference("location-show")
+    @JsonIgnore
     private List<Show> shows;
 
     // Relation Many To One
