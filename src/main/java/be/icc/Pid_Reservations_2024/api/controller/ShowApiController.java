@@ -19,6 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class ShowApiController {
 
     private final ShowService showService;
