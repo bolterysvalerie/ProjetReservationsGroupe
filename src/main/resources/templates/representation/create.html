@@ -1,47 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Créer une Représentation</title>
+    <meta charset="UTF-8">
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: auto auto 25px;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Créer une nouvelle Représentation</h1>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+    <h1>Créer une nouvelle Représentation</h1>
 
-<!-- Formulaire relié à representationForm -->
-<form th:action="@{/representations/create}"
-      th:object="${representationForm}"
-      method="post">
+    <!-- Formulaire relié à representationForm -->
+    <form th:action="@{/representations/create}"
+          th:object="${representationForm}"
+          method="post">
 
-    <!-- Champ date/heure -->
-    <label for="schedule">Date / Heure :</label>
-    <input type="datetime-local" id="schedule" th:field="*{schedule}"/>
-    <br/>
+        <!-- Champ date/heure -->
+        <label for="schedule">Date / Heure :</label>
+        <input type="datetime-local" id="schedule" th:field="*{schedule}"/>
+        <br/>
 
-    <!-- Sélection du Show -->
-    <label for="showSelect">Show :</label>
-    <select id="showSelect" th:name="showId">
-        <option th:each="s : ${shows}"
-                th:value="${s.id}"
-                th:text="${s.title}">
-        </option>
-    </select>
-    <br/>
+        <!-- Sélection du Show -->
+        <label for="showSelect">Show :</label>
+        <select id="showSelect" th:name="showId">
+            <option th:each="s : ${shows}"
+                    th:value="${s.id}"
+                    th:text="${s.title}">
+            </option>
+        </select>
+        <br/>
 
-    <!-- Sélection du Location -->
-    <label for="locationSelect">Lieu :</label>
-    <select id="locationSelect" th:name="locationId">
-        <option th:each="l : ${locations}"
-                th:value="${l.id}"
-                th:text="${l.designation}">
-        </option>
-    </select>
-    <br/>
+        <!-- Sélection du Location -->
+        <label for="locationSelect">Lieu :</label>
+        <select id="locationSelect" th:name="locationId">
+            <option th:each="l : ${locations}"
+                    th:value="${l.id}"
+                    th:text="${l.designation}">
+            </option>
+        </select>
+        <br/>
 
-    <!-- Bouton d'envoi -->
-    <button type="submit">Enregistrer</button>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-</form>
+        <!-- Bouton d'envoi -->
+        <button type="submit">Enregistrer</button>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </form>
 
-<!-- Lien pour annuler et revenir à la liste -->
-<a th:href="@{/representations}">Annuler</a>
+    <!-- Lien pour annuler et revenir à la liste -->
+    <a th:href="@{/representations}">Annuler</a>
+</div>
 </body>
 </html>

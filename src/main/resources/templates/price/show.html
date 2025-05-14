@@ -6,10 +6,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Détails d'un Price</title>
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Affichage des informations */
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        strong {
+            color: #555;
+            font-weight: bold;
+        }
+
+        span {
+            color: #333;
+            font-size: 16px;
+        }
+
+        /* Liens et actions */
+        nav {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            color: #0056b3;
+        }
+
+        form {
+            display: inline;
+        }
+
+        /* Bouton de suppression */
+        button[type="submit"] {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #c82333;
+        }
+
+        /* Espacement et alignement */
+        nav {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        a {
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+    </style>
 </head>
 <body>
 <div id="notification" th:replace="~{main :: notification}"></div>
-<div layout:fragment="content">
+<div class="containerDivImportant" layout:fragment="content">
     <h1>Informations sur le price</h1>
 
     <!-- Affichage des champs de l'entité -->

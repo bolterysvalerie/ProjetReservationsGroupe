@@ -1,11 +1,11 @@
-
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Créer un Lien Artiste-Type</title>
     <link rel="stylesheet" href="/css/formulaire/formulaire.css">
 </head>
 <body>
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
 <h1>Créer un Lien Artiste-Type et Spectacle</h1>
 <form th:action="@{/artiste-types/create}" method="post">
     <div>
@@ -38,5 +38,6 @@
     <button type="submit">Créer</button>
 </form>
 <a th:href="@{/artiste-types}">Retour à la liste</a>
+</div>
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr"
       xmlns:th="http://www.thymeleaf.org"
@@ -8,10 +7,108 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste des prix</title>
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 950px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: auto auto 25px;
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Bouton pour ajouter un prix */
+        .actions {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .actions a {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .actions a:hover {
+            background-color: darkblue;
+            color: white;
+        }
+
+        /* Style du tableau */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fff;
+            font-size: 16px;
+        }
+
+        /* Lien dans le tableau */
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        /* Formulaire de suppression */
+        form {
+            display: inline-block;
+        }
+
+        button[type="submit"] {
+            background-color: #e3342f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #cc1f1a;
+        }
+
+        /* Espacement général */
+        table + .actions {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 <div id="notification" th:replace="~{main :: notification}"></div>
-<div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
 
     <h1>Liste des prix</h1>
 
@@ -50,5 +147,6 @@
         </tbody>
     </table>
 </div>
+
 </body>
 </html>

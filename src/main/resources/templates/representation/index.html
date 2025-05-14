@@ -7,10 +7,121 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste des représentations de spectacle</title>
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: auto auto 25px;
+        }
+
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Style pour les liens */
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Style de la table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px 20px;
+            text-align: left;
+            font-size: 16px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        /* Actions */
+        td a {
+            color: #28a745;
+            margin-right: 10px;
+        }
+
+        td a:hover {
+            color: #218838;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        /* Espace entre les liens "actions" */
+        td form {
+            display: inline-block;
+        }
+
+        div {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .btnVoir {
+            background-color: #1e922c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .btnModifier {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+
+    </style>
 </head>
 <body>
 <div id="notification" th:replace="~{main :: notification}"></div>
-<div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+    <h1>Liste des représentations</h1>
     <!--    Inclusion du fragment de notification défini dans votre layout principal-->
 
     <h1 th:text="${title}">Liste des représentations de spectacle</h1>
@@ -43,10 +154,10 @@
             <td th:text="${#temporals.format(representation.schedule, 'dd-MM-yyyy')}">01-01-2025</td>
             <td th:text="${#temporals.format(representation.schedule, 'HH:mm')}">13:30</td>
             <td>
-                <a th:href="@{/representations/{id}(id=${representation.id})}">Voir</a>
+                <a class="btnVoir" th:href="@{/representations/{id}(id=${representation.id})}">Voir</a>
             </td>
             <td>
-                <a th:href="@{/representations/{id}/edit(id=${representation.id})}"
+                <a class="btnModifier" th:href="@{/representations/{id}/edit(id=${representation.id})}"
                    style="margin-left:10px;">Modifier</a>
             </td>
             <td>

@@ -111,9 +111,9 @@
     </style>
 </head>
 <body>
-<h1>Liste des Liens Artiste-Type</h1>
 <div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
 
+    <h1>Liste des Liens Artiste-Type</h1>
     <div th:if="${successMessage}">
         <p th:text="${successMessage}" style="color:green;"></p>
     </div>
