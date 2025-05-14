@@ -5,119 +5,190 @@
     <title>Reservation</title>
     <script src="https://js.stripe.com/v3/"></script>
     <style>
-        /* Table display the show */
+        h1, h2, p {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
         table {
-            margin: auto;
-            width: 980px;
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
             border-collapse: collapse;
         }
 
-        table, td, th {
-            border: 1px solid;
-            text-align: center;
-            min-width: 100px;
-            height: 50px;
+        td {
+            padding: 12px;
+            vertical-align: middle;
         }
 
-        /* Size td for picture */
         #tdPicture {
-            width: 350px;
+            width: 200px;
+            text-align: center;
         }
 
-        /* Size of picture */
-        img {
-            height: 500px;
-            width: 340px;
+        #tdPicture img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Style title */
         #titleShow {
-            font-style: oblique;
-            font-size: xx-large;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            color: #555;
+            padding: 10px 0;
         }
 
-        /* designation Theatre */
+        label {
+            font-size: 1.1em;
+            color: #555;
+            margin-right: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        select {
+            padding: 8px;
+            font-size: 1em;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            width: 100%;
+            max-width: 150px;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Address styling */
         #designation {
-            font-size: x-large;
-            font-weight: bolder;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+        }
+
+        p span {
+            display: block;
+            font-size: 1.1em;
+            color: #777;
+        }
+
+        /* Link styling for the location's website */
+        a {
+            font-size: 1.1em;
+            color: #007bff;
+            text-decoration: none;
+            word-wrap: break-word;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 
 
 </head>
 <body>
-<div class="container">
-    <div layout:fragment="content">
-        <table>
-            <form th:action="@{/create-checkout-session}" method="post">
-                <tr>
-                    <td id="tdPicture" rowspan="6" >
-                        <!--                        <img th:src="@{${'/images/' + representation.show.posterUrl}}"-->
-                        <!--                             th:alt="${representation.show.title}">-->
-                        <img th:src="@{${representation.show.posterUrl}}" th:alt="${representation.show.title}">
-                    </td>
-                </tr>
-                <tr>
-                    <td id="titleShow" colspan="3" th:text="${title}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Date: </label>
-                        <p th:text="${#temporals.format(representation.schedule, 'dd MMMM yyyy'+ ' à ' + 'HH:mm' )}"></p>
-                    </td>
-                    <td>
-                        <label>Prix: </label>
-                        <label>
-                            <select name="priceShow" id="priceShow">
-                                <option th:each=" price : ${representation.show.prices}" th:value="${price.amount}"
-                                        th:text="|${price.type + ' : '} ${price.amount +' €'}|">
-                                </option>
-                            </select>
-                        </label>
-                    </td>
-                    <td>
-                        <label>Quantité: </label>
-                        <select name="quantityShow" id="quantityShow">
-                            <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
+<div layout:fragment="content">
+    <table>
+        <form th:action="@{/create-checkout-session}" method="post">
+            <tr>
+                <td id="tdPicture" rowspan="6">
+                    <!--                        <img th:src="@{${'/images/' + representation.show.posterUrl}}"-->
+                    <!--                             th:alt="${representation.show.title}">-->
+                    <img th:src="@{${representation.show.posterUrl}}" th:alt="${representation.show.title}">
+                </td>
+            </tr>
+            <tr>
+                <td id="titleShow" colspan="3" th:text="${title}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Date: </label>
+                    <p th:text="${#temporals.format(representation.schedule, 'dd MMMM yyyy'+ ' à ' + 'HH:mm' )}"></p>
+                </td>
+                <td>
+                    <label>Prix: </label>
+                    <label>
+                        <select name="priceShow" id="priceShow">
+                            <option th:each=" price : ${representation.show.prices}" th:value="${price.amount}"
+                                    th:text="|${price.type + ' : '} ${price.amount +' €'}|">
+                            </option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" th:each="address : ${representation.location}">
-                        <p id="designation" th:text="${address.designation}"></p>
-                        <p>
-                            <span th:text="${address.address}"></span><br>
-                            <span th:text="${address.locality.postalCode}"></span>
-                            <span th:text="${address.locality.locality}"></span>
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td th:text="${representation.location.phone}">
-                    </td>
-                    <td colspan="2">
-                        <a th:href="${representation.location.website}" th:text="${representation.location.website}"
-                           target="_blank"></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
+                    </label>
+                </td>
+                <td>
+                    <label>Quantité: </label>
+                    <select name="quantityShow" id="quantityShow">
+                        <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" th:each="address : ${representation.location}">
+                    <p id="designation" th:text="${address.designation}"></p>
+                    <p>
+                        <span th:text="${address.address}"></span><br>
+                        <span th:text="${address.locality.postalCode}"></span>
+                        <span th:text="${address.locality.locality}"></span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="${representation.location.phone}">
+                </td>
+                <td colspan="2">
+                    <a th:href="${representation.location.website}" th:text="${representation.location.website}"
+                       target="_blank"></a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
 
-                        <button id="checkout-button">Payer</button>
-                        <input type="hidden" th:name="pictureShow"
-                               th:value="@{${representation.show.posterUrl}}">
-                        <input type="hidden" th:name="nameShow" th:value="${title}">
-                        <input type="hidden" th:name="dateShow"
-                               th:value="${#temporals.format(representation.schedule, 'dd MMMM yyyy'+ ' à ' + 'HH:mm' )}">
+                    <button id="checkout-button">Payer</button>
+                    <input type="hidden" th:name="pictureShow"
+                           th:value="@{${representation.show.posterUrl}}">
+                    <input type="hidden" th:name="nameShow" th:value="${title}">
+                    <input type="hidden" th:name="dateShow"
+                           th:value="${#temporals.format(representation.schedule, 'dd MMMM yyyy'+ ' à ' + 'HH:mm' )}">
 
-                    </td>
-                </tr>
-            </form>
-        </table>
+                </td>
+            </tr>
+        </form>
+    </table>
 
 
-    </div>
 </div>
 
 </body>
