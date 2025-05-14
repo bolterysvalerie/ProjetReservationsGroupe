@@ -1,19 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Détail du lieu</title>
+    <meta charset="UTF-8">
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 950px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: underline black;
+        }
+
+        /* Style des paragraphes pour les détails */
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Lien Retour à la liste */
+        a {
+            display: inline-block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid black;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: black;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-<h1>Détail du lieu</h1>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+    <h1>Détail du lieu</h1>
 
-<p><strong>Désignation :</strong> <span th:text="${location.designation}">Nom</span></p>
-<p><strong>Slug :</strong> <span th:text="${location.slug}">le-roi-lion</span></p>
-<p><strong>Adresse :</strong> <span th:text="${location.address}">Adresse</span></p>
-<p><strong>Site web :</strong> <span th:text="${location.website}">www...</span></p>
-<p><strong>Téléphone :</strong> <span th:text="${location.phone}">123</span></p>
-<p><strong>Localité :</strong> <span th:text="${location.locality.postalCode + ' ' + location.locality.locality}">Localité</span></p>
+    <p><strong>Désignation :</strong> <span th:text="${location.designation}">Nom</span></p>
+    <p><strong>Slug :</strong> <span th:text="${location.slug}">le-roi-lion</span></p>
+    <p><strong>Adresse :</strong> <span th:text="${location.address}">Adresse</span></p>
+    <p><strong>Site web :</strong> <span th:text="${location.website}">www...</span></p>
+    <p><strong>Téléphone :</strong> <span th:text="${location.phone}">123</span></p>
+    <p><strong>Localité :</strong> <span th:text="${location.locality.postalCode + ' ' + location.locality.locality}">Localité</span>
+    </p>
 
-<a th:href="@{/locations}">Retour à la liste</a>
-
+    <a th:href="@{/locations}">Retour à la liste</a>
+</div>
 </body>
 </html>

@@ -1,40 +1,111 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
 <head>
     <title>Modifier le Lien Artiste-Type</title>
-    <link rel="stylesheet" href="/css/formulaire/formulaire.css">
+    <meta charset="UTF-8">
+    <style>
+
+        .containerDivImportant {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            font-size: 1rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        select[multiple] {
+            height: 150px;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background-color: #999999;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        button.submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1>Modifier le Lien Artiste-Type</h1>
-<form th:action="@{'/artiste-types/' + ${artisteType.id} + '/edit'}" method="post">
-    <label for="artistId">Artiste :</label>
-    <select id="artistId" name="artistId" required>
-        <option th:each="artist : ${artists}"
-                th:value="${artist.id}"
-                th:text="${artist.firstname + ' ' + artist.lastname}"
-                th:selected="${artist.id == artisteType.artist.id}"></option>
-    </select>
-    <br><br>
-    <label for="typeId">Type :</label>
-    <select id="typeId" name="typeId" required>
-        <option th:each="type : ${types}"
-                th:value="${type.id}"
-                th:text="${type.type}"
-                th:selected="${type.id == artisteType.type.id}"></option>
-    </select>
-    <br><br>
-    <label>Spectacle(s) :</label>
-    <select name="showIds" multiple>
-        <option th:each="show : ${shows}"
-                th:value="${show.id}"
-                th:text="${show.title}"
-                th:selected="${#lists.contains(artisteType.shows, show)}">
-        </option>
-    </select>
-    <br><br>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-    <button type="submit">Modifier</button>
-</form>
-<a th:href="@{/artiste-types}">Retour à la liste</a>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div class="containerDivImportant" layout:fragment="content">
+    <h1>Modifier le Lien Artiste-Type</h1>
+    <form th:action="@{'/artiste-types/' + ${artisteType.id} + '/edit'}" method="post">
+        <label for="artistId">Artiste :</label>
+        <select id="artistId" name="artistId" required>
+            <option th:each="artist : ${artists}"
+                    th:value="${artist.id}"
+                    th:text="${artist.firstname + ' ' + artist.lastname}"
+                    th:selected="${artist.id == artisteType.artist.id}"></option>
+        </select>
+        <br><br>
+        <label for="typeId">Type :</label>
+        <select id="typeId" name="typeId" required>
+            <option th:each="type : ${types}"
+                    th:value="${type.id}"
+                    th:text="${type.type}"
+                    th:selected="${type.id == artisteType.type.id}"></option>
+        </select>
+        <br><br>
+        <label>Spectacle(s) :</label>
+        <select name="showIds" multiple>
+            <option th:each="show : ${shows}"
+                    th:value="${show.id}"
+                    th:text="${show.title}"
+                    th:selected="${#lists.contains(artisteType.shows, show)}">
+            </option>
+        </select>
+        <br><br>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit">Modifier</button>
+    </form>
+    <a th:href="@{/artiste-types}">Retour à la liste</a>
+</div>
 </body>
 </html>

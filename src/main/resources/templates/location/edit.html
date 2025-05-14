@@ -1,37 +1,144 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Modifier un lieu</title>
+    <style>
+        /* Conteneur principal */
+        .containerDivImportant {
+            width: 90%;
+            max-width: 950px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Style du formulaire */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        input[disabled] {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+
+        /* Bouton de soumission */
+        button {
+            background-color: dimgray;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Lien Annuler */
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: red;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid black;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Notification (par défaut masqué) */
+        #notification {
+            margin: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Modifier le lieu</h1>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+    <h1>Modifier le lieu</h1>
 
-<form th:action="@{/locations/{id}/edit(id=${locationForm.id})}"
-      th:object="${locationForm}" method="post">
-    <input type="hidden" name="_method" value="put"/>
+    <form th:action="@{/locations/{id}/edit(id=${locationForm.id})}"
+          th:object="${locationForm}" method="post">
+        <input type="hidden" name="_method" value="put"/>
 
-    <label>Désignation : <input type="text" th:field="*{designation}"/></label><br>
-    <label>Slug (généré automatiquement) :
-        <input type="text" th:value="${locationForm.slug}" disabled/>
-    </label><br>
-    <label>Adresse : <input type="text" th:field="*{address}"/></label><br>
-    <label>Site web : <input type="text" th:field="*{website}"/></label><br>
-    <label>Téléphone : <input type="text" th:field="*{phone}"/></label><br>
+        <label>Désignation : <input type="text" th:field="*{designation}"/></label><br>
+        <label>Slug (généré automatiquement) :
+            <input type="text" th:value="${locationForm.slug}" disabled/>
+        </label><br>
+        <label>Adresse : <input type="text" th:field="*{address}"/></label><br>
+        <label>Site web : <input type="text" th:field="*{website}"/></label><br>
+        <label>Téléphone : <input type="text" th:field="*{phone}"/></label><br>
 
-    <label>Localité :
-        <select th:field="*{locality}">
-            <option th:each="locality : ${localities}"
-                    th:value="${locality.id}"
-                    th:text="${locality.postalCode + ' ' + locality.locality}"
-                    th:selected="${locality.id == locationForm.locality.id}">
-            </option>
-        </select>
-    </label><br>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-    <button type="submit">Mettre à jour</button>
-</form>
+        <label>Localité :
+            <select th:field="*{locality}">
+                <option th:each="locality : ${localities}"
+                        th:value="${locality.id}"
+                        th:text="${locality.postalCode + ' ' + locality.locality}"
+                        th:selected="${locality.id == locationForm.locality.id}">
+                </option>
+            </select>
+        </label><br>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit">Mettre à jour</button>
+    </form>
 
-<a th:href="${back}">Annuler</a>
-
+    <a th:href="${back}">Annuler</a>
+</div>
 </body>
 </html>

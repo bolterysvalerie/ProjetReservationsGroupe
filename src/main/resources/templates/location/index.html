@@ -6,10 +6,127 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste des lieux</title>
+    <style>
+
+        .containerDivImportant {
+            width: 90%;
+            max-width: 950px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        /* Conteneur principal */
+        #notification {
+            margin: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none; /* Masqué par défaut */
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Actions (bouton d'ajout de lieu) */
+        .actions {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .actions a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style pour le tableau */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* En-têtes du tableau */
+        thead {
+            background-color: #f8f8f8;
+        }
+
+        th {
+            padding: 10px;
+            text-align: left;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Corps du tableau */
+        tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        td {
+            padding: 10px;
+            color: #555;
+        }
+
+        /* Actions dans la dernière colonne */
+        td a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 14px;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        form button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #c0392b;
+        }
+
+        form {
+            display: inline;
+        }
+
+        /* Espacement entre les lignes de tableau */
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+    </style>
 </head>
 <body>
 <div id="notification" th:replace="~{main :: notification}"></div>
-<div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
     <h1>Liste des lieux</h1>
 
     <div class="actions">

@@ -2,11 +2,117 @@
       layout:decorate="~{layouts/main}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Liste des Liens Artiste-Type</title>
-    <link rel="stylesheet" href="/css/formulaire/formulaire.css">
+    <meta charset="UTF-8">
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        td ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        td ul li {
+            padding: 3px 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 8px 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #e60000;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .create-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+    </style>
 </head>
 <body>
 <h1>Liste des Liens Artiste-Type</h1>
-<div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
 
     <div th:if="${successMessage}">
         <p th:text="${successMessage}" style="color:green;"></p>
