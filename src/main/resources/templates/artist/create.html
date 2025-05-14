@@ -5,36 +5,122 @@
     <title>New artist</title>
     <link rel="stylesheet" href="/css/formulaire/formulaire.css">
     <style>
-        .fieldError { color: red; }
+        .fieldError {
+            color: red;
+        }
+
+        .containerDivImportant {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        .fieldError {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .action-links {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        nav {
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div id="notification" th:replace="~{main :: notification}"></div>
-    <div layout:fragment="content">
-        <h1>New artist</h1>
 
-        <form th:action="@{/artist/create}" th:object="${artist}" th:method="post">
-            <div>
-                <label>Firstname:</label>
-                <input type="text" th:field="*{firstname}">
-                <p th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" th:errorclass="fieldError"></p>
-            </div>
-            <div>
-                <label>Lastname:</label>
-                <input type="text" th:field="*{lastname}">
-                <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="fieldError"></p>
-            </div>
-            <div>
-                <button type="submit" th:text="Add">Add</button>
-                <a th:href="@{/artists}">Cancel</a>
-            </div>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div class="containerDivImportant" layout:fragment="content">
+    <h1>New artist</h1>
 
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        </form>
+    <form th:action="@{/artist/create}" th:object="${artist}" th:method="post">
+        <div>
+            <label>Firstname:</label>
+            <input type="text" th:field="*{firstname}">
+            <p th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" th:errorclass="fieldError"></p>
+        </div>
+        <div>
+            <label>Lastname:</label>
+            <input type="text" th:field="*{lastname}">
+            <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="fieldError"></p>
+        </div>
+        <div>
+            <button type="submit" th:text="Add">Add</button>
+            <a th:href="@{/artists}">Cancel</a>
+        </div>
 
-        <nav><a th:href="@{/artists}"> Back to the index</a></nav>
-    </div>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </form>
+
+    <nav><a th:href="@{/artists}"> Back to the index</a></nav>
 </div>
+
 </body>
 </html>

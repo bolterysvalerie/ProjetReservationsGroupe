@@ -3,35 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile of an artist</title>
-    <link rel="stylesheet" href="/css/formulaire/formulaire.css">
+
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #555;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 5px 0;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .actions, .action {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .action form a {
+            color: red;
+        }
+
+        .action form a:hover {
+            color: #ff4d4d;
+        }
+
+        nav {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <div id="notification" th:replace="~{main :: notification}"></div>
-    <div layout:fragment="content">
-<!--        <h1 th:text="${artist.firstname} + ' '+ ${artist.lastname}"> Bob Sull</h1>-->
-        <h1 th:text="|${artist.firstname}  ${artist.lastname}|">Bob Sull</h1>
 
-        <h2>Liste des types</h2>
-        <ul th:unless="${#lists.isEmpty(artist.types)}">
-            <li th:each="type : ${artist.types}" th:text="${type.type}">Type</li>
-        </ul>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div class="containerDivImportant" layout:fragment="content">
+    <!--        <h1 th:text="${artist.firstname} + ' '+ ${artist.lastname}"> Bob Sull</h1>-->
+    <h1 th:text="|${artist.firstname}  ${artist.lastname}|">Bob Sull</h1>
 
-        <div class="actions">
-            <a th:href="@{/artist/{id}/edit(id=${artist.id})}">Edit</a>
-        </div>
-        <div class="action">
-            <form th:id="|deleteForm-${artist.id}|" th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
-                <a href="#" th:onclick="|if(confirm('Confirm delete artist #${artist.id}')) document.getElementById('deleteForm-${artist.id}').submit(); return false;|">
-                    Delete
-                </a>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            </form>
-        </div>
+    <h2>Liste des types</h2>
+    <ul th:unless="${#lists.isEmpty(artist.types)}">
+        <li th:each="type : ${artist.types}" th:text="${type.type}">Type</li>
+    </ul>
 
-        <nav><a th:href="@{/artists}">Retour à l'index</a></nav>
+    <div class="actions">
+        <a th:href="@{/artist/{id}/edit(id=${artist.id})}">Edit</a>
     </div>
+    <div class="action">
+        <form th:id="|deleteForm-${artist.id}|" th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
+            <a href="#"
+               th:onclick="|if(confirm('Confirm delete artist #${artist.id}')) document.getElementById('deleteForm-${artist.id}').submit(); return false;|">
+                Delete
+            </a>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+    </div>
+
+    <nav><a th:href="@{/artists}">Retour à l'index</a></nav>
 </div>
+
 </body>
 </html>
 

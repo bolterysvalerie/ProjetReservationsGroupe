@@ -1,49 +1,132 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
-      layout:decorate="~{layouts/main}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main}">
 <head>
-  <title>List of artists</title>
-  <link rel="stylesheet" href="/css/formulaire/formulaire.css">
+    <title>List of artists</title>
+    <meta charset="UTF-8">
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .action {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .action a {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .action a:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover td {
+            background-color: #e1e1e1;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form a {
+            color: red;
+            cursor: pointer;
+        }
+
+        form a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-      <div id="notification" th:replace="~{main :: notification}"></div>
-    <div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
-      <h1 th:text="${title}">Liste des artistes</h1>
+<div class="container">
+    <div id="notification" th:replace="~{main :: notification}"></div>
+    <div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+        <h1 th:text="${title}">Liste des artistes</h1>
 
-      <div class="action" sec:authorize="hasRole('ADMIN')">
-        <a th:href="@{/artist/create}">Add new artist</a>
-      </div>
+        <div class="action" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/artist/create}">Add new artist</a>
+        </div>
 
-      <table th:unless="${#lists.isEmpty(artists)}">
-        <thead>
-        <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th colspan="2">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="artist : ${artists}">
-          <td th:text="${artist.firstname}">Bob</td>
-          <td th:text="${artist.lastname}">Sull</td>
-          <!-- Edit visible uniquement pour ADMIN -->
-          <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/artist/{id}(id=${artist.id})}" sec:authorize="hasRole('ADMIN')">View</a></td>
-          <!-- Edit visible uniquement pour ADMIN -->
-          <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/artist/{id}/edit(id=${artist.id})}" sec:authorize="hasRole('ADMIN')">Edit</a></td>
-          <!-- Delete visible uniquement pour ADMIN -->
-          <td sec:authorize="hasRole('ADMIN')">
-            <form th:id="|deleteForm-${artist.id}|" th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
-              <a href="#" th:onclick="|if(confirm('Confirm delete artist #${artist.id}')) document.getElementById('deleteForm-${artist.id}').submit(); return false;|">
-                Delete
-              </a>
-            </form>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+        <table th:unless="${#lists.isEmpty(artists)}">
+            <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th colspan="3">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="artist : ${artists}">
+                <td th:text="${artist.firstname}">Bob</td>
+                <td th:text="${artist.lastname}">Sull</td>
+                <!-- Edit visible uniquement pour ADMIN -->
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/artist/{id}(id=${artist.id})}"
+                                                        sec:authorize="hasRole('ADMIN')">View</a></td>
+                <!-- Edit visible uniquement pour ADMIN -->
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/artist/{id}/edit(id=${artist.id})}"
+                                                        sec:authorize="hasRole('ADMIN')">Edit</a></td>
+                <!-- Delete visible uniquement pour ADMIN -->
+                <td sec:authorize="hasRole('ADMIN')">
+                    <form th:id="|deleteForm-${artist.id}|" th:action="@{/artist/{id}(id=${artist.id})}"
+                          th:method="delete">
+                        <a href="#"
+                           th:onclick="|if(confirm('Confirm delete artist #${artist.id}')) document.getElementById('deleteForm-${artist.id}').submit(); return false;|">
+                            Delete
+                        </a>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-  </div>
+</div>
 </body>
 </html>
 
