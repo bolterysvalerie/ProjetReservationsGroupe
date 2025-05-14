@@ -42,12 +42,29 @@
             </td>
             <td th:text="${#temporals.format(representation.schedule, 'dd-MM-yyyy')}">01-01-2025</td>
             <td th:text="${#temporals.format(representation.schedule, 'HH:mm')}">13:30</td>
+<!--            <td>-->
+<!--                <a th:href="@{/representations/{id}(id=${representation.id})}">Voir</a>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <a th:href="@{/representations/{id}/edit(id=${representation.id})}"-->
+<!--                   style="margin-left:10px;">Modifier</a>-->
+<!--            </td>-->
+            <!-- Bouton Voir -->
             <td>
-                <a th:href="@{/representations/{id}(id=${representation.id})}">Voir</a>
+                <form th:action="@{/representations/{id}(id=${representation.id})}"
+                      method="get"
+                      style="display:inline-block;">
+                    <button type="submit">Voir</button>
+                </form>
             </td>
+
+            <!-- Bouton Modifier -->
             <td>
-                <a th:href="@{/representations/{id}/edit(id=${representation.id})}"
-                   style="margin-left:10px;">Modifier</a>
+                <form th:action="@{/representations/{id}/edit(id=${representation.id})}"
+                      method="get"
+                      style="display:inline-block; margin-left:10px;">
+                    <button type="submit">Modifier</button>
+                </form>
             </td>
             <td>
                 <form th:action="@{/representations/{id}(id=${representation.id})}" method="post"
