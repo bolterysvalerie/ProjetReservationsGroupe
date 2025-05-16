@@ -4,6 +4,7 @@ import be.icc.Pid_Reservations_2024.Models.Artist;
 import be.icc.Pid_Reservations_2024.Services.ArtistService;
 import be.icc.Pid_Reservations_2024.Services.TypeService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,8 +38,14 @@ public class ArtistController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/artist/{id}")
+    @Transactional
     public String show(@PathVariable("id") long id, Model model) {
         Artist artist = artistService.getArtist(id);
+
+        // Forcer le chargement de la collection lazy
+        if (artist.getTypes() != null) {
+            artist.getTypes().size();
+        }
 
         model.addAttribute("artist", artist);
         model.addAttribute("title", "Profile of an artist");

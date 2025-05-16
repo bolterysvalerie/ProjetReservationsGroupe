@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Détails du Lien Artiste-Type</title>
@@ -24,6 +24,9 @@
 <div>
     <a th:href="@{'/artiste-types/' + ${artisteType.id} + '/edit'}">Modifier</a>
     <a th:href="@{/artiste-types}">Retour à la liste</a>
+    <div class="action" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+    </div>
 </div>
 </body>
 </html>

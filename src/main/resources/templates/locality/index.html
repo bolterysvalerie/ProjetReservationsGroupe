@@ -7,6 +7,12 @@
 <body>
 <div class="container">
     <div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/localities/create}">Créer une localité</a>
+        <div class="action" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+        </div>
+
         <h1 th:text="${title}">Liste des localités</h1>
 
         <ul th:unless="${#lists.isEmpty(localities)}">
@@ -22,7 +28,10 @@
             </li>
         </ul>
 
-        <a sec:authorize="hasRole('ADMIN')" th:href="@{/localities/create}">Créer une localité</a>
+<!--        <a sec:authorize="hasRole('ADMIN')" th:href="@{/localities/create}">Créer une localité</a>-->
+<!--        <div class="action" sec:authorize="hasRole('ADMIN')">-->
+<!--            <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>-->
+<!--        </div>-->
     </div>
 </div>
 </body>

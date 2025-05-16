@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main}">
+
 <head>
     <title>Détail du lieu</title>
 </head>
 <body>
+<div layout:fragment="content">
 <h1>Détail du lieu</h1>
 
 <p><strong>Désignation :</strong> <span th:text="${location.designation}">Nom</span></p>
@@ -14,6 +17,9 @@
 <p><strong>Localité :</strong> <span th:text="${location.locality.postalCode + ' ' + location.locality.locality}">Localité</span></p>
 
 <a th:href="@{/locations}">Retour à la liste</a>
-
+    <div class="action" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+    </div>
+</div>
 </body>
 </html>

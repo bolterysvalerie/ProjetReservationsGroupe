@@ -15,36 +15,18 @@
             <ul class="nav navbar-nav">
                 <li th:classappend="${module == 'home' ? 'active' : ''}">
                     <a href="#" th:href="@{/}">Accueil</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')" th:classappend="${module == 'artists' ? 'active' : ''}">
-                    <a href="#" th:href="@{/artists}">Artistes</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/types}">Types d'artistes</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/artiste-types}">Artiste_Type_Show</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/localities}">Localités</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/locations}">Salles</a>
-                </li>
+
                 <li th:classappend="${module == 'artists' ? 'active' : ''}">
                     <a href="#" th:href="@{/shows}">Spectacles</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')" th:classappend="${module == 'artists' ? 'active' : ''}">
-                    <a href="#" th:href="@{/representations}">Représentations</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/prices}">Prix</a>
                 </li>
                 <li sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
                     <a th:href="@{/modification}">Modifier le profil</a>
                 </li>
                 <li sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
                     <a th:href="@{/representationReservation}">Consulter les reservations</a>
+                </li>
+                <li th:classappend="${module == 'rss' ? 'active' : ''}">
+                    <a href="#" th:href="@{/rss}">RSS</a>
                 </li>
                 <!-- 🔐 Lien vers back-office pour ADMIN uniquement -->
                 <li sec:authorize="hasRole('ADMIN')">

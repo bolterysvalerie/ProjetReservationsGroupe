@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Ajouter un lieu</title>
 </head>
 <body>
 <h1>Ajouter un lieu</h1>
+<div class="action" sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+</div>
 
 <form th:action="@{/locations/create}" th:object="${locationForm}" method="post">
     <label>Désignation : <input type="text" th:field="*{designation}"/></label><br>

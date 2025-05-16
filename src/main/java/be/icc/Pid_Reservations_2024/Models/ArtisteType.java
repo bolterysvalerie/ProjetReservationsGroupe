@@ -22,16 +22,16 @@ public class ArtisteType {
     private Long id;
 
     // Relation Many To One
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "artist_id", referencedColumnName = "id", nullable = false)
     private Artist artist;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "type_id", referencedColumnName = "id", nullable = false)
     private Type type;
 
     // Relation Many To Many
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 //    @JsonBackReference("show-artist-type")
     @JsonIgnore
     @JoinTable(

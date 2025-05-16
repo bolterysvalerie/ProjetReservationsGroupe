@@ -2,7 +2,7 @@
 <html lang="fr"
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/main}"
-      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Détails d'un Price</title>
@@ -32,6 +32,9 @@
 
         <!-- Lien de retour vers la liste -->
         <a th:href="@{/prices}">Retour à la liste</a>
+        <div class="action" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+</div>
     </nav>
 </div>
 </body>

@@ -27,6 +27,9 @@
         <nav>
             <a th:href="@{/localities}">Retour à la liste</a>
         </nav>
+        <div class="action" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+        </div>
     </div>
 </div>
 </body>

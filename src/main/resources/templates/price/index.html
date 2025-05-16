@@ -19,6 +19,10 @@
         <a th:href="@{/prices/create}">Créer un nouveau prix</a>
     </div>
 
+    <div class="action" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+    </div>
+
     <table border="1">
         <thead>
         <tr>

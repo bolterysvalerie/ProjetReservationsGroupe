@@ -12,8 +12,11 @@
 <div id="notification" th:replace="~{main :: notification}"></div>
 <div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
     <!--    Inclusion du fragment de notification défini dans votre layout principal-->
-
+    <div class="action" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+    </div>
     <h1 th:text="${title}">Liste des représentations de spectacle</h1>
+
 
     <!-- Lien pour créer une nouvelle représentation -->
     <div style="margin-bottom: 15px;">

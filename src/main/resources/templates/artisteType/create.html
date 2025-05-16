@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Créer un Lien Artiste-Type</title>
     <link rel="stylesheet" href="/css/formulaire/formulaire.css">
@@ -38,5 +38,8 @@
     <button type="submit">Créer</button>
 </form>
 <a th:href="@{/artiste-types}">Retour à la liste</a>
+<div class="action" sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+</div>
 </body>
 </html>

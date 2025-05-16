@@ -1,36 +1,5 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"-->
-<!--      layout:decorate="~{layouts/main}">-->
-<!--<head>-->
-<!--    <title>Créer une localité</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    <div layout:fragment="content">-->
-<!--        <h1>Créer une nouvelle localité</h1>-->
-
-<!--        <form th:action="@{/locality/create}" th:object="${locality}" method="post">-->
-<!--            <label for="postalCode">Code postal :</label>-->
-<!--            <input type="text" id="postalCode" th:field="*{postalCode}" required/>-->
-<!--            <br/>-->
-
-<!--            <label for="locality">Nom de la localité :</label>-->
-<!--            <input type="text" id="locality" th:field="*{locality}" required/>-->
-<!--            <br/>-->
-
-<!--            <button type="submit">Créer</button>-->
-<!--        </form>-->
-
-<!--        <nav>-->
-<!--            <a th:href="@{/localities}">Retour à la liste</a>-->
-<!--        </nav>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/main}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -40,6 +9,9 @@
 <div class="container">
     <div layout:fragment="content">
         <h1>Créer une nouvelle localité</h1>
+        <div class="action" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+        </div>
 
         <!-- On utilise "localities/create" (avec un 's') pour l'action -->
         <!-- On utilise "localityForm" comme object, car c'est ce qu'on a mis dans le model -->

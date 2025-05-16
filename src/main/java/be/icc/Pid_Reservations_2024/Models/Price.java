@@ -34,7 +34,8 @@ public class Price {
     private List<RepresentationReservation> representation_reservations;
 
     // Relation Many to Many
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "price_shows",
             joinColumns = @JoinColumn(name = "price_id"),

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Update an artist</title>
@@ -37,6 +38,9 @@
         </form>
 
         <nav><a th:href="@{/artists}"> Back to the index</a></nav>
+        <div class="action" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+        </div>
     </div>
 </div>
 </body>
