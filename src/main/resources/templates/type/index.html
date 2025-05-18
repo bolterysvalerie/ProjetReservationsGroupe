@@ -5,11 +5,127 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste des types</title>
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Conteneur principal */
+        #notification {
+            padding: 10px;
+            background-color: #ffdddd;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+            margin: 15px;
+            display: none; /* Par défaut, caché */
+        }
+
+        /* Style pour le titre */
+        h1 {
+            color: #333;
+            font-size: 1.8em;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Style de la section actions */
+        .actions {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .actions a {
+            padding: 8px 15px;
+            background-color: #5cb85c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover {
+            background-color: #4cae4c;
+        }
+
+        /* Style du tableau */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Style pour les liens dans le tableau */
+        table a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        table a:hover {
+            text-decoration: underline;
+        }
+
+        /* Style pour les boutons de suppression */
+        button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #c9302c;
+        }
+
+        button:active {
+            background-color: #ac2925;
+        }
+
+        /* Style pour les formulaires en ligne (supprimer) */
+        form {
+            display: inline;
+        }
+
+        /* Message de confirmation avant suppression */
+        form button[type="submit"]:hover {
+            background-color: #c9302c;
+        }
+
+    </style>
 </head>
 <body>
 <!-- Inclusion du fragment de notification défini dans le layout principal -->
 <div id="notification" th:replace="~{layouts/main :: notification}"></div>
-<div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
 
 
     <h1 th:text="${title}">Liste des types</h1>

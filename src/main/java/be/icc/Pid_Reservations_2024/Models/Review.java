@@ -31,12 +31,12 @@ public class Review {
     private LocalDateTime update_ad;
 
     // Relation Many To One
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
     private User user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference("show-review")
     private Show show;

@@ -30,7 +30,7 @@ public class Artist {
     private String firstname;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "artists" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "artists", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonIgnore
     List<Type> types; // Initialiser la collection pour éviter les NullPointerException
 

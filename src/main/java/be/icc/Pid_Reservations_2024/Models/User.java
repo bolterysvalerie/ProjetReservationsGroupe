@@ -37,11 +37,11 @@ public class User {
     private LocalDateTime createdAt;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<Review> reviews;
 

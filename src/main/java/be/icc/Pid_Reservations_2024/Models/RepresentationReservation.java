@@ -20,15 +20,15 @@ public class RepresentationReservation {
     private Short quantity;
 
     // Relation Many to One
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "price_id", referencedColumnName = "id", nullable = false)
     private Price price;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "representation_id", referencedColumnName = "id", nullable = false)
     private Representation representation;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)
     private Reservation reservation;
 

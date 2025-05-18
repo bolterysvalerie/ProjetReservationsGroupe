@@ -1,308 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="fr"-->
-<!--      xmlns:th="http://www.thymeleaf.org"-->
-<!--      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"-->
-<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
-<!--      layout:decorate="~{layouts/main}">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Back-office</title>-->
-<!--    <style>-->
-<!--        /* Styles pour transformer les liens en boutons bleus */-->
-<!--        .btn {-->
-<!--            display: inline-block;-->
-<!--            padding: 8px 16px;-->
-<!--            margin: 0 5px 5px 0;-->
-<!--            background-color: #007bff; /* Bleu Bootstrap */-->
-<!--            color: #fff;-->
-<!--            text-decoration: none;-->
-<!--            border-radius: 4px;-->
-<!--            border: none;-->
-<!--            cursor: pointer;-->
-<!--            font-size: 14px;-->
-<!--        }-->
-<!--        .btn:hover {-->
-<!--            background-color: #0056b3;-->
-<!--        }-->
-<!--        /* Pour supprimer la puce des éléments de liste et les aligner côte à côte */-->
-<!--        .list-unstyled {-->
-<!--            list-style: none;-->
-<!--            padding: 0;-->
-<!--            margin: 0;-->
-<!--        }-->
-<!--        .list-unstyled li {-->
-<!--            display: inline-block;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div layout:fragment="content" class="container mt-4">-->
-<!--    <h1>Tableau de bord (Admin)</h1>-->
-
-<!--    <div sec:authorize="hasRole('ADMIN')">-->
-<!--        <p>Bienvenue dans l'espace de gestion. Utilisez les boutons ci-dessous pour gérer les entités :</p>-->
-<!--        <ul class="list-unstyled">-->
-<!--            <li>-->
-<!--                <a th:href="@{/artists}" class="btn">Gérer les artistes</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/types}" class="btn">Gérer les types</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/artiste-types}" class="btn">Gérer les artistes-types-shows</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/localities}" class="btn">Gérer les localités</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/locations}" class="btn">Gérer les salles</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/shows}" class="btn">Gérer les spectacles</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/representations}" class="btn">Gérer les représentations</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/prices}" class="btn">Gérer les prix</a>-->
-<!--            </li>-->
-<!--        </ul>-->
-
-<!--        &lt;!&ndash; Autres contenus du back-office &ndash;&gt;-->
-
-<!--                &lt;!&ndash; Liste des spectacles avec leurs représentations &ndash;&gt;-->
-<!--                <h2 class="mt-5">Spectacles et leurs représentations</h2>-->
-<!--                <table class="table table-bordered">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th>Spectacle</th>-->
-<!--                        <th>Durée</th>-->
-<!--                        <th>Artistes</th>-->
-<!--                        <th>Représentations</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr th:each="show : ${shows}">-->
-<!--                        <td th:text="${show.title}">Titre</td>-->
-<!--                        <td th:text="${show.duration}">Durée</td>-->
-<!--                        <td>-->
-<!--                            <ul>-->
-<!--                                <li th:each="artist : ${show.artists}">-->
-<!--                                    <span th:text="${artist.firstname + ' ' + artist.lastname}">Artiste</span>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <ul>-->
-<!--                                <li th:each="rep : ${show.representations}">-->
-<!--                                    <span th:text="${#temporals.format(rep.schedule, 'dd/MM/yyyy HH:mm')}">Date</span> —-->
-<!--                                    <span th:text="${rep.location?.designation}">Lieu</span>-->
-<!--&lt;!&ndash;                                    <a th:href="@{'/representations/' + ${rep.id} + '/edit'}" class="btn btn-sm btn-outline-primary ms-2">Modifier</a>&ndash;&gt;-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
-
-
-<!--    </div>-->
-
-<!--    <div sec:authorize="!hasRole('ADMIN')">-->
-<!--        <p class="text-danger">Accès refusé. Cette page est réservée aux administrateurs.</p>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="fr"-->
-<!--      xmlns:th="http://www.thymeleaf.org"-->
-<!--      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"-->
-<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
-<!--      layout:decorate="~{layouts/main}">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Back-office</title>-->
-<!--    <style>-->
-<!--        /* Styles pour transformer les liens en boutons bleus */-->
-<!--        .btn {-->
-<!--            display: inline-block;-->
-<!--            padding: 8px 16px;-->
-<!--            margin: 0 5px 5px 0;-->
-<!--            background-color: #007bff; /* Bleu Bootstrap */-->
-<!--            color: #fff;-->
-<!--            text-decoration: none;-->
-<!--            border-radius: 4px;-->
-<!--            border: none;-->
-<!--            cursor: pointer;-->
-<!--            font-size: 14px;-->
-<!--        }-->
-<!--        .btn:hover {-->
-<!--            background-color: #0056b3;-->
-<!--        }-->
-<!--        /* Pour supprimer la puce des éléments de liste et les aligner côte à côte */-->
-<!--        .list-unstyled {-->
-<!--            list-style: none;-->
-<!--            padding: 0;-->
-<!--            margin: 0;-->
-<!--        }-->
-<!--        .list-unstyled li {-->
-<!--            display: inline-block;-->
-<!--        }-->
-
-<!--        /* Conteneur déroulant avec hauteur fixe */-->
-<!--        .scrollable-container {-->
-<!--            max-height: 600px;-->
-<!--            overflow-y: auto;-->
-<!--            border: 1px solid #ccc;-->
-<!--            margin-top: 20px;-->
-<!--        }-->
-<!--        table {-->
-<!--            width: 100%;-->
-<!--            border-collapse: collapse;-->
-<!--        }-->
-<!--        th, td {-->
-<!--            padding: 8px;-->
-<!--            border: 1px solid #ddd;-->
-<!--            text-align: left;-->
-<!--            vertical-align: top;-->
-<!--        }-->
-<!--        th {-->
-<!--            background-color: #f2f2f2;-->
-<!--        }-->
-<!--        ul {-->
-<!--            margin: 0;-->
-<!--            padding-left: 20px;-->
-<!--        }-->
-<!--        /* Pour les listes dans les cellules, on limite la hauteur si nécessaire */-->
-<!--        .nested-list {-->
-<!--            max-height: 100px;-->
-<!--            overflow-y: auto;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div layout:fragment="content" class="container mt-4">-->
-<!--    <h1>Tableau de bord (Admin)</h1>-->
-
-<!--    <div sec:authorize="hasRole('ADMIN')">-->
-<!--        <p>Bienvenue dans l'espace de gestion. Utilisez les boutons ci-dessous pour gérer les entités :</p>-->
-<!--        <ul class="list-unstyled">-->
-<!--            <li>-->
-<!--                <a th:href="@{/artists}" class="btn">Gérer les artistes</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/types}" class="btn">Gérer les types</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/artiste-types}" class="btn">Gérer les artistes-types-shows</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/localities}" class="btn">Gérer les localités</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/locations}" class="btn">Gérer les salles</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/shows}" class="btn">Gérer les spectacles</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/representations}" class="btn">Gérer les représentations</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a th:href="@{/prices}" class="btn">Gérer les prix</a>-->
-<!--            </li>-->
-<!--        </ul>-->
-
-<!--        &lt;!&ndash; Autres contenus du back-office &ndash;&gt;-->
-
-<!--                &lt;!&ndash; Liste des spectacles avec leurs représentations &ndash;&gt;-->
-<!--                <h2 class="mt-5">Spectacles et leurs représentations</h2>-->
-<!--        <div class="scrollable-container">-->
-<!--            <table>-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th>Spectacle</th>-->
-<!--                    <th>Durée</th>-->
-<!--                    <th>Réservable</th>-->
-<!--                    <th>Prix</th>-->
-<!--                    <th>Dates</th>-->
-<!--                    <th>Localités</th>-->
-<!--                    <th>Salles</th>-->
-<!--                    <th>ArtisteType</th>-->
-<!--                    <th>Représentations</th>-->
-<!--                </tr>-->
-<!--                    </thead>-->
-<!--                <tbody>-->
-<!--                &lt;!&ndash; Si vous affichez les détails d'un spectacle unique, vous pouvez adapter la boucle.-->
-<!--                     Ici, on suppose que 'shows' est une liste passée au modèle &ndash;&gt;-->
-<!--                <tr th:each="show : ${shows}">-->
-<!--                    <td th:text="${show.title}">Titre du spectacle</td>-->
-<!--                    <td th:text="${show.schedule}">Durée</td>-->
-<!--                    <td th:text="${show.bookable ? 'Oui' : 'Non'}">Réservable</td>-->
-<!--                    &lt;!&ndash; Supposons que 'show.prices' soit une collection d'objets Price &ndash;&gt;-->
-<!--                    <td>-->
-<!--                        <ul class="nested-list">-->
-<!--                            <li th:each="price : ${show.prices}" th:text="${price.amount}">0.00</li>-->
-<!--                        </ul>-->
-<!--                    </td>-->
-<!--                    &lt;!&ndash; Dates : On affiche par exemple les dates des représentations &ndash;&gt;-->
-<!--                    <td>-->
-<!--                        <ul class="nested-list">-->
-<!--                            <li th:each="rep : ${show.representations}"-->
-<!--                                th:text="${#temporals.format(rep.schedule, 'dd/MM/yyyy')}">01/01/2025</li>-->
-<!--                        </ul>-->
-<!--                    </td>-->
-<!--                    &lt;!&ndash; Localités : Si chaque représentation possède un lieu avec une localité &ndash;&gt;-->
-<!--                    <td>-->
-<!--                        <ul class="nested-list">-->
-<!--                            <li th:each="rep : ${show.representations}"-->
-<!--                                th:text="${rep.location != null ? rep.location.locality.postalCode + ' ' + rep.location.locality.locality : 'N/A'}">-->
-<!--                                Localité-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </td>-->
-<!--                    &lt;!&ndash; Salles : Afficher la désignation de la salle (location) &ndash;&gt;-->
-<!--                    <td>-->
-<!--                        <ul class="nested-list">-->
-<!--                            <li th:each="rep : ${show.representations}"-->
-<!--                                th:text="${rep.location != null ? rep.location.designation : 'N/A'}">Salle</li>-->
-<!--                        </ul>-->
-<!--                    </td>-->
-<!--                    &lt;!&ndash; ArtisteType : Afficher le type associé dans chaque lien artisteType &ndash;&gt;-->
-<!--                    <td>-->
-<!--                        <ul class="nested-list">-->
-<!--                            <li th:each="at : ${show.artisteTypes}"-->
-<!--                                th:text="${at.type != null ? at.type.type : 'N/A'}">Type</li>-->
-<!--                        </ul>-->
-<!--                    </td>-->
-<!--                    &lt;!&ndash; Représentations : Afficher la date/heure et éventuellement le lieu pour chaque représentation &ndash;&gt;-->
-<!--                    <td>-->
-<!--                        <ul class="nested-list">-->
-<!--                            <li th:each="rep : ${show.representations}">-->
-<!--                                <span th:text="${#temporals.format(rep.schedule, 'dd/MM/yyyy HH:mm')}">Date et heure</span>-->
-<!--                                <br/>-->
-<!--                                <span th:text="${rep.location != null ? rep.location.designation : ''}">Lieu</span>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--                </table>-->
-
-
-<!--    </div>-->
-
-<!--    <div sec:authorize="!hasRole('ADMIN')">-->
-<!--        <p class="text-danger">Accès refusé. Cette page est réservée aux administrateurs.</p>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="fr"
       xmlns:th="http://www.thymeleaf.org"
@@ -313,71 +8,123 @@
     <meta charset="UTF-8">
     <title>Back-office</title>
     <style>
+        /* Style général de la page */
         body {
-            background-color: #aed5eb;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Boutons bleus pour les liens de navigation */
-        .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            margin: 0 5px 5px 0;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
+        /* Conteneur principal */
+        .containerDivImportant {
+            width: 85%;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .btn:hover {
-            background-color: #0056b3;
+
+        /* Titre principal */
+        h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
         }
-        /* Suppression des puces et affichage en ligne pour la liste de boutons */
-        .list-unstyled {
-            list-style: none;
+
+        /* Paragraphes et autres textes */
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Liste des boutons de gestion - Alignement horizontal */
+        ul.list-unstyled {
             padding: 0;
             margin: 0;
-        }
-        .list-unstyled li {
-            display: inline-block;
+            display: flex; /* Utilise Flexbox pour un alignement horizontal */
+            flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si l'espace est insuffisant */
+            gap: 10px; /* Espace entre chaque élément */
         }
 
-        /* Conteneur du tableau avec défilement vertical */
-        .table-container {
-            max-height: 500px;
-            overflow-y: auto;
-            margin-top: 20px;
-            border: 1px solid #ddd;
+        ul.list-unstyled li {
+            list-style-type: none; /* Retirer les puces */
         }
-        /* Style du tableau */
+
+        a.btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        a.btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Section des tables */
+        .table-container {
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #ffffff;
+            margin-top: 10px;
         }
-        thead th {
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
             background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            border: 1px solid #ddd;
+            color: white;
+            font-weight: bold;
         }
-        tbody td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            background-color: #ffffff;
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+
+        table tr:hover {
+            background-color: #f1f1f1;
         }
-        /* Si besoin de scrollbar personnalisé (optionnel) */
-        .table-container::-webkit-scrollbar {
-            width: 8px;
+
+        /* Liste des artistes et des représentations */
+        ul li {
+            font-size: 0.95em;
+            color: #555;
         }
-        .table-container::-webkit-scrollbar-thumb {
-            background-color: #ccc;
-            border-radius: 4px;
+
+        /* Message d'erreur pour les non-admins */
+        .text-danger {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.2em;
         }
+
+        /* Responsivité */
+        @media screen and (max-width: 768px) {
+            .containerDivImportant {
+                width: 95%;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -432,7 +179,8 @@
                     <td>
                         <ul>
                             <li th:each="artist : ${show.artists}"
-                                th:text="${artist.firstname + ' ' + artist.lastname}">Artiste</li>
+                                th:text="${artist.firstname + ' ' + artist.lastname}">Artiste
+                            </li>
                         </ul>
                     </td>
                     <td>

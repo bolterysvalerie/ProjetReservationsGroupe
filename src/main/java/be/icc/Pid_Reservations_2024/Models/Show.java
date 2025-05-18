@@ -21,7 +21,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Getter @Setter
+@Getter
+@Setter
 @Table(name = "shows")
 public class Show {
 
@@ -43,7 +44,7 @@ public class Show {
     private Boolean bookable;
 
     @OneToMany(targetEntity = Representation.class, mappedBy = "show",
-            cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+            cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference("show-representation")
     private List<Representation> representations;
 
@@ -58,7 +59,7 @@ public class Show {
     private Location location;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "shows", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "shows", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JsonIgnore
     List<Price> prices;
 

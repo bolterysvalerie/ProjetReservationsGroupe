@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/formulaire/formulaire.css">
 </head>
 <body>
-<><h1>Détails du Lien Artiste-Type</h1>
+<h1>Détails du Lien Artiste-Type</h1>
 
     <div>
         <p><strong>ID :</strong> <span th:text="${artisteType.id}"></span></p>
@@ -25,6 +25,6 @@
         <a th:href="@{'/artiste-types/' + ${artisteType.id} + '/edit'}">Modifier</a>
         <a th:href="@{/artiste-types}">Retour à la liste</a>
     </div>
-</>
+
 </body>
 </html>

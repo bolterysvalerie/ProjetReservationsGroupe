@@ -4,51 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Représentations Réservées</title>
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-<h1>Mes Représentations Réservées</h1>
-<div class="container">
-    <div id="notification" th:replace="~{main :: notification}"></div>
-    <div layout:fragment="content">
-        <!-- Affichage des erreurs éventuelles -->
-        <div th:if="${error}" style="color: red;">
-            <p th:text="${error}"></p>
-        </div>
+<div class="containerDivImportant" layout:fragment="content">
 
-        <!-- Affichage des messages d'information éventuels -->
-        <div th:if="${message}" style="color: blue;">
-            <p th:text="${message}"></p>
-        </div>
+    <h1>Mes Représentations Réservées</h1>
+    <!-- Affichage des erreurs éventuelles -->
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
 
-        <!-- Table des représentations réservées -->
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Représentation</th>
-                <th>Prix unitaire</th>
-                <th>Quantité</th>
-                <th>Prix total</th>
-            </tr>
-            </thead>
-            <tbody>
+    <!-- Affichage des messages d'information éventuels -->
+    <div th:if="${message}" style="color: blue;">
+        <p th:text="${message}"></p>
+    </div>
 
-            <!-- Parcours des objets dans la liste attributes 'representations' -->
-            <tr th:each="item : ${representations}">
-                <td th:text="${item.id}"></td>
-                <td th:text="${item.representation.getShow().getTitle()}"></td>
-                <td th:text="${item.price.amount} + ' €'"></td>
-                <td th:text="${item.quantity}"></td>
-                <!--  <td th:text="${#numbers.formatDecimal(item.quantity * item.price.amount, 2)} + ' €'"></td> -->
-            </tr>
-            </tbody>
-        </table>
+    <!-- Table des représentations réservées -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Représentation</th>
+            <th>Prix unitaire</th>
+            <th>Quantité</th>
+            <th>Prix total</th>
+        </tr>
+        </thead>
+        <tbody>
 
-        <!-- Message en cas d'absence de réservations -->
-        <div th:if="${representations.isEmpty()}">
-            <p>Aucune représentation réservée trouvée.</p>
-        </div>
+        <!-- Parcours des objets dans la liste attributes 'representations' -->
+        <tr th:each="item : ${representations}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.representation.getShow().getTitle()}"></td>
+            <td th:text="${item.price.amount} + ' €'"></td>
+            <td th:text="${item.quantity}"></td>
+            <!--  <td th:text="${#numbers.formatDecimal(item.quantity * item.price.amount, 2)} + ' €'"></td> -->
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Message en cas d'absence de réservations -->
+    <div th:if="${representations.isEmpty()}">
+        <p>Aucune représentation réservée trouvée.</p>
     </div>
 </div>
+
 </body>
 </html>

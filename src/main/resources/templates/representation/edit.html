@@ -1,50 +1,147 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+    <meta charset="UTF-8">
     <title>Editer Représentation</title>
+    <style>
+        .containerDivImportant {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: auto auto 25px;
+        }
+
+        /* Style du titre */
+        h1 {
+            font-size: 1.8em;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        /* Style du formulaire */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Style des labels */
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Style des champs de saisie */
+        input[type="datetime-local"],
+        select {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Style du bouton de soumission */
+        button[type="submit"] {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style pour le lien d'annulation */
+        #aCancel {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6c757d; /* Couleur de fond neutre */
+            color: white; /* Texte en blanc */
+            border-radius: 5px; /* Bords arrondis */
+            text-decoration: none; /* Retirer la décoration par défaut */
+            text-align: center; /* Centrer le texte dans le lien */
+            width: 95%; /* S'adapte à la largeur du conteneur */
+            margin-top: 15px; /* Marge supérieure pour espacer du bouton principal */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Effet au survol */
+        }
+
+        /* Effet au survol */
+        #aCancel:hover {
+            background-color: #5a6268; /* Change la couleur de fond au survol */
+            transform: scale(1.05); /* Légère animation pour "agrandir" au survol */
+        }
+
+        /* Si tu veux personnaliser encore plus, tu peux ajouter un effet au focus */
+        #aCancel:focus {
+            outline: none; /* Retirer la bordure de focus par défaut */
+            background-color: #4e555b; /* Une couleur un peu plus sombre au focus */
+        }
+    </style>
 </head>
 <body>
-<h1>Editer la Représentation</h1>
+<div id="notification" th:replace="~{main :: notification}"></div>
+<div class="containerDivImportant" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+    <h1>Editer la Représentation</h1>
 
-<form th:action="@{/representations/{id}/edit(id=${representationForm.id})}"
-      th:object="${representationForm}"
-      method="post">
-    <!-- Indique à Spring qu'il s'agit d'une requête PUT -->
-    <input type="hidden" name="_method" value="put"/>
+    <form th:action="@{/representations/{id}/edit(id=${representationForm.id})}"
+          th:object="${representationForm}"
+          method="post">
+        <!-- Indique à Spring qu'il s'agit d'une requête PUT -->
+        <input type="hidden" name="_method" value="put"/>
 
-    <!-- Champ date/heure -->
-    <label for="schedule">Date / Heure :</label>
-    <input type="datetime-local" id="schedule" th:field="*{schedule}"/>
-    <br/>
+        <!-- Champ date/heure -->
+        <label for="schedule">Date / Heure :</label>
+        <input type="datetime-local" id="schedule" th:field="*{schedule}"/>
+        <br/>
 
-    <!-- Sélection du Show -->
-    <label for="showSelect">Show :</label>
-    <select id="showSelect" th:name="showId">
-        <option th:each="s : ${shows}"
-                th:value="${s.id}"
-                th:text="${s.title}"
-                th:selected="${s.id == representationForm.show.id}">
-        </option>
-    </select>
-    <br/>
+        <!-- Sélection du Show -->
+        <label for="showSelect">Show :</label>
+        <select id="showSelect" th:name="showId">
+            <option th:each="s : ${shows}"
+                    th:value="${s.id}"
+                    th:text="${s.title}"
+                    th:selected="${s.id == representationForm.show.id}">
+            </option>
+        </select>
+        <br/>
 
-    <!-- Sélection du Location -->
-    <label for="locationSelect">Lieu :</label>
-    <select id="locationSelect" th:name="locationId">
-        <option th:each="l : ${locations}"
-                th:value="${l.id}"
-                th:text="${l.designation}"
-                th:selected="${l.id == representationForm.location.id}">
-        </option>
-    </select>
-    <br/>
+        <!-- Sélection du Location -->
+        <label for="locationSelect">Lieu :</label>
+        <select id="locationSelect" th:name="locationId">
+            <option th:each="l : ${locations}"
+                    th:value="${l.id}"
+                    th:text="${l.designation}"
+                    th:selected="${l.id == representationForm.location.id}">
+            </option>
+        </select>
+        <br/>
 
-    <!-- Bouton d'envoi -->
-    <button type="submit">Mettre à jour</button>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-</form>
+        <!-- Bouton d'envoi -->
+        <button type="submit">Mettre à jour</button>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </form>
 
-<!-- Lien "Annuler" -->
-<a th:href="@{/representations}">Annuler</a>
+    <!-- Lien "Annuler" -->
+    <a id="aCancel" th:href="@{/representations}">Annuler</a>
+</div>
 </body>
 </html>

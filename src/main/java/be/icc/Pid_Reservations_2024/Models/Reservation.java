@@ -24,7 +24,7 @@ public class Reservation {
     private String status;
 
     // Relation One To Many
-    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER, cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<RepresentationReservation> representation_reservations;
 
     // Relation Many To One

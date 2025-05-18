@@ -23,7 +23,7 @@ public class Type {
     private String type;
 
     // Relation Many to Many
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "artiste_types",
             joinColumns = @JoinColumn(name = "type_id"),
