@@ -9,12 +9,11 @@ Dans le cadre du cours de projet d'intégration et développement nous devons r�
 
 
 ### Liste des membres travaillant sur le projet :
-
-- **AZAOUM Adnane** 
-- **[BOLTERYS Valérie](https://github.com/bolterysvalerie)** 
-- **GÖNEN Gültekin** 
+ 
+- **[GÖNEN Gültekin](https://github.com/GultekinGonen)** 
 - **[KHADRI Brahim](https://github.com/bramsobrahms)**  
-- **PELESKEI Janos Adrian**
+- **[PELESKEI Janos Adrian](https://github.com/peleskeiadrian)**
+- **[BOLTERYS Valérie](https://github.com/bolterysvalerie)**
 
 
 
