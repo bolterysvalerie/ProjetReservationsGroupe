@@ -12,8 +12,11 @@
 <div id="notification" th:replace="~{main :: notification}"></div>
 <div layout:fragment="content" sec:authorize="hasRole('ADMIN')">
     <!--    Inclusion du fragment de notification défini dans votre layout principal-->
-
+    <div class="action" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+    </div>
     <h1 th:text="${title}">Liste des représentations de spectacle</h1>
+
 
     <!-- Lien pour créer une nouvelle représentation -->
     <div style="margin-bottom: 15px;">
@@ -42,12 +45,29 @@
             </td>
             <td th:text="${#temporals.format(representation.schedule, 'dd-MM-yyyy')}">01-01-2025</td>
             <td th:text="${#temporals.format(representation.schedule, 'HH:mm')}">13:30</td>
+<!--            <td>-->
+<!--                <a th:href="@{/representations/{id}(id=${representation.id})}">Voir</a>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <a th:href="@{/representations/{id}/edit(id=${representation.id})}"-->
+<!--                   style="margin-left:10px;">Modifier</a>-->
+<!--            </td>-->
+            <!-- Bouton Voir -->
             <td>
-                <a th:href="@{/representations/{id}(id=${representation.id})}">Voir</a>
+                <form th:action="@{/representations/{id}(id=${representation.id})}"
+                      method="get"
+                      style="display:inline-block;">
+                    <button type="submit">Voir</button>
+                </form>
             </td>
+
+            <!-- Bouton Modifier -->
             <td>
-                <a th:href="@{/representations/{id}/edit(id=${representation.id})}"
-                   style="margin-left:10px;">Modifier</a>
+                <form th:action="@{/representations/{id}/edit(id=${representation.id})}"
+                      method="get"
+                      style="display:inline-block; margin-left:10px;">
+                    <button type="submit">Modifier</button>
+                </form>
             </td>
             <td>
                 <form th:action="@{/representations/{id}(id=${representation.id})}" method="post"

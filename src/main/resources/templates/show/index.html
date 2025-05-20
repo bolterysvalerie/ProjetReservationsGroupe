@@ -146,6 +146,7 @@
         <div id="containerShow">
             <h1 th:text="${thetitle}">Liste des spectacles</h1>
 
+
             <div sec:authorize="hasRole('ADMIN')" style="margin-bottom: 20px;">
                 <a th:href="@{/show/create}" class="btn btn-primary">➕ Ajouter un spectacle</a>
             </div>
@@ -246,6 +247,9 @@
                             </tr>
                         </table>
                         <a th:href="@{/show/{id}(id=${show.id})}">📄 Voir plus d'information</a>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/backoffice}">Retour au Backoffice</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -27,12 +27,12 @@ public class Representation {
     @JsonBackReference("")
     private List<RepresentationReservation> representation_reservations;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "show_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference("show-representation")
     private Show show;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference("location-representation")
     private Location location;

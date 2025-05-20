@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Créer une Représentation</title>
 </head>
@@ -43,5 +43,9 @@
 
 <!-- Lien pour annuler et revenir à la liste -->
 <a th:href="@{/representations}">Annuler</a>
+
+<div class="action" sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+</div>
 </body>
 </html>

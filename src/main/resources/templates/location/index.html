@@ -15,6 +15,9 @@
     <div class="actions">
         <a th:href="@{/locations/create}">Ajouter un lieu</a>
     </div>
+    <div class="action" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+    </div>
 
     <table>
         <thead>

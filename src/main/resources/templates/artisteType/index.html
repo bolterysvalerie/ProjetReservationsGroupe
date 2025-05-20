@@ -48,6 +48,9 @@
     </table>
 
     <a th:href="@{/artiste-types/create}">Créer un nouveau lien</a>
+    <div class="action" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+    </div>
 </div>
 </body>
 </html>

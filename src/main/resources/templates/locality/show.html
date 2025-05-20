@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/main}">
 <head>
     <title>Détails d'une localité</title>
@@ -19,6 +19,9 @@
         <nav>
             <a th:href="@{/localities}">Retour à la liste</a>
         </nav>
+        <div class="action" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+        </div>
     </div>
 </div>
 </body>

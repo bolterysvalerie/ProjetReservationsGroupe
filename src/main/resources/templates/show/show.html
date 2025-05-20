@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layouts/main}"
-      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title th:text="${TheTitle}">Shows</title>
@@ -42,6 +42,7 @@
 <body>
 <div class="container">
     <div layout:fragment="content">
+
         <h1 th:text="${show.title}" id="title">List of Shows</h1>
 
         <div>

@@ -58,7 +58,7 @@ public class Show {
     private Location location;
 
     // Relation Many To Many
-    @ManyToMany(mappedBy = "shows", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "shows", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JsonIgnore
     List<Price> prices;
 

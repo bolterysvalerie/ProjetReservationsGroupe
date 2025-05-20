@@ -14,7 +14,9 @@
       <div class="action" sec:authorize="hasRole('ADMIN')">
         <a th:href="@{/artist/create}">Add new artist</a>
       </div>
-
+      <div class="action" sec:authorize="hasRole('ADMIN')">
+      <a th:href="@{/backoffice}">Retour au Backoffice</a></nav>
+      </div>
       <table th:unless="${#lists.isEmpty(artists)}">
         <thead>
         <tr>
