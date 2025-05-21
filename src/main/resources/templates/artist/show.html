@@ -71,6 +71,10 @@
             text-align: center;
             margin-top: 30px;
         }
+
+        #imgGroup {
+            width: 50px;
+        }
     </style>
 </head>
 <body>
@@ -84,6 +88,10 @@
     <ul th:unless="${#lists.isEmpty(artist.types)}">
         <li th:each="type : ${artist.types}" th:text="${type.type}">Type</li>
     </ul>
+
+    <h4>Groupe:</h4>
+    <img  id="imgGroup" th:src="@{${artist.getGroup().getLogo_url()}}" th:alt="${artist.getGroup().getName()}">
+    <p th:text="${artist.getGroup().getName()}"></p>
 
     <div class="actions">
         <a th:href="@{/artist/{id}/edit(id=${artist.id})}">Edit</a>
