@@ -1,0 +1,15 @@
+<h1> Ajouter un artiste à une troupe</h1>
+
+
+<form th:action="@{/save-troupe}" method="post">
+    <label for="troupe">Groupe affilié :</label>
+    <select id="troupe" name="troupeId">
+        <option value="">Non affilié</option>
+        <option th:each="troupe : ${troupes}"
+                th:value="${troupe.id}"
+                th:text="${troupe.name}">
+        </option>
+    </select>
+
+    <button type="submit">Valider</button>
+</form>

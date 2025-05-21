@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Update an artist</title>
@@ -121,6 +122,12 @@
             <input type="text" th:field="*{lastname}">
             <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="fieldError"></p>
         </div>
+
+        <!-- AddTroupe visible uniquement pour ADMIN -->
+        <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/troupes}"
+                                                sec:authorize="hasRole('ADMIN')">Add troupe</a></td>
+
+
         <div>
             <button type="submit" th:text="Update">Update</button>
             <button type="reset" th:text="Reset">Reset</button>

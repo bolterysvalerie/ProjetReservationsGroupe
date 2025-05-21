@@ -40,6 +40,7 @@ public class SpringSecurityConfig {
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/admin").hasRole("ADMIN");
+                    auth.requestMatchers("/save-troupe").hasRole("ADMIN");
                     auth.requestMatchers("/user").hasRole("MEMBER");
                     auth.requestMatchers("/reservation/**").hasAnyRole("ADMIN", "MEMBER");
                     auth.requestMatchers("/representationReservation").hasAnyRole("ADMIN", "MEMBER");
