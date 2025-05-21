@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Liste des spectacles</title>
     <style>
-
+        /* Styles */
         h1, h4 {
             color: #333;
             text-align: center;
@@ -150,15 +150,30 @@
             <div sec:authorize="hasRole('ADMIN')" style="margin-bottom: 20px;">
                 <a th:href="@{/show/create}" class="btn btn-primary">➕ Ajouter un spectacle</a>
             </div>
-
             <!-- Filtrer -->
             <form th:action="@{/shows}" method="get" class="filter-form">
                 <h4>🔍 Filtrer</h4>
                 <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-                    <div><label>Titre :</label><br><input type="text" name="title" th:value="${title}"></div>
-                    <div><label>Durée :</label><br><input type="number" name="duration" th:value="${duration}"></div>
-                    <div><label>Date :</label><br><input type="date" name="date" th:value="${date}"></div>
-                    <div><label>Adresse :</label><br><input type="text" name="address" th:value="${address}"></div>
+                    <div>
+                        <label>Mot-clé :</label>
+                        <input type="text" name="tag" th:value="${selectedTag}" placeholder="Tag">
+                    </div>
+                    <div>
+                        <label>Titre :</label><br>
+                        <input type="text" name="title" th:value="${title}">
+                    </div>
+                    <div>
+                        <label>Durée :</label><br>
+                        <input type="number" name="duration" th:value="${duration}">
+                    </div>
+                    <div>
+                        <label>Date :</label><br>
+                        <input type="date" name="date" th:value="${date}">
+                    </div>
+                    <div>
+                        <label>Adresse :</label><br>
+                        <input type="text" name="address" th:value="${address}">
+                    </div>
                     <div style="align-self: end;">
                         <button type="submit">Filtrer</button>
                     </div>
@@ -210,8 +225,12 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Nom auteur :</th>
-                                <td>noms, prénoms</td>
+                                <th>Tags :</th>
+                                <td>
+                                    <ul>
+                                        <li th:each="tag : ${show.tags}" th:text="${tag.name}"></li>
+                                    </ul>
+                                </td>
                             </tr>
                             <tr th:if="${#lists.size(show.representations)==1}">
                                 <th>Représentation :</th>

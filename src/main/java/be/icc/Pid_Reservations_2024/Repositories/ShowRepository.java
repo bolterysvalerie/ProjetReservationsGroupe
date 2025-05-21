@@ -32,4 +32,14 @@ public interface ShowRepository extends JpaRepository<Show, Integer> {
                              @Param("duration") String duration,
                              @Param("address") String address,
                              Pageable pageable);
+    @Query("SELECT s FROM Show s WHERE :tag NOT MEMBER OF s.tags")
+    List<Show> findShowsWithoutTag(String tag);
+    @Query("SELECT s FROM Show s JOIN s.tags t WHERE LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Show> findByTagKeyword(@Param("keyword") String keyword);
+    @Query("SELECT s FROM Show s JOIN s.tags t WHERE t.name = :tagName")
+    Page<Show> findByTags_Name(@Param("tagName") String tagName, Pageable pageable);
+    @Query("SELECT s FROM Show s WHERE :tagName NOT IN (SELECT t.name FROM s.tags t)")
+    List<Show> findByTags_NameNot(@Param("tagName") String tagName);
+
+
 }

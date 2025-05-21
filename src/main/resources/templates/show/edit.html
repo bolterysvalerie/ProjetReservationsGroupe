@@ -18,6 +18,25 @@
         <input type="hidden" name="_method" value="put"/>
 
         <div class="form-group">
+            <label>Tags associés :</label>
+            <ul>
+                <li th:each="tag : ${show.tags}">
+                    <span th:text="${tag.name}"></span>
+                    <!-- Bouton pour supprimer un tag associé -->
+                    <form th:action="@{/show/{id}/remove-tag(id=${show.id})}" method="post" style="display:inline;">
+                        <input type="hidden" name="tagId" th:value="${tag.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm" style="margin-left: 10px;">❌ Supprimer</button>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <label for="newTag">Ajouter un nouveau tag :</label>
+            <input type="text" id="newTag" name="tagName" class="form-control" placeholder="Entrez un nouveau tag"/>
+        </div>
+        <div class="form-group">
             <label for="title">Titre :</label>
             <input type="text" id="title" th:field="*{title}" class="form-control" required/>
         </div>

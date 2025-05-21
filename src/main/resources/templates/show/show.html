@@ -54,6 +54,22 @@
                     th:text="${show.location.designation}"></span></p>
         </div>
 
+        <div>
+            <h5>Tags associés :</h5>
+            <ul>
+                <li th:each="tag : ${show.tags}" th:text="${tag.name}">Tag</li>
+            </ul>
+        </div>
+        <div sec:authorize="hasRole('ADMIN')">
+            <form th:action="@{/show/{id}/add-tag(id=${show.id})}" method="post">
+                <label for="tagName">Ajouter un tag :</label>
+                <input type="text" name="tagName" id="tagName" placeholder="Nouveau tag">
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            </form>
+        </div>
+
+
         <table>
             <tr>
                 <th>Date</th>
@@ -98,5 +114,3 @@
 </div>
 </body>
 </html>
-
-

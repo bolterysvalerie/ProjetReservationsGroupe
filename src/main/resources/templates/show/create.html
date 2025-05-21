@@ -18,6 +18,11 @@
             <label for="title">Titre :</label>
             <input type="text" id="title" th:field="*{title}" class="form-control" required/>
         </div>
+        <div class="form-group">
+            <label for="newTags">Ajouter des tags :</label>
+            <input type="text" id="newTags" name="tags" class="form-control"
+                   placeholder="Entrez les tags séparés par des virgules (ex. : Drame, Comédie)" />
+        </div>
 
         <div class="form-group">
             <label for="posterUrl">URL de l'affiche :</label>

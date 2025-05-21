@@ -4,9 +4,11 @@ import be.icc.Pid_Reservations_2024.Models.*;
 import be.icc.Pid_Reservations_2024.Services.LocationService;
 import be.icc.Pid_Reservations_2024.Services.PriceService;
 import be.icc.Pid_Reservations_2024.Services.ShowService;
+import be.icc.Pid_Reservations_2024.Services.TagService;
 import com.github.slugify.Slugify;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +38,10 @@ public class ShowController {
     @Autowired
     private PriceService priceService;
 
+    @Autowired
+    private TagService tagService;
+
+
     /**
      * @param page  the current page number
      * @param size  the number of shows per page
@@ -49,6 +55,7 @@ public class ShowController {
                         @RequestParam(required = false) String address,
                         @RequestParam(required = false, defaultValue = "created_in") String sortField,
                         @RequestParam(required = false) String sortDirection,
+                        @RequestParam(required = false) String tag,
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "5") int size,
                         Model model) {
@@ -56,12 +63,24 @@ public class ShowController {
         boolean sortAsc = "on".equals(sortDirection);
         Pageable pageable = PageRequest.of(page, size, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
         Page<Show> showPage = showService.findShowsByFilters(date, title, duration,address, pageable);
+        if (tag != null && !tag.isEmpty()) {
+            showPage = showService.findShowsByTag(tag, pageable);
+            model.addAttribute("infoMessage", "Résultats pour le mot-clé : " + tag);
+        } else {
+            showPage = showService.findShowsByFilters(date, title, duration, address, pageable);
+        }
+
 
         model.addAttribute("shows", showPage);
         model.addAttribute("thetitle", "Liste des spectacles");
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", showPage.getTotalPages());
+
+        // Charger les tags disponibles dans la base de données pour les filtres
+        model.addAttribute("tags", tagService.getAll());
+        model.addAttribute("selectedTag", tag);
+
 
         // Pour garder les champs remplis après la recherche
         model.addAttribute("date", date);
@@ -78,6 +97,9 @@ public class ShowController {
     @GetMapping("/show/{id}")
     public String show(@PathVariable("id") long id, Model model) {
         Show show = showService.getShow(id);
+
+        // Charger explicitement la collection tags
+        Hibernate.initialize(show.getTags());
 
         // Get artists by show and group by type
         Map<String, ArrayList<Artist>> collaborators = new HashMap<>();
@@ -96,8 +118,79 @@ public class ShowController {
         model.addAttribute("collaborators", collaborators);
         model.addAttribute("TheTitle", "Details of the Show");
 
+        // Ajouter la liste des tags associés
+        model.addAttribute("tags", show.getTags());
+
+
         return "show/show";
     }
+
+    @GetMapping("/shows/without-tag/{tagName}")
+    public String showsWithoutTag(@PathVariable("tagName") String tagName, Model model) {
+        List<Show> shows = showService.findShowsWithoutTag(tagName);
+        model.addAttribute("shows", shows);
+        model.addAttribute("thetitle", "Spectacles sans le mot-clé : " + tagName);
+        return "show/index";
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/show/{id}/add-tag")
+    public String addTag(@PathVariable("id") long id, @RequestParam String tagName, RedirectAttributes redirAttrs) {
+        // Récupérer le spectacle
+        Show show = showService.getShow(id);
+        if (show == null) {
+            redirAttrs.addFlashAttribute("errorMessage", "Le spectacle n'existe pas !");
+            return "redirect:/shows";
+        }
+
+        // Charger explicitement les tags associés
+        Hibernate.initialize(show.getTags());
+
+
+        // Créer ou récupérer un tag
+        Tag tag = tagService.findByName(tagName);
+        if (tag == null) {
+            tag = new Tag();
+            tag.setName(tagName);
+            tagService.save(tag);
+        }
+
+        // Vérifier si le tag n'existe pas déjà pour ce spectacle
+        if (!show.getTags().contains(tag)) {
+            show.getTags().add(tag);
+            showService.update(id, show);
+            redirAttrs.addFlashAttribute("successMessage", "Tag ajouté avec succès !");
+        } else {
+            redirAttrs.addFlashAttribute("errorMessage", "Le tag existe déjà !");
+        }
+
+        return "redirect:/show/" + id;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/show/{id}/remove-tag")
+    public String removeTag(@PathVariable("id") long id, @RequestParam Long tagId, RedirectAttributes redirAttrs) {
+        // Récupérer le spectacle
+        Show show = showService.getShow(id);
+        if (show == null) {
+            redirAttrs.addFlashAttribute("errorMessage", "Le spectacle n'existe pas !");
+            return "redirect:/shows";
+        }
+
+        // Récupérer le tag et vérifier s'il existe
+        Tag tag = tagService.findById(tagId);
+        if (tag != null && show.getTags().contains(tag)) {
+            show.getTags().remove(tag);
+            showService.update(id, show);
+            redirAttrs.addFlashAttribute("successMessage", "Tag supprimé avec succès !");
+        } else {
+            redirAttrs.addFlashAttribute("errorMessage", "Le tag n'est pas associé à ce spectacle !");
+        }
+
+        return "redirect:/show/" + id;
+    }
+
 
     // --- Opérations accessibles uniquement aux ADMIN ---
 

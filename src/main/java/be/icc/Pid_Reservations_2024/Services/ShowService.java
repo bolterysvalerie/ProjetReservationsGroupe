@@ -1,13 +1,11 @@
 package be.icc.Pid_Reservations_2024.Services;
 
-import be.icc.Pid_Reservations_2024.Models.ArtisteType;
-import be.icc.Pid_Reservations_2024.Models.Location;
-import be.icc.Pid_Reservations_2024.Models.Price;
-import be.icc.Pid_Reservations_2024.Models.Show;
+import be.icc.Pid_Reservations_2024.Models.*;
 import be.icc.Pid_Reservations_2024.Repositories.ShowRepository;
+import be.icc.Pid_Reservations_2024.Repositories.TagRepository;
 import com.github.slugify.Slugify;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +13,17 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ShowService {
 
     @Autowired
     private ShowRepository showRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
 
     /**
      * Gets a list of shows in pages.
@@ -140,4 +140,97 @@ public class ShowService {
         }
         return showRepository.findByFilters(date, title, duration,address, pageable);
     }
+
+    @Transactional
+    public void addTagToShow(Long showId, String tagName) {
+        Show show = showRepository.findById(showId)
+                .orElseThrow(() -> new EntityNotFoundException("Spectacle introuvable"));
+
+        // Check if the tag already exists
+        Optional<Tag> tag = tagRepository.findByName(tagName);
+        if (tag == null) {
+            // Si le tag n'existe pas, le créer
+            Tag newTag = new Tag();
+            newTag.setName(tagName);
+            tag = Optional.of(tagRepository.save(newTag));
+        }
+
+        // Ajouter le tag au spectacle
+        tag.ifPresent(show.getTags()::add);
+        showRepository.save(show); // Sauvegarder les changements
+    }
+
+    @Transactional
+    public void removeTagFromShow(Long showId, Long tagId) {
+        Show show = showRepository.findById(showId)
+                .orElseThrow(() -> new EntityNotFoundException("Spectacle introuvable"));
+
+        Tag tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new EntityNotFoundException("Tag introuvable"));
+
+        // Supprimer le tag du spectacle
+        show.getTags().remove(tag);
+        showRepository.save(show); // Sauvegarder les modifications
+    }
+    public Set<Tag> getTagsForShow(Long showId) {
+        Show show = showRepository.findById(showId)
+                .orElseThrow(() -> new EntityNotFoundException("Spectacle introuvable"));
+
+        return show.getTags(); // Retourne les tags associés au show
+    }
+
+    public void update(Long id, Show newShowData, List<String> tagNames) {
+        Optional<Show> optionalShow = showRepository.findById(id);
+        if (optionalShow.isPresent()) {
+            Show existingShow = optionalShow.get();
+
+            // Mettre à jour les champs modifiables
+            existingShow.setTitle(newShowData.getTitle());
+            existingShow.setPosterUrl(newShowData.getPosterUrl());
+            existingShow.setDuration(newShowData.getDuration());
+            existingShow.setBookable(newShowData.getBookable());
+            existingShow.setLocation(newShowData.getLocation());
+
+            // Mise à jour du slug si nécessaire
+            if (!existingShow.getTitle().equals(newShowData.getTitle())) {
+                try {
+                    Slugify slg = Slugify.builder().build();
+                    existingShow.setSlug(slg.slugify(newShowData.getTitle()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Mettre à jour les tags
+            Set<Tag> updatedTags = new HashSet<>();
+            for (String tagName : tagNames) {
+                Tag tag = tagRepository.findByName(tagName).orElse(null);
+                if (tag == null) {
+                    tag = new Tag();
+                    tag.setName(tagName);
+                    tag = tagRepository.save(tag);
+                }
+                updatedTags.add(tag);
+            }
+            existingShow.setTags(updatedTags);
+
+            // Sauvegarder l'objet mis à jour
+            showRepository.save(existingShow);
+        } else {
+            throw new EntityNotFoundException("Show with id " + id + " not found.");
+        }
+
+
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Show> findShowsByTag(String tagName, Pageable pageable) {
+        return showRepository.findByTags_Name(tagName, pageable);
+    }
+    @Transactional(readOnly = true)
+    public List<Show> findShowsWithoutTag(String tagName) {
+        return showRepository.findByTags_NameNot(tagName);
+    }
+
+
 }
