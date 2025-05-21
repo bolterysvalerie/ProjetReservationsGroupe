@@ -22,6 +22,7 @@
         <tr>
           <th>Firstname</th>
           <th>Lastname</th>
+          <th>Troupe</th>
           <th colspan="2">Action</th>
         </tr>
         </thead>
@@ -29,6 +30,11 @@
         <tr th:each="artist : ${artists}">
           <td th:text="${artist.firstname}">Bob</td>
           <td th:text="${artist.lastname}">Sull</td>
+          <td>
+            <span th:if="${artist.troupe != null}" th:text="${artist.troupe.name}">Nom de la troupe</span>
+            <span th:if="${artist.troupe == null}">Non affilié</span>
+          </td>
+
           <!-- Edit visible uniquement pour ADMIN -->
           <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/artist/{id}(id=${artist.id})}" sec:authorize="hasRole('ADMIN')">View</a></td>
           <!-- Edit visible uniquement pour ADMIN -->

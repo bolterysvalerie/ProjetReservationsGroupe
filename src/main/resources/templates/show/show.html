@@ -53,6 +53,26 @@
             <p th:if="${show.location}" id="placeCreated"><strong>Lieu de création:</strong> <span
                     th:text="${show.location.designation}"></span></p>
         </div>
+        <div>
+            <h3>Troupes associées :</h3>
+            <ul>
+                <li th:each="troupe : ${show.troupes}">
+                    <span th:text="${troupe.name}">Nom de la troupe</span>
+                    <img th:if="${troupe.logoUrl != null}"
+                         th:src="${troupe.logoUrl}"
+                         style="width: 50px; height: auto;"
+                         alt="Logo de la troupe" />
+
+                    <ul>
+                        <li th:each="artist : ${troupe.artists}"
+                            th:text="|${artist.firstname} ${artist.lastname}|">Artiste</li>
+                    </ul>
+                </li>
+            </ul>
+            <div th:if="${#lists.isEmpty(show.troupes)}">
+                <p>Aucune troupe associée à ce spectacle.</p>
+            </div>
+        </div>
 
         <div>
             <h5>Tags associés :</h5>

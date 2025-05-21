@@ -35,6 +35,20 @@
                 <button type="reset" th:text="Reset">Reset</button>
                 <a th:href="${back}">Back</a>
             </div>
+            <div>
+                <label for="troupe">Troupe :</label>
+                <select id="troupe" name="troupeId">
+                    <option value="0" th:if="${artist.troupe == null}" selected>Non affilié</option>
+                    <option th:each="troupe : ${troupes}" th:value="${troupe.id}"
+                            th:text="${troupe.name}" th:selected="${artist.troupe != null and artist.troupe.id == troupe.id}">
+                        Nom de la troupe
+                        <br>
+                        <button type="submit" th:text="'update'">Update</button>
+                    </option>
+                </select>
+            </div>
+
+
         </form>
 
         <nav><a th:href="@{/artists}"> Back to the index</a></nav>

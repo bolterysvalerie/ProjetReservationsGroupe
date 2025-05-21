@@ -29,10 +29,15 @@ public class Artist {
     @Size(min=2, max=60, message = "The firstname must be between 2 and 60 characters")
     private String firstname;
 
-    // Relation Many To Many
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "troupe_id", referencedColumnName = "id", nullable = true,
+            foreignKey = @ForeignKey(name = "fk_troupe"))
+    private Troupe troupe;
+
     @ManyToMany(mappedBy = "artists" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    List<Type> types; // Initialiser la collection pour éviter les NullPointerException
+    List<Type> types;
+
 
 
     // Constructor with params

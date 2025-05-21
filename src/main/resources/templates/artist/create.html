@@ -17,6 +17,17 @@
 
         <form th:action="@{/artist/create}" th:object="${artist}" th:method="post">
             <div>
+                <label for="troupe">Troupe :</label>
+                <select id="troupe" name="troupeId" th:field="*{troupe}">
+                    <option value="0" selected>Non affilié</option>
+                    <option th:each="troupe : ${troupes}" th:value="${troupe.id}" th:text="${troupe.name}">
+                        Nom de la troupe
+                    </option>
+                </select>
+            </div>
+
+
+            <div>
                 <label>Firstname:</label>
                 <input type="text" th:field="*{firstname}">
                 <p th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" th:errorclass="fieldError"></p>

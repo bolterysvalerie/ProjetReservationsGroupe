@@ -72,6 +72,8 @@ public class Show {
     private Set<Tag> tags = new HashSet<>();
 
 
+
+
     // Constructor with params
     public Show(String title, String posterUrl, LocalDateTime created_in, Boolean bookable) {
         Slugify slg = Slugify.builder().build();
