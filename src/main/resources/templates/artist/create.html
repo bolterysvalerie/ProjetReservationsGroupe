@@ -26,6 +26,15 @@
                 <input type="text" th:field="*{lastname}">
                 <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="fieldError"></p>
             </div>
+
+            <div>
+                <label for="troupeSelect">Troupe :</label>
+                <select id="troupeSelect" name="troupeId">
+                    <option th:value="" th:selected="${artist.troupe == null}">Non affilié</option>
+                    <option th:each="t : ${troupes}" th:value="${t.id}" th:text="${t.name}"></option>
+                </select>
+            </div>
+
             <div>
                 <button type="submit" th:text="Add">Add</button>
                 <a th:href="@{/artists}">Cancel</a>

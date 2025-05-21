@@ -30,6 +30,15 @@
                 <input type="text" th:field="*{lastname}">
                 <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="fieldError"></p>
             </div>
+
+            <div>
+                <label for="troupeSelect">Troupe :</label>
+                <select id="troupeSelect" name="troupeId">
+                    <option th:value="" th:selected="${artist.troupe == null}">Non affilié</option>
+                    <option th:each="t : ${troupes}" th:value="${t.id}" th:text="${t.name}" th:selected="${artist.troupe != null} ? ${t.id} == ${artist.troupe.id} : false"></option>
+                </select>
+            </div>
+
             <div>
                 <button type="submit" th:text="Update">Update</button>
                 <button type="reset" th:text="Reset">Reset</button>

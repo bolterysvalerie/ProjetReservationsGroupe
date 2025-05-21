@@ -34,6 +34,13 @@ public class Artist {
     @JsonIgnore
     List<Type> types; // Initialiser la collection pour éviter les NullPointerException
 
+    @ManyToOne
+    @JoinColumn(name = "troupe_id",
+            foreignKey = @ForeignKey(
+                    name = "fk_artists_troupe",
+                    foreignKeyDefinition = "FOREIGN KEY (troupe_id) REFERENCES troupes(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+            ))
+    private Troupe troupe;
 
     // Constructor with params
     public Artist(String firstname, String lastname, Long id) {
