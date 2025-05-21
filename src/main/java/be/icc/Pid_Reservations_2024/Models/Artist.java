@@ -29,6 +29,11 @@ public class Artist {
     @Size(min=2, max=60, message = "The firstname must be between 2 and 60 characters")
     private String firstname;
 
+    // Relation One To One
+    @ManyToOne
+    @JoinColumn(name = "troupe_id")
+    Troupe group;
+
     // Relation Many To Many
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "artists", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonIgnore

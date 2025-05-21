@@ -6,3 +6,9 @@ CREATE TABLE IF NOT EXISTS artists
     PRIMARY KEY (id)
 );
 
+ALTER TABLE artists
+    ADD COLUMN troupe_id BIGINT NOT NULL AFTER lastname;
+
+ALTER TABLE artists
+    ADD CONSTRAINT fk_artist_troupe FOREIGN KEY (troupe_id)
+        REFERENCES troupes (id) ON UPDATE CASCADE ON DELETE CASCADE;
